@@ -15,5 +15,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = $request->user();
+
+    return response()->json(['user' => $user], 200);
 });
+Route::post('/login', function (Request $request) {
+    \Illuminate\Support\Facades\Log::info('indf',[$request->all()]);
+
+    $credentials = $request->only('email', 'password');
+    if (auth()->attempt($credentials)) {
+        $token = auth()->user()->createToken('')->plainTextToken;
+
+        return response()->json(['token' => $token]);
+    }
+
+    return response()->json(['error' => 'Invalid credentials'], 401);
+});
+
+Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
