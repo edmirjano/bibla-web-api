@@ -24,4 +24,24 @@ trait RelationshipTrait
     {
         return $this->hasMany(ClassroomRequest::class, 'classroom_id');
     }
+    /**
+     * Add a user to the classroom.
+     *
+     * @param  int  $userId
+     * @return void
+     */
+    public function addUser(int $userId): void
+    {
+        $this->users()->attach($userId);
+    }
+    /**
+     * Remove a user from the classroom.
+     *
+     * @param  int  $userId
+     * @return void
+     */
+    public function removeUser(int $userId): void
+    {
+        $this->users()->detach($userId);
+    }
 }
