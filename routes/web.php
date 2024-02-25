@@ -27,10 +27,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/classroom',ClassRoomController::class);
+    Route::resource('/categories',\App\Http\Controllers\Admin\CategoryController::class);
     Route::get('/classrooms/{classroomId}/remove-user/{userId}', [ClassRoomController::class, 'removeUser'])
         ->name('classroom.removeUser');
 
     Route::resource('/books',BookController::class);
+    Route::post('/group',[BookController::class,'storeGroup'])->name('group.store');
 });
 
 require __DIR__.'/auth.php';
