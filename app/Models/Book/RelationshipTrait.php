@@ -4,6 +4,7 @@ namespace App\Models\Book;
 
 use App\Models\Category\Category;
 use App\Models\Classroom\Classroom;
+use App\Models\Group\Group;
 use App\Models\Topic\Topic;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,5 +25,9 @@ trait RelationshipTrait
     public function classroom(): HasOne
     {
         return $this->hasOne(Classroom::class);
+    }
+    public function groups(): HasMany
+    {
+        return $this->hasMany(Group::class);
     }
 }

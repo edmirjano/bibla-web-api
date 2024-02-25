@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Classroom') }}
+            {{ __('Edit Books') }}
         </h2>
     </x-slot>
 
@@ -9,47 +9,61 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-                    <form action="{{ route('classroom.update', $classroom->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="mt-4">
-                            <label for="name" class="block font-medium text-sm text-gray-700">Name:</label>
-                            <input type="text" name="name" id="name" value="{{ $classroom->name }}" class="form-input rounded-md shadow-sm mt-1 block w-full" />
-                        </div>
+                    <div class="mt-6">
+                        <button id="addGroupBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Group</button>
+                    </div>
+                    <div id="addCategoryModal" class="modal  fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center ">
+                        <div class="modal-content bg-white p-8 rounded-lg">
+                            <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
+                            <form id="addCategoryForm" action="{{ route('group.store') }}" method="POST">
+                                @csrf
+                                <div class="mb-4">
 
-                        <div class="mt-4">
-                            <label for="description" class="block font-medium text-sm text-gray-700">Description:</label>
-                            <textarea name="description" id="description" class="form-textarea rounded-md shadow-sm mt-1 block w-full">{{ $classroom->description }}</textarea>
-                        </div>
-
-                        <div class="mt-4">
-                            <h3 class="text-lg font-semibold">Classroom Users:</h3>
-                            <ul>
-                                @foreach($classroom->users as $user)
-                                    <li>{{ $user->name }} <a href="{{ route('classroom.removeUser', ['classroomId' => $classroom->id, 'userId' => $user->id]) }}" class="text-red-600 hover:text-red-900">Remove</a></li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="mt-4">
-                            <label class="block font-medium text-sm text-gray-700">Add New Users:</label>
-                            @foreach($users as $user)
-                                <div class="flex items-center">
-                                    <input type="checkbox" name="new_user_ids[]" id="user_{{ $user->id }}" value="{{ $user->id }}" class="form-checkbox h-5 w-5 text-indigo-600">
-                                    <label for="user_{{ $user->id }}" class="ml-2 block text-sm text-gray-900">{{ $user->name }}</label>
+                                    <label for="category_name" class="block text-gray-700">Group Name:</label>
+                                    <input type="text" id="name" name="name" required class="border rounded px-3 py-2 w-full">
+                                    <input type="hidden" id="book_id" name="book_id" value="{{$books->id}}" class="border rounded px-3 py-2 w-full">
                                 </div>
-                            @endforeach
-                            @error('new_user_ids')
-                            <span class="text-red-600">{{ $message }}</span>
-                            @enderror
+                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Gro</button>
+                            </form>
                         </div>
-                        <div class="flex items-center justify-end mt-4">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Update Classroom
-                            </button>
+                    </div>
+
+                    @foreach($books->groups as $group)
+                        <div class="bg-gray-100 p-2 m-3.5" >
+                            <h3>{{$group->name}}</h3>
+                            <div class="bg-gray-100">
+                                @foreach($group->topics as $topic)
+<div>{{$topic->id}}</div>
+                                    <div>{{$topic->name}}</div>
+                                    <div>{{$topic->description}}</div>
+                                @endforeach
+                            </div>
                         </div>
-                    </form>
+                    @endforeach
+
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Show Add Category Modal on button click
+            $("#addGroupBtn").click(function() {
+                $("#addCategoryModal").removeClass('hidden');
+            });
+
+            // Hide the modal when the close button is clicked
+            $(".close").click(function() {
+                $("#addCategoryModal").addClass('hidden');
+            });
+
+            // Hide the modal when clicked outside of it
+            $(window).click(function(event) {
+                if (event.target == document.getElementById("addCategoryModal")) {
+                    $("#addCategoryModal").addClass('hidden');
+                }
+            });
+        });
+    </script>
 </x-app-layout>
