@@ -22,17 +22,18 @@
                         {{ __('Class Room') }}
                     </x-nav-link>
                 </div>
-
-                <div class="space-y-8">
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
-                        {{ __('Books') }}
-                    </x-nav-link>
-                </div>
                 <div class="space-y-8">
                     <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
                         {{ __('Category') }}
                     </x-nav-link>
                 </div>
+                <hr>
+                <div class="space-y-8">
+                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+                        {{ __('Books') }}
+                    </x-nav-link>
+                </div>
+               
                 <div class="space-y-8">
                     <x-nav-link :href="route('groups.index')" :active="request()->routeIs('groups.index')">
                         {{ __('Groups') }}
@@ -48,6 +49,7 @@
                         {{ __('Sections') }}
                     </x-nav-link>
                 </div>
+                <hr>
                 @endrole
             </div>
 
