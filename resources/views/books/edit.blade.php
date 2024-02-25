@@ -8,9 +8,10 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">\
-                    <form method="PUT" action="{{ $route }}" enctype="multipart/form-data">
+                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+                    <form method="POST" action="{{ $route }}" enctype="multipart/form-data">
                         @csrf
+                        @method($method)
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label for="name" class="block font-medium text-sm text-gray-700">Book Name</label>
@@ -83,7 +84,7 @@
                                     required autofocus value={{ $book->category->id ?? old('category_id') }}>
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
-                                        {{ $isSelected = $category->id == old('category_id', $book->category->id); }}
+                                        {{ $isSelected = $category->id == isset($book->category->id) ?? old('category_id'); }}
                                         <option value="{{ $category->id }}" {{ $isSelected ? 'selected' : '' }}>{{ $category->name }}</option>
                                     @endforeach
                                 </select>

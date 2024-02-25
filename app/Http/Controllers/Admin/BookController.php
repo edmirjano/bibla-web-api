@@ -30,7 +30,7 @@ class BookController extends Controller
         $categories = Category::all();
         $method = 'POST';
         $route = route('book.store');
-        return view('books.edit', compact('categories','method','route'));
+        return view('books.edit', compact('categories', 'method', 'route'));
     }
 
     /**
@@ -76,7 +76,7 @@ class BookController extends Controller
 
         $book->save();
 
-// Redirect to the books index page
+        // Redirect to the books index page
         return redirect()->route('book.index');
     }
 
@@ -106,14 +106,13 @@ class BookController extends Controller
         $book = Book::with('groups.topics')->find($book->id);
         $categories = Category::all();
         $method = 'PUT';
-        $route = route('book.update', $book->id);
+        $route = route('book.update', $book);
         return view('books.edit', compact('book', 'categories', 'method', 'route'));
     }
 
-    public function update(Request $request)
+    public function update(Request $request, Book $book)
     {
-        // Validate the request data
-         $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'slug' => 'required|string|max:255',
@@ -127,24 +126,23 @@ class BookController extends Controller
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
-
-            // Store the image in the storage/app/public directory
             $coverPath = $cover->storeAs('public/books', $coverName);
-
-            // If you're using symbolic links for storage, generate the URL
             $coverUrl = Storage::disk('public')->url($coverPath);
         } else {
-            // Handle case where no cover image is uploaded
             $coverUrl = null;
         }
 
-        // Update the book
         $book->name = $request->name;
-        // Update other properties as needed
-        $book->save();
+        $book->cover = $coverUrl;
+        $book->slug = $request->slug;
+        $book->description = $request->description;
+        $book->detailed_info = $request->detailed_info;
+        $book->author = $request->author;
+        $book->category_id = $request->category_id;
+        $book->rating = $request->rating;
+        $book->update();
 
-        // Redirect back to the book edit page
-        return redirect()->route('book.index', $book->id);
+        return redirect()->route('book.index');
     }
 
     public function destroy(Book $book)
@@ -154,6 +152,5 @@ class BookController extends Controller
 
         // Redirect to the books index page
         return redirect()->route('book.index');
-
     }
 }

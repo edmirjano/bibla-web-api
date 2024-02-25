@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/group',GroupController::class);
     Route::resource('/topic',TopicController::class);
     Route::resource('/section',SectionController::class);
-    Route::resource('/question',QuestionController::class);
+    // Route::resource('/question',QuestionController::class);
     Route::get('/classrooms/{classroomId}/remove-user/{userId}', [ClassRoomController::class, 'removeUser'])
         ->name('classroom.removeUser');
     // Route::post('/group',[BookController::class,'storeGroup'])->name('group.store');

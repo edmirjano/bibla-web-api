@@ -49,11 +49,11 @@
                         {{ __('Sections') }}
                     </x-nav-link>
                 </div>
-                <div class="space-y-8">
+                {{-- <div class="space-y-8">
                     <x-nav-link :href="route('question.index')" :active="request()->routeIs('question.index')">
                         {{ __('Questions') }}
                     </x-nav-link>
-                </div>
+                </div> --}}
                 <hr>
                 @endrole
             </div>
