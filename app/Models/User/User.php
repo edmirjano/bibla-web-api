@@ -15,6 +15,8 @@ User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles,RelationshipTrait;
 
+    protected $guard_name = 'web';
+
         /**
      * The attributes that are mass assignable.
      *
