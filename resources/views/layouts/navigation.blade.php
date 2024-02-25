@@ -23,30 +23,35 @@
                     </x-nav-link>
                 </div>
                 <div class="space-y-8">
-                    <x-nav-link :href="route('categories.index')" :active="request()->routeIs('categories.index')">
+                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
                         {{ __('Category') }}
                     </x-nav-link>
                 </div>
                 <hr>
                 <div class="space-y-8">
-                    <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+                    <x-nav-link :href="route('book.index')" :active="request()->routeIs('book.index')">
                         {{ __('Books') }}
                     </x-nav-link>
                 </div>
                
                 <div class="space-y-8">
-                    <x-nav-link :href="route('groups.index')" :active="request()->routeIs('groups.index')">
+                    <x-nav-link :href="route('group.index')" :active="request()->routeIs('group.index')">
                         {{ __('Groups') }}
                     </x-nav-link>
                 </div>
                 <div class="space-y-8">
-                    <x-nav-link :href="route('topics.index')" :active="request()->routeIs('topics.index')">
+                    <x-nav-link :href="route('topic.index')" :active="request()->routeIs('topic.index')">
                         {{ __('Topics') }}
                     </x-nav-link>
                 </div>
                 <div class="space-y-8">
                     <x-nav-link :href="route('section.index')" :active="request()->routeIs('section.index')">
                         {{ __('Sections') }}
+                    </x-nav-link>
+                </div>
+                <div class="space-y-8">
+                    <x-nav-link :href="route('question.index')" :active="request()->routeIs('question.index')">
+                        {{ __('Questions') }}
                     </x-nav-link>
                 </div>
                 <hr>

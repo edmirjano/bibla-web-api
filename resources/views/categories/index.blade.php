@@ -18,7 +18,7 @@
                     <div id="addCategoryModal" class="modal hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center ">
                         <div class="modal-content bg-white p-8 rounded-lg">
                             <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
-                            <form id="addCategoryForm" action="{{ route('categories.store') }}" method="POST">
+                            <form id="addCategoryForm" action="{{ route('category.store') }}" method="POST">
                                 @csrf
                                 <div class="mb-4">
                                     <label for="category_name" class="block text-gray-700">Category Name:</label>
@@ -54,7 +54,7 @@
                                         <input type="text" name="category_name" id="{{ $category->id }}" value="{{ $category->name }}">
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline">
+                                        <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
@@ -103,7 +103,7 @@
 
             function updateCategoryName(categoryId, newName) {
                 $.ajax({
-                    url: '{{ route("categories.update", ["category" => "__category__"]) }}'.replace('__category__', categoryId),
+                    url: '{{ route("category.update", ["category" => "__category__"]) }}'.replace('__category__', categoryId),
                     type: 'PUT',
                     data: {
                         name: newName,

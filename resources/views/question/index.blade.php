@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Topics') }}
+            {{ __('Questions') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -10,12 +10,12 @@
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
                     <div class="flex justify-between items-center">
                         <div class="mt-8 text-2xl">
-                            Topics
+                            Questions
                         </div>
                         <div>
-                            <a href="{{ route('topic.create') }}"
+                            <a href="{{ route('question.create') }}"
                                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create
-                                Topic</a>
+                                Question</a>
                         </div>
                     </div>
                     <div class="mt-6">
@@ -28,15 +28,7 @@
                                     </th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Description
-                                    </th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Group Name
-                                    </th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Book Name
+                                        Section Name
                                     </th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -44,23 +36,17 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach ($topics as $topic)
-                                    <tr onclick="window.location='{{ route('topic.edit', $topic->id) }}';"
+                                @foreach ($questions as $question)
+                                    <tr onclick="window.location='{{ route('question.edit', $question->id) }}';"
                                         class="cursor-pointer">
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ $topic->name }}
+                                            {{ $question->description }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ $topic->description }}
+                                            {{ $question->section->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ $topic->group->name }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ $topic->group->book->name }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <form action="{{ route('book.destroy', $topic->id) }}" method="POST"
+                                            <form action="{{ route('question.destroy', $question->id) }}" method="POST"
                                                 class="inline">
                                                 @csrf
                                                 @method('DELETE')

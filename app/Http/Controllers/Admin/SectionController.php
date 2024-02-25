@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Section\Section;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use App\Models\Topic\Topic;
 
 class SectionController extends Controller
 {
@@ -24,7 +25,8 @@ class SectionController extends Controller
      */
     public function create()
     {
-        //
+        $topics = Topic::all();
+        return view('section.create', compact('topics'));
     }
 
     /**

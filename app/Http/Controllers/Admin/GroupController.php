@@ -43,8 +43,7 @@ class GroupController extends Controller
        $newGroup->name=$request->name;
        $newGroup->book_id=$request->book_id;
        $newGroup->save();
-
-        return redirect()->route('groups.index');
+        return redirect()->route('group.index');
 
     }
 

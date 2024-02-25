@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Group\Group;
-use App\Models\Book\Book;
-use App\Models\Topic\Topic;
 use Illuminate\Http\Request;
 
-class TopicController extends Controller
+class QuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $topics = Topic::with('group')->get();
-        return view('topic.index', compact('topics'));
+        //
+        $questions = Question::with('section')->get();
+        return view('question.index', compact('questions'));
     }
 
     /**
@@ -24,9 +21,9 @@ class TopicController extends Controller
      */
     public function create()
     {
-        $groups = Group::all();
-        $books = Book::all();
-        return view('topic.create', compact('groups', 'books'));
+        //
+        $sections = Section::all();
+        return view('question.create', compact('sections'));
     }
 
     /**
@@ -34,16 +31,14 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
+        //
         $request->validate([
-            'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
-            'group_id' => 'required|exists:groups,id',
-            'book_id' => 'required|exists:books,id',
+            'section_id' => 'required|exists:sections,id',
         ]);
 
-        Topic::create($request->all());
-
-        return redirect()->route('topic.index');
+        Question::create($request->all());
+        return redirect()->route('question.index');
     }
 
     /**
@@ -73,13 +68,8 @@ class TopicController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Topic $topic)
+    public function destroy(string $id)
     {
-        // Delete the Section
-        $topic->delete();
-
-        // Redirect to the books index page
-        return redirect()->route('topic.index');
+        //
     }
-
 }

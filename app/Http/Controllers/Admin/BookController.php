@@ -28,7 +28,9 @@ class BookController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('books.create', compact('categories'));
+        $method = 'POST';
+        $route = route('book.store');
+        return view('books.edit', compact('categories','method','route'));
     }
 
     /**
@@ -75,7 +77,7 @@ class BookController extends Controller
         $book->save();
 
 // Redirect to the books index page
-        return redirect()->route('books.index');
+        return redirect()->route('book.index');
     }
 
     /**
@@ -92,7 +94,7 @@ class BookController extends Controller
         $group->name = $request->name;
         $group->book_id = $request->book_id;
         $group->save();
-        return redirect()->route('books.edit', ['book' => $group->book_id]);
+        return redirect()->route('book.edit', ['book' => $group->book_id]);
     }
 
     /**
@@ -101,18 +103,40 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
-        $books = Book::with('groups.topics')->find($book->id);
-
-        return view('books.edit', compact('books'));
+        $book = Book::with('groups.topics')->find($book->id);
+        $categories = Category::all();
+        $method = 'PUT';
+        $route = route('book.update', $book->id);
+        return view('books.edit', compact('book', 'categories', 'method', 'route'));
     }
 
-    public function update(Request $request, Book $book)
+    public function update(Request $request)
     {
         // Validate the request data
-        $request->validate([
-            'name' => 'required',
-            // Add more validation rules as needed
+         $request->validate([
+            'name' => 'required|string|max:255',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'slug' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'detailed_info' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'category_id' => 'exists:categories,id',
+            'rating' => 'required|numeric|max:255'
         ]);
+
+        if ($request->hasFile('cover')) {
+            $cover = $request->file('cover');
+            $coverName = time() . '.' . $cover->getClientOriginalExtension();
+
+            // Store the image in the storage/app/public directory
+            $coverPath = $cover->storeAs('public/books', $coverName);
+
+            // If you're using symbolic links for storage, generate the URL
+            $coverUrl = Storage::disk('public')->url($coverPath);
+        } else {
+            // Handle case where no cover image is uploaded
+            $coverUrl = null;
+        }
 
         // Update the book
         $book->name = $request->name;
@@ -120,7 +144,7 @@ class BookController extends Controller
         $book->save();
 
         // Redirect back to the book edit page
-        return redirect()->route('books.edit', $book->id);
+        return redirect()->route('book.index', $book->id);
     }
 
     public function destroy(Book $book)
@@ -129,7 +153,7 @@ class BookController extends Controller
         $book->delete();
 
         // Redirect to the books index page
-        return redirect()->route('books.index');
+        return redirect()->route('book.index');
 
     }
 }
