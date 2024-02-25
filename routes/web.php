@@ -1,9 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ClassRoomController;
+use App\Http\Controllers\Admin\GroupController;
+use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Admin\TopicController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\ClassRoomController;
-use App\Http\Controllers\Admin\BookController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,7 +32,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/classroom',ClassRoomController::class);
-    Route::resource('/categories',\App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('/categories',CategoryController::class);
+    Route::resource('/groups',GroupController::class);
+    Route::resource('/topics',TopicController::class);
+    Route::resource('/section',SectionController::class);
     Route::get('/classrooms/{classroomId}/remove-user/{userId}', [ClassRoomController::class, 'removeUser'])
         ->name('classroom.removeUser');
 

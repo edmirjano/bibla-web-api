@@ -33,6 +33,21 @@
                         {{ __('Category') }}
                     </x-nav-link>
                 </div>
+                <div class="space-y-8">
+                    <x-nav-link :href="route('groups.index')" :active="request()->routeIs('groups.index')">
+                        {{ __('Groups') }}
+                    </x-nav-link>
+                </div>
+                <div class="space-y-8">
+                    <x-nav-link :href="route('topics.index')" :active="request()->routeIs('topics.index')">
+                        {{ __('Topics') }}
+                    </x-nav-link>
+                </div>
+                <div class="space-y-8">
+                    <x-nav-link :href="route('section.index')" :active="request()->routeIs('section.index')">
+                        {{ __('Sections') }}
+                    </x-nav-link>
+                </div>
                 @endrole
             </div>
 
