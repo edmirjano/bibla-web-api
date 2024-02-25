@@ -33,7 +33,6 @@
                             <h3>{{$group->name}}</h3>
                             <div class="bg-gray-100">
                                 @foreach($group->topics as $topic)
-<div>{{$topic->id}}</div>
                                     <div>{{$topic->name}}</div>
                                     <div>{{$topic->description}}</div>
                                 @endforeach
