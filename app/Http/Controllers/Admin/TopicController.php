@@ -24,9 +24,8 @@ class TopicController extends Controller
      */
     public function create()
     {
-        $groups = Group::all();
-        $books = Book::all();
-        return view('topic.create', compact('groups', 'books'));
+        $books = Book::with('groups')->get();
+        return view('topic.edit', compact('books'));
     }
 
     /**
@@ -38,9 +37,7 @@ class TopicController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'group_id' => 'required|exists:groups,id',
-            'book_id' => 'required|exists:books,id',
         ]);
-
         Topic::create($request->all());
 
         return redirect()->route('topic.index');
@@ -57,9 +54,10 @@ class TopicController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Topic $topic)
     {
-        //
+        $books = Book::with('groups')->get();
+        return view('topic.edit', compact('topic', 'books'));
     }
 
     /**
