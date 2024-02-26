@@ -27,7 +27,7 @@ class GroupController extends Controller
     public function create()
     {
         $books=Book::all();
-        return view('groups.create',compact('books'));
+        return view('groups.edit',compact('books'));
     }
 
     /**
@@ -67,7 +67,7 @@ class GroupController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Group $group)
     {
 
         $validator = Validator::make($request->all(), [
@@ -77,9 +77,8 @@ class GroupController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        $groups = Group::findOrFail($id);
-        $groups->update($request->only('name', 'book_id'));
-        return redirect()->route('groups.index')->with('success', 'Group updated successfully');
+        $group->update($request->only('name', 'book_id'));
+        return redirect()->route('group.index')->with('success', 'Group updated successfully');
     }
 
     /**
