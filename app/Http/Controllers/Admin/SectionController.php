@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Book\Book;
 use App\Models\Section\Section;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -26,7 +27,7 @@ class SectionController extends Controller
     public function create()
     {
         $topics = Topic::all();
-        return view('section.create', compact('topics'));
+        return view('section.edit', compact('topics'));
     }
 
     /**
@@ -34,7 +35,19 @@ class SectionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'topic_id' => 'required|exists:topics,id',
+        ]);
+
+        Section::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'topic_id' => $request->topic_id,
+        ]);
+
+        return redirect()->route('section.index')->with('success', 'Section created successfully');
     }
 
     /**
@@ -48,17 +61,31 @@ class SectionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Section $section)
     {
-        //
+        $topics = Topic::all();
+        return view('section.edit', compact('topics', 'section'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Section $section)
     {
-        //
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'topic_id' => 'required|exists:topics,id',
+        ]);
+
+        $section->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'topic_id' => $request->topic_id,
+        ]);
+
+        return redirect()->route('section.index')->with('success', 'Section updated successfully');
     }
 
     /**

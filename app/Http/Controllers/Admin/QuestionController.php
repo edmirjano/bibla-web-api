@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Question\Question;
+use App\Models\Section\Section;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -21,9 +24,9 @@ class QuestionController extends Controller
      */
     public function create()
     {
-        //
+
         $sections = Section::all();
-        return view('question.create', compact('sections'));
+        return view('question.edit', compact('sections'));
     }
 
     /**
@@ -52,24 +55,33 @@ class QuestionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Question $question)
     {
-        //
+        $sections = Section::all();
+        return view('question.edit', compact('sections', 'question'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Question $question)
     {
-        //
+        $request->validate([
+            'description' => 'required|string|max:255',
+            'section_id' => 'required|exists:sections,id',
+        ]);
+
+        $question->update(['description' => $request->description, "section_id" => $request->section_id]);
+        return redirect()->route('question.index');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Question $question)
     {
-        //
+        $question->delete();
+        return redirect()->route('question.index');
     }
 }

@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Books') }}
+            {{ __('Edit Section') }}
         </h2>
     </x-slot>
 
@@ -9,61 +9,51 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-                    <div class="mt-6">
-                        <button id="addGroupBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Group</button>
-                    </div>
-                    <div id="addCategoryModal" class="modal  fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center ">
-                        <div class="modal-content bg-white p-8 rounded-lg">
-                            <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
-                            <form id="addCategoryForm" action="{{ route('group.store') }}" method="POST">
-                                @csrf
-                                <div class="mb-4">
+                    <form method="POST"
+                          action="{{ isset($section) ? route('section.update', $section->id) : route('section.store') }}"
+                          enctype="multipart/form-data">
+                        @csrf
+                        @if (isset($section))
+                            @method('PUT')
+                        @endif                        @csrf
+                        <div class="mb-4">
 
-                                    <label for="category_name" class="block text-gray-700">Group Name:</label>
-                                    <input type="text" id="name" name="name" required class="border rounded px-3 py-2 w-full">
-                                    <input type="hidden" id="book_id" name="book_id" value="{{$books->id}}" class="border rounded px-3 py-2 w-full">
-                                </div>
-                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Gro</button>
-                            </form>
+                            <label for="name" class="block text-gray-700">Name:</label>
+                            <input type="text" id="name" name="name" required class="border rounded px-3 py-2 w-full" value="{{ isset($section) ? $section->name : old('name') }}">
                         </div>
-                    </div>
+                        <div class="mb-4">
 
-                    @foreach($books->groups as $group)
-                        <div class="bg-gray-100 p-2 m-3.5" >
-                            <h3>{{$group->name}}</h3>
-                            <div class="bg-gray-100">
-                                @foreach($group->topics as $topic)
-<div>{{$topic->id}}</div>
-                                    <div>{{$topic->name}}</div>
-                                    <div>{{$topic->description}}</div>
+                            <label for="description" class="block text-gray-700">Description:</label>
+                            <input type="text" id="description" name="description"
+                                   class="border rounded px-3 py-2 w-full"  value="{{ isset($section) ? $section->description : old('name') }}" required autofocus>
+                        </div>
+                        <div>
+                            <label for="topic_id" class="block font-medium text-sm text-gray-700">Select
+                                Topic</label>
+                            <select id="topic_id" name="topic_id"
+                                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    required autofocus>
+                                <option value="">Select Book</option>
+                                @foreach ($topics as $topic)
+                                    <option value="{{ $topic->id }}"
+                                        {{ isset($section->topic_id) && $section->topic_id == $topic->id ? 'selected' : '' }}>
+                                        {{ $topic->name }}</option>
                                 @endforeach
-                            </div>
+                            </select>
+                            @error('topic_id')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
-                    @endforeach
-
+                        <div class="flex items-center justify-end mt-4">
+                            <button type="submit"
+                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 disabled:opacity-25 transition">
+                                {{ isset($section) ? 'Update' : 'Create' }}
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Show Add Category Modal on button click
-            $("#addGroupBtn").click(function() {
-                $("#addCategoryModal").removeClass('hidden');
-            });
 
-            // Hide the modal when the close button is clicked
-            $(".close").click(function() {
-                $("#addCategoryModal").addClass('hidden');
-            });
-
-            // Hide the modal when clicked outside of it
-            $(window).click(function(event) {
-                if (event.target == document.getElementById("addCategoryModal")) {
-                    $("#addCategoryModal").addClass('hidden');
-                }
-            });
-        });
-    </script>
 </x-app-layout>
