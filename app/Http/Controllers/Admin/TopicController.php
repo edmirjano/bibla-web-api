@@ -63,9 +63,16 @@ class TopicController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Topic $topic)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'group_id' => 'required|exists:groups,id',
+        ]);
+        $topic->update(['name'=>$request->name,'description'=>$request->description,'group_id'=>$request->group_id]);
+        return redirect()->route('topic.index');
+
     }
 
     /**
@@ -73,10 +80,7 @@ class TopicController extends Controller
      */
     public function destroy(Topic $topic)
     {
-        // Delete the Section
         $topic->delete();
-
-        // Redirect to the books index page
         return redirect()->route('topic.index');
     }
 
