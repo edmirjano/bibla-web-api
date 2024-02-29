@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Book\Book;
 use App\Models\Category\Category;
 use App\Models\Group\Group;
+use App\Models\Question\Question;
 use Dotenv\Repository\Adapter\ReplacingWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -103,11 +104,12 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
-        $book = Book::with('groups.topics')->find($book->id);
+        $book = Book::with('groups.topics.sections.questions')
+            ->find($book->id);
+
         $categories = Category::all();
-        $method = 'PUT';
-        $route = route('book.update', $book);
-        return view('books.edit', compact('book', 'categories', 'method', 'route'));
+
+        return view('books.edit', compact('book', 'categories'));
     }
 
     public function update(Request $request, Book $book)

@@ -9,6 +9,6 @@ class Group extends Model
 {
     use HasFactory,RelationshipTrait;
     protected $fillable = [
-        'name',
+        'name','book_id'
     ];
 }

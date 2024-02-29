@@ -24,10 +24,17 @@ class GroupController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $books=Book::all();
-        return view('groups.edit',compact('books'));
+        if ($request->filled('book_id')) {
+            $request->validate([
+                'book_id' => 'required|numeric'
+            ]);
+            $book = Book::find($request->book_id);
+            return view('groups.edit', compact('book'));
+        }
+        $books = Book::all();
+        return view('groups.edit', compact('books'));
     }
 
     /**
@@ -47,13 +54,6 @@ class GroupController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -77,6 +77,7 @@ class GroupController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         $group->update($request->only('name', 'book_id'));
         return redirect()->route('group.index')->with('success', 'Group updated successfully');
     }
@@ -89,6 +90,6 @@ class GroupController extends Controller
         $group->delete();
 
         // Redirect to the books index page
-        return redirect()->route('groups.index');
+        return redirect()->route('group.index');
     }
 }
