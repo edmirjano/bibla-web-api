@@ -56,6 +56,7 @@ class TopicController extends Controller
      */
     public function edit(Topic $topic)
     {
+        session(['previous_url' => url()->previous()]);
         $books = Book::with('groups')->get();
         return view('topic.edit', compact('topic', 'books'));
     }
@@ -71,8 +72,8 @@ class TopicController extends Controller
             'group_id' => 'required|exists:groups,id',
         ]);
         $topic->update(['name'=>$request->name,'description'=>$request->description,'group_id'=>$request->group_id]);
-        return redirect()->route('topic.index');
-
+        // return redirect()->route('topic.index');
+        return redirect()->to(session('previous_url'));
     }
 
     /**
