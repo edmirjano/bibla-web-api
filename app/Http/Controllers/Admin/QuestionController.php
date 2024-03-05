@@ -24,7 +24,7 @@ class QuestionController extends Controller
      */
     public function create()
     {
-
+        session(['previous_url' => url()->previous()]);
         $sections = Section::all();
         return view('question.edit', compact('sections'));
     }
@@ -41,7 +41,9 @@ class QuestionController extends Controller
         ]);
 
         Question::create($request->all());
-        return redirect()->route('question.index');
+        $session=session('previous_url');
+        session()->forget('previous_url');
+        return redirect()->to($session);
     }
 
     /**

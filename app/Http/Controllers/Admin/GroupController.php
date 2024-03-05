@@ -26,6 +26,8 @@ class GroupController extends Controller
      */
     public function create(Request $request)
     {
+        session(['previous_url' => url()->previous()]);
+
         if ($request->filled('book_id')) {
             $request->validate([
                 'book_id' => 'required|numeric'
@@ -42,6 +44,7 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
            'book_id'=>'required'
@@ -50,7 +53,9 @@ class GroupController extends Controller
        $newGroup->name=$request->name;
        $newGroup->book_id=$request->book_id;
        $newGroup->save();
-        return redirect()->route('group.index');
+        $session=session('previous_url');
+        session()->forget('previous_url');
+        return redirect()->to($session);
     }
 
 

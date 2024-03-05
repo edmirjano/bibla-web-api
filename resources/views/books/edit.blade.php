@@ -160,6 +160,7 @@
                                     </div>
                                 </div>
                                 <div class="bi-tropical-storm hidden">
+                                    <div class="py-5">
                                     @foreach($group->topics as $topic)
                                         <div class="mb-4 bg-amber-200 rounded-sm">
                                             <div class="flex justify-between items-center cursor-pointer border-b border-gray-300 py-4" onclick="toggleAccordion(this)">
@@ -173,6 +174,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex px-2">
+
                                                     <a href="{{route('topic.edit',$topic->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                              height="16" fill="currentColor" class="bi bi-pencil"
@@ -199,6 +201,7 @@
                                                 </div>
                                             </div>
                                             <div class="section hidden">
+                                                <div class="py-5">
                                                 @foreach($topic->sections as $section)
                                                     <div class="m-2 bg-amber-300 rounded-sm">
                                                         <div class="flex justify-between items-center cursor-pointer border-b border-gray-300 py-4" onclick="toggleAccordion(this)">
@@ -212,6 +215,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="flex px-2">
+
                                                                 <a href="{{route('section.edit',$section->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                                          height="16" fill="currentColor" class="bi bi-pencil"
@@ -238,6 +242,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="ml-4 hidden">
+                                                            <div class="py-5">
                                                             @foreach($section->questions as $question)
                                                                 <div class="m-4 p-2 flex justify-between border-gray-300 bg-amber-400">
                                                                     <p class="text-gray-800">{{$loop->iteration}}. {{$question->description}}</p>
@@ -268,12 +273,21 @@
                                                                     </div>
                                                                 </div>
                                                             @endforeach
+                                                                <a href="{{ route('question.create') }}"
+                                                                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Row</a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
+                                                    <a href="{{ route('section.create') }}"
+                                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold  mx-2 p-2 rounded">Add Row</a>
+                                                </div>
                                             </div>
                                         </div>
                                     @endforeach
+                                        <a href="{{ route('topic.create') }}"
+                                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Row</a>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach

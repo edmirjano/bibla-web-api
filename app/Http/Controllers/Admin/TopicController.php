@@ -24,6 +24,7 @@ class TopicController extends Controller
      */
     public function create()
     {
+        session(['previous_url' => url()->previous()]);
         $books = Book::with('groups')->get();
         return view('topic.edit', compact('books'));
     }
@@ -40,7 +41,9 @@ class TopicController extends Controller
         ]);
         Topic::create($request->all());
 
-        return redirect()->route('topic.index');
+        $session = session('previous_url');
+        session()->forget('previous_url');
+        return redirect()->to($session);
     }
 
     /**
@@ -71,8 +74,8 @@ class TopicController extends Controller
             'description' => 'required|string',
             'group_id' => 'required|exists:groups,id',
         ]);
-        $topic->update(['name'=>$request->name,'description'=>$request->description,'group_id'=>$request->group_id]);
-        $session=session('previous_url');
+        $topic->update(['name' => $request->name, 'description' => $request->description, 'group_id' => $request->group_id]);
+        $session = session('previous_url');
         session()->forget('previous_url');
         return redirect()->to($session);
     }
