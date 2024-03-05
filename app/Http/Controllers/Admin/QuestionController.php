@@ -57,6 +57,8 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
+        session(['previous_url' => url()->previous()]);
+
         $sections = Section::all();
         return view('question.edit', compact('sections', 'question'));
     }
@@ -70,9 +72,10 @@ class QuestionController extends Controller
             'description' => 'required|string|max:255',
             'section_id' => 'required|exists:sections,id',
         ]);
-
         $question->update(['description' => $request->description, "section_id" => $request->section_id]);
-        return redirect()->route('question.index');
+        $session=session('previous_url');
+        session()->forget('previous_url');
+        return redirect()->to($session);
 
     }
 

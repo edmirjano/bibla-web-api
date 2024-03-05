@@ -63,6 +63,8 @@ class SectionController extends Controller
      */
     public function edit(Section $section)
     {
+        session(['previous_url' => url()->previous()]);
+
         $topics = Topic::all();
         return view('section.edit', compact('topics', 'section'));
     }
@@ -84,8 +86,9 @@ class SectionController extends Controller
             'description' => $request->description,
             'topic_id' => $request->topic_id,
         ]);
-
-        return redirect()->route('section.index')->with('success', 'Section updated successfully');
+        $session=session('previous_url');
+        session()->forget('previous_url');
+        return redirect()->to($session);
     }
 
     /**

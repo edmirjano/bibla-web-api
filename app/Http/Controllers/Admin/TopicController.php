@@ -72,8 +72,9 @@ class TopicController extends Controller
             'group_id' => 'required|exists:groups,id',
         ]);
         $topic->update(['name'=>$request->name,'description'=>$request->description,'group_id'=>$request->group_id]);
-        // return redirect()->route('topic.index');
-        return redirect()->to(session('previous_url'));
+        $session=session('previous_url');
+        session()->forget('previous_url');
+        return redirect()->to($session);
     }
 
     /**

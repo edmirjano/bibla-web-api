@@ -51,7 +51,6 @@ class GroupController extends Controller
        $newGroup->book_id=$request->book_id;
        $newGroup->save();
         return redirect()->route('group.index');
-
     }
 
 
@@ -60,6 +59,7 @@ class GroupController extends Controller
      */
     public function edit(Group $group)
     {
+        session(['previous_url' => url()->previous()]);
         $books=Book::all();
         return view('groups.edit', compact('group','books'));
     }
@@ -69,7 +69,6 @@ class GroupController extends Controller
      */
     public function update(Request $request, Group $group)
     {
-
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'book_id' => 'required',
@@ -79,7 +78,9 @@ class GroupController extends Controller
         }
 
         $group->update($request->only('name', 'book_id'));
-        return redirect()->route('group.index')->with('success', 'Group updated successfully');
+        $session=session('previous_url');
+        session()->forget('previous_url');
+        return redirect()->to($session);
     }
 
     /**
