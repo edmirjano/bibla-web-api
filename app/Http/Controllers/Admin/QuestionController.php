@@ -22,9 +22,14 @@ class QuestionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         session(['previous_url' => url()->previous()]);
+        $sectionId = $request->input('section_id');
+        if (isset($sectionId)) {
+            $sections = [Section::find($sectionId)];
+            return view('question.edit', compact('sections'));
+        }
         $sections = Section::all();
         return view('question.edit', compact('sections'));
     }
@@ -87,6 +92,6 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         $question->delete();
-        return redirect()->route('question.index');
+        return redirect()->back();
     }
 }

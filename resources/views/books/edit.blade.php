@@ -273,20 +273,21 @@
                                                                     </div>
                                                                 </div>
                                                             @endforeach
-                                                                <a href="{{ route('question.create') }}"
+
+                                                                <a href="{{ route('question.create',['section_id'=>$section->id]) }}"
                                                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Row</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
-                                                    <a href="{{ route('section.create') }}"
+                                                    <a href="{{ route('section.create',['topic_id'=>$topic->id]) }}"
                                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold  mx-2 p-2 rounded">Add Row</a>
                                                 </div>
                                             </div>
                                         </div>
                                     @endforeach
-                                        <a href="{{ route('topic.create') }}"
-                                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Row</a>
+                                        <a href="{{ route('topic.create', ['book_id' => $book->id,'group_id'=>$group->id]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Topic</a>
+
                                     </div>
                                 </div>
                             </div>

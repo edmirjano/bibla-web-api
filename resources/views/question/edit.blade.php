@@ -29,11 +29,17 @@
                                     class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     required autofocus>
                                 <option value="">Select Section </option>
+                                @if(count($sections)==1)
+                                    <option value="{{ $sections[0]->id }}" selected >
+                                        {{ $sections[0]->name }}</option>
+                                @else
+
                                 @foreach ($sections as $section)
                                     <option value="{{ $section->id }}"
                                         {{ isset($question->section_id) && $question->section_id == $section->id ? 'selected' : '' }}>
                                         {{ $section->name }}</option>
                                 @endforeach
+                                @endif
                             </select>
                             @error('section_id')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

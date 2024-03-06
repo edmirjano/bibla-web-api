@@ -39,7 +39,6 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required|string|max:255',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -77,8 +76,7 @@ class BookController extends Controller
 
         $book->save();
 
-        // Redirect to the books index page
-        return redirect()->route('book.index');
+        return redirect()->route('book.edit',$book->id);
     }
 
     /**

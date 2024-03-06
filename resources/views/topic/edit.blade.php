@@ -41,15 +41,23 @@
                                 <label for="book_id" class="block font-medium text-sm text-gray-700">Select
                                     Book</label>
                                 <select id="book_id" name="book_id"
-                                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    required autofocus>
-                                    <option value="">Select Book</option>
-                                    @foreach ($books as $book)
-                                        <option value="{{ $book->id }}"
-                                            {{ isset($topic) && $topic->book_id == $book->id ? 'selected' : '' }}>
-                                            {{ $book->name }}</option>
-                                    @endforeach
+                                        class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        required autofocus>
+                                    @if (isset($book))
+                                        <option value="{{ $book->id }}" selected>{{ $book->name }}</option>
+                                    @else
+                                        <option value="">Select Book</option>
+                                        @foreach ($books as $book)
+                                            <option value="{{ $book->id }}"
+                                                {{ isset($topic) && $topic->book && $topic->group()->get()->first()->book->id == $book->id ? 'selected' : '' }}>
+                                                {{ $book->name }}
+                                            </option>
+                                        @endforeach
+                                    @endif
                                 </select>
+
+
+
                                 @error('group_id')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -57,14 +65,22 @@
                             <div>
                                 <label for="group_id" class="block font-medium text-sm text-gray-700">Select
                                     Group</label>
-                                <select id="group_id" name="group_id"
+                                @if(isset($group))
+                                <select id="group" name="group_id"
                                     class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     required autofocus>
+                                    <option value="{{$group->id}}">{{$group->name}}</option>
+                                </select>
+                                @else
+                                <select id="group_id" name="group_id"
+                                        class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        required autofocus>
                                     <option value="">Select Group</option>
                                 </select>
                                 @error('group_id')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
+                                @endif
                             </div>
                         </div>
 
@@ -90,6 +106,7 @@
                 var bookId = $(this).val();
                 $('#group_id').find('option').remove().end().append(
                     '<option value="">Select Group</option>');
+                @if(isset($books))
                 if (bookId) {
                     var groups = @json($books).find(book => book.id == bookId).groups;
                     $.each(groups, function(key, group) {
@@ -97,7 +114,9 @@
                             '</option>');
                     });
                 }
+                @endif
             });
         });
     </script>
+
 </x-app-layout>

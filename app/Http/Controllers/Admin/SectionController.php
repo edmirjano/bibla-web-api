@@ -16,6 +16,7 @@ class SectionController extends Controller
      */
     public function index()
     {
+
         $sections = Section::with('topic')->get();
 
         return view('section.index', compact('sections'));
@@ -24,10 +25,14 @@ class SectionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         session(['previous_url' => url()->previous()]);
-
+        $topicId = $request->input('topic_id');
+        if (isset($topicId)) {
+            $topics = [Topic::find($topicId)];
+            return view('section.edit', compact('topics'));
+        }
         $topics = Topic::all();
         return view('section.edit', compact('topics'));
     }
@@ -48,7 +53,7 @@ class SectionController extends Controller
             'description' => $request->description,
             'topic_id' => $request->topic_id,
         ]);
-        $session=session('previous_url');
+        $session = session('previous_url');
         session()->forget('previous_url');
         return redirect()->to($session);
     }
@@ -89,7 +94,7 @@ class SectionController extends Controller
             'description' => $request->description,
             'topic_id' => $request->topic_id,
         ]);
-        $session=session('previous_url');
+        $session = session('previous_url');
         session()->forget('previous_url');
         return redirect()->to($session);
     }
@@ -97,13 +102,13 @@ class SectionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Section $section):RedirectResponse
+    public function destroy(Section $section): RedirectResponse
     {
         // Delete the Section
         $section->delete();
 
         // Redirect to the books index page
-        return redirect()->route('section.index');
+        return redirect()->back();
 
     }
 }

@@ -33,12 +33,17 @@
                             <select id="topic_id" name="topic_id"
                                     class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     required autofocus>
-                                <option value="">Select Book</option>
+                                <option value="">Select Topic</option>
+                                @if(count($topics)==1)
+                                    <option value="{{ $topics[0]->id }}" selected >
+                                        {{ $topics[0]->name }}</option>
+                                @else
                                 @foreach ($topics as $topic)
                                     <option value="{{ $topic->id }}"
                                         {{ isset($section->topic_id) && $section->topic_id == $topic->id ? 'selected' : '' }}>
                                         {{ $topic->name }}</option>
                                 @endforeach
+                                @endif
                             </select>
                             @error('topic_id')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

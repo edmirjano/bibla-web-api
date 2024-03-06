@@ -44,7 +44,6 @@ class GroupController extends Controller
      */
     public function store(Request $request)
     {
-
         $request->validate([
             'name' => 'required',
            'book_id'=>'required'
@@ -96,6 +95,6 @@ class GroupController extends Controller
         $group->delete();
 
         // Redirect to the books index page
-        return redirect()->route('group.index');
+        return redirect()->back();
     }
 }

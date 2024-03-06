@@ -22,9 +22,20 @@ class TopicController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
         session(['previous_url' => url()->previous()]);
+        $groupId = $request->input('group_id');
+        $bookId = $request->input('book_id');
+
+        if (isset($bookId) & isset($groupId)) {
+
+            $book = Book::find($bookId);
+            $group = Group::find($groupId);
+
+            return view('topic.edit', compact('book', 'group'));
+
+        }
         $books = Book::with('groups')->get();
         return view('topic.edit', compact('books'));
     }
@@ -86,7 +97,7 @@ class TopicController extends Controller
     public function destroy(Topic $topic)
     {
         $topic->delete();
-        return redirect()->route('topic.index');
+        return redirect()->back();
     }
 
 }
