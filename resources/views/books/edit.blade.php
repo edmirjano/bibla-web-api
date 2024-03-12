@@ -42,11 +42,8 @@
                             <div>
                                 <label for="description"
                                        class="block font-medium text-sm text-gray-700">Description</label>
-                                <input id="description"
-                                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       type="text" name="description"
-                                       value="{{ $book->description ?? old('description') }}" required autofocus
-                                       rows="10"/>
+                                <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" required autofocus>
+                                    {{$book->description ?? old('description')}}</textarea>
                                 @error('description')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -91,7 +88,7 @@
                                         required autofocus value={{ $book->category->id ?? old('category_id') }}>
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
-                                        {{ $isSelected = $category->id == isset($book->category->id) ?? old('category_id'); }}
+                                        {{ $isSelected = $category->id == isset($book->category->id) ?? old('category_id') }}
                                         <option
                                             value="{{ $category->id }}" {{ $isSelected ? 'selected' : '' }}>{{ $category->name }}</option>
                                     @endforeach
@@ -104,7 +101,7 @@
                                 <label for="cover" class="block font-medium text-sm text-gray-700">Cover</label>
                                 <input id="cover"
                                        class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       type="file" name="cover" value="{{ $book->cover ?? old('cover') }}" required
+                                       type="file" name="cover" value="{{ $book->cover ?? old('cover') }}"
                                        autofocus onchange="previewImage(event)"/> @error('cover')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -299,7 +296,7 @@
                 @endif
             </div>
     </div>
-
+    </div>
 
     <script>
         function toggleAccordion(element) {
@@ -320,5 +317,19 @@
             var slug = event.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-');
             document.getElementById('slug').value = slug;
         }
+    </script>
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+        });
     </script>
 </x-app-layout>

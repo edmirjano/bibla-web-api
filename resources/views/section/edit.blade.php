@@ -24,8 +24,11 @@
                         <div class="mb-4">
 
                             <label for="description" class="block text-gray-700">Description:</label>
-                            <input type="text" id="description" name="description"
-                                   class="border rounded px-3 py-2 w-full"  value="{{ isset($section) ? $section->description : old('name') }}" required autofocus>
+                            <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" required autofocus>{{ isset($section) ? $section->description : old('description') }}"</textarea>
+
+                            @error('description')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label for="topic_id" class="block font-medium text-sm text-gray-700">Select
@@ -60,5 +63,18 @@
             </div>
         </div>
     </div>
-
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+        });
+    </script>
 </x-app-layout>
