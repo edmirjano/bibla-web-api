@@ -24,7 +24,7 @@ class ScrapperService
 
         foreach ($urls as $index => $url) {
             try {
-
+dump($url);
                 $book = Str::between($url, '/7/', '.');
                 $newUrl = explode('.', $book)[0];
 
@@ -73,14 +73,14 @@ class ScrapperService
             $this->content[$index]['Content'] = $this->content[$index]['Content'] ?? "" . $node->html();
         });
         $this->content[$index]['url'] = $url;
-        return preg_replace('/\d+/', '', $this->content[$index]['Name']);
+        return preg_replace('/\d+$/', '', $this->content[$index]['Name']);
     }
 
     private function saveScrapperFiles(): void
     {
         try {
-            $bookData = json_encode($this->bookContent, JSON_PRETTY_PRINT);
-            $jsonData = json_encode($this->content, JSON_PRETTY_PRINT);
+            $bookData = json_encode(array_values($this->bookContent), JSON_PRETTY_PRINT);
+            $jsonData = json_encode(array_values($this->content), JSON_PRETTY_PRINT);
 
             Storage::disk('public')->put('scrapper/book.json', $bookData);
             Storage::disk('public')->put('scrapper/chapter.json', $jsonData);
