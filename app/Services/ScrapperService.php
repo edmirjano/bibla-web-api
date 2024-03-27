@@ -36,9 +36,11 @@ class ScrapperService
                 $this->chapterCount++;
 
                 $bookName = $this->scrape($browser, $index, $url);
-                $this->bookContent[$this->bookId]['Id'] = $this->bookId;
-                $this->bookContent[$this->bookId]['Name'] = $bookName;
-                $this->bookContent[$this->bookId]['Total_Chapters'] = $this->chapterCount;
+                $this->bookContent[$this->bookId-1]= [
+                    'Id' => $this->bookId,
+                    'Name' => $bookName,
+                    'Total_Chapters' => $this->chapterCount,
+                ];
 
             } catch (\Exception $exception) {
                 Log::error("Error writing content of url {$url} with message: {$exception->getMessage()}");
