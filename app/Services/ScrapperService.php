@@ -21,7 +21,9 @@ class ScrapperService
         $urls = $this->readfile();
         $this->content = [];
         foreach ($urls as $index => $url) {
+                if($index < 5)
                 $this->scrape($browser, $index, $url);
+                dump($url);
         }
         $jsonData = json_encode($this->content, JSON_PRETTY_PRINT);
 
@@ -41,13 +43,13 @@ class ScrapperService
         $crawler = $browser->request('GET', $url);
         $this->content[$index]['Id'] = $index+1;
         $this->content[$index]['Id_Book'] = 1;
-
+        $this->content[$index]['Content'] = '';
         $crawler->filter('h1')->each(function ($node) use ($index) {
             $this->content[$index]['Name'] = $node->html();
             $this->content[$index]['Slug'] = Str::slug ($node->html());
         });
-        $crawler->filter('.ChapterContent_content__RrUqA')->each(function ($node) use ( $index) {
-            $this->content[$index]['Content'][] = $node->html();
+        $crawler->filter('.ChapterContent_chapter__uvbXo')->each(function ($node) use ( $index) {
+            $this->content[$index]['Content'] = $this->content[$index]['Content'].$node->html();
         });
         $this->content[$index]['url'] = $url;
 
