@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Services\ScrapperService;
 
-class RunScrappercommand extends Command
+class RunScrapperCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:run-scrappercommand';
+    protected $signature = 'run-scrapper-command';
 
     /**
      * The console command description.
