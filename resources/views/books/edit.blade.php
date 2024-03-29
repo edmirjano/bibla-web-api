@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
                     <form method="POST"
                           action="{{ isset($book) ? route('book.update', $book->id) : route('book.store') }}"
@@ -108,6 +108,11 @@
                             </div>
                         </div>
                         <div id="imagePreview" class="mt-2"></div>
+                        <div  class="mt-2 w-48">
+
+                            <img src={{asset($book->cover)}} alt={{$book->name}}>
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <button type="submit"
                                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 disabled:opacity-25 transition">
@@ -119,7 +124,7 @@
                 @if(isset($book))
                     <div class="container mx-auto">
                         @foreach($book->groups as $group)
-                            <div class="group bg-gray-200 p-4 rounded-sm m-4">
+                            <div class="group bg-gray-100 p-4 rounded-sm m-4">
                                 <div class="flex justify-between items-center cursor-pointer" onclick="toggleAccordion(this)">
                                     <div class="flex items-center mb-4">
                                         <svg class="w-6 h-6 mr-3 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -156,10 +161,10 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="bi-tropical-storm hidden">
+                                <div class="bi-tropical-storm">
                                     <div class="py-5">
                                     @foreach($group->topics as $topic)
-                                        <div class="mb-4 bg-amber-200 rounded-sm">
+                                        <div class="my-4 bg-gray-200 rounded-sm">
                                             <div class="flex justify-between items-center cursor-pointer border-b border-gray-300 py-4" onclick="toggleAccordion(this)">
                                                 <div class="flex items-center">
                                                     <svg class="w-6 h-6 mr-3 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -197,10 +202,10 @@
                                                     </form>
                                                 </div>
                                             </div>
-                                            <div class="section hidden">
+                                            <div class="section">
                                                 <div class="py-5">
                                                 @foreach($topic->sections as $section)
-                                                    <div class="m-2 bg-amber-300 rounded-sm">
+                                                    <div class="my-2 bg-gray-300 rounded-sm">
                                                         <div class="flex justify-between items-center cursor-pointer border-b border-gray-300 py-4" onclick="toggleAccordion(this)">
                                                             <div class="flex items-center">
                                                                 <svg class="w-6 h-6 mr-3 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -238,10 +243,10 @@
                                                                 </form>
                                                             </div>
                                                         </div>
-                                                        <div class="ml-4 hidden">
+                                                        <div class="ml-4">
                                                             <div class="py-5">
                                                             @foreach($section->questions as $question)
-                                                                <div class="m-4 p-2 flex justify-between border-gray-300 bg-amber-400">
+                                                                <div class="my-4 p-2 flex justify-between border-gray-300 bg-gray-400">
                                                                     <p class="text-gray-800">{{$loop->iteration}}. {{$question->description}}</p>
                                                                     <div class="flex px-2">
                                                                         <a href="{{route('question.edit',$question->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
@@ -272,18 +277,18 @@
                                                             @endforeach
 
                                                                 <a href="{{ route('question.create',['section_id'=>$section->id]) }}"
-                                                                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Row</a>
+                                                                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Question</a>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 @endforeach
                                                     <a href="{{ route('section.create',['topic_id'=>$topic->id]) }}"
-                                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold  mx-2 p-2 rounded">Add Row</a>
+                                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold  m-2 p-2 rounded">Create Section</a>
                                                 </div>
                                             </div>
                                         </div>
                                     @endforeach
-                                        <a href="{{ route('topic.create', ['book_id' => $book->id,'group_id'=>$group->id]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Topic</a>
+                                        <a href="{{ route('topic.create', ['book_id' => $book->id,'group_id'=>$group->id]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Topic</a>
 
                                     </div>
                                 </div>
@@ -299,6 +304,7 @@
     </div>
 
     <script>
+
         function toggleAccordion(element) {
             element.nextElementSibling.classList.toggle('hidden');
             const icon = element.querySelector('svg');
@@ -317,19 +323,15 @@
             var slug = event.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-');
             document.getElementById('slug').value = slug;
         }
-    </script>
-    <script>
         tinymce.init({
             selector: 'textarea',
-            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Author name',
+            tinycomments_author: 'Emanuel Gjoni',
             mergetags_list: [
                 { value: 'First.Name', title: 'First Name' },
                 { value: 'Email', title: 'Email' },
             ],
-            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
         });
     </script>
+
 </x-app-layout>

@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="mt-6">
-                        <table class=" divide-gray-200 px-5">
+                        <table class="w-full divide-gray-200 px-5">
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th
@@ -30,14 +30,6 @@
                                     <th
                                         class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Slug
-                                    </th>
-                                    <th
-                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Description
-                                    </th>
-                                    <th
-                                        class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Detailed_info
                                     </th>
                                     <th
                                         class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -60,12 +52,6 @@
                                         </td>
                                         <td class="px-4 py-4 whitespace-nowrap">
                                             {{ $book->slug }}
-                                        </td>
-                                        <td class="px-4 py-4 whitespace-nowrap">
-                                            {{ $book->description }}
-                                        </td>
-                                        <td class="px-4 py-4 whitespace-nowrap">
-                                            {{ $book->detailed_info }}
                                         </td>
                                         <td class="px-4 py-4 whitespace-nowrap">
                                             {{ $book->author }}

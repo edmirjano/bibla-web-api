@@ -126,12 +126,11 @@ class BookController extends Controller
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
-            $coverPath = $cover->storeAs('public/books', $coverName);
-            $coverUrl = Storage::disk('public')->url($coverPath);
+            $coverPath = $cover->storeAs('public/books/images', $coverName);
+            $coverUrl = Storage::url($coverPath);
         } else {
             $coverUrl = null;
         }
-
         $book->name = $request->name;
         $book->cover = $coverUrl;
         $book->slug = $request->slug;
