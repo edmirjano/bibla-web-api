@@ -24,7 +24,7 @@
                         <div class="mb-4">
 
                             <label for="description" class="block text-gray-700">Description:</label>
-                            <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" required autofocus>{{ isset($section) ? $section->description : old('description') }}"</textarea>
+                            <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" required autofocus>{{ isset($section) ? $section->description : old('description') }}</textarea>
 
                             @error('description')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

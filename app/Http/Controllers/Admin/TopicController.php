@@ -71,9 +71,10 @@ class TopicController extends Controller
     public function edit(Topic $topic)
     {
         session(['previous_url' => url()->previous()]);
+        $groups = Group::all();
         $books = Book::with('groups')->get();
-        return view('topic.edit', compact('topic', 'books'));
-    }
+
+        return view('topic.edit', compact('topic', 'books', 'groups'));    }
 
     /**
      * Update the specified resource in storage.
