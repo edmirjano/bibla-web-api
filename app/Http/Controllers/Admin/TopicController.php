@@ -36,8 +36,10 @@ class TopicController extends Controller
             return view('topic.edit', compact('book', 'group'));
 
         }
+        $groups = Group::all();
+
         $books = Book::with('groups')->get();
-        return view('topic.edit', compact('books'));
+        return view('topic.edit', compact('books','groups'));
     }
 
     /**

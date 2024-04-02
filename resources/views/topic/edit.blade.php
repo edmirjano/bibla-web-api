@@ -27,14 +27,7 @@
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div>
-                                <label for="description" class="block font-medium text-sm text-gray-700">Description</label>
-                                <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" required autofocus>
-                                        {{ isset($topic) ? $topic->description : old('description') }} </textarea>
-                                @error('description')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
+
                             <div>
 
                                 <label for="book_id" class="block font-medium text-sm text-gray-700">Select
@@ -74,15 +67,25 @@
                                             required autofocus>
                                         <option value="">Select Group</option>
                                         @foreach($groups as $group)
-                                            <option value="{{ $group->id }}" {{ $topic->group_id == $group->id ? 'selected' : '' }}>
+                                            <option value="{{ $group->id }}" {{ isset($topic) && $topic->group_id == $group->id ? 'selected' : '' }}>
                                                 {{ $group->name }}
                                             </option>
+
                                         @endforeach
                                     </select>
                                     @error('group_id')
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                     @enderror
                                 @endif
+                            </div>
+
+                            <div class="w-full">
+                                <label for="description" class="block font-medium text-sm text-gray-700">Description</label>
+                                <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" required autofocus>
+                                        {{ isset($topic) ? $topic->description : old('description') }} </textarea>
+                                @error('description')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
 
