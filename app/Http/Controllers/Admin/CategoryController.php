@@ -40,7 +40,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         // Update other properties as needed
         $category->save();
-        return redirect()->route('categories.index');
+        return redirect()->route('category.index');
     }
 
     /**

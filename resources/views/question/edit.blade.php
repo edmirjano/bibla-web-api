@@ -18,7 +18,7 @@
                         @endif
                         <div class="mb-4">
                             <label for="description" class="block text-gray-700">Description:</label>
-                            <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" required autofocus>{{ isset($question) ? $question->description : old('description') }}</textarea>
+                            <textarea id="description" name="description" class="border rounded px-3 py-2 w-full"  autofocus>{{ isset($question) ? $question->description : old('description') }}</textarea>
                         </div>
 
                         <div>
