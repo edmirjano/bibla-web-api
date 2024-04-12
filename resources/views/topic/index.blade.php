@@ -50,7 +50,7 @@
                                             {{ $topic->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ $topic->description }}
+                                            {!! $topic->description !!}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{ $topic->group->name }}

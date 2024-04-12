@@ -173,7 +173,7 @@
                                                     </svg>
                                                     <div>
                                                         <h2 class="text-lg font-semibold text-gray-800">Topic Name: {{$topic->name}}</h2>
-                                                        <p class="text-gray-600">{{$topic->description}}</p>
+                                                        <p class="text-gray-600">{!!$topic->description!!}</p>
                                                     </div>
                                                 </div>
                                                 <div class="flex px-2">
@@ -214,7 +214,7 @@
                                                                 </svg>
                                                                 <div>
                                                                     <div class="font-semibold text-sm text-gray-800">Section Name: {{$section->name}}</div>
-                                                                    <p class="text-sm text-gray-600">{{$section->description}}</p>
+                                                                    <p class="text-sm text-gray-600">{!!$section->description!!}</p>
                                                                 </div>
                                                             </div>
                                                             <div class="flex px-2">
@@ -248,7 +248,10 @@
                                                             <div class="py-5">
                                                             @foreach($section->questions as $question)
                                                                 <div class="my-4 p-2 flex justify-between border-gray-300 bg-gray-400">
-                                                                    <p class="text-gray-800">{{$loop->iteration}}. {{$question->description}}</p>
+                                                                    <div class="text-gray-800 flex flex-row">
+                                                                        <div style="widht: 20px; "> {{$loop->iteration}}.</div>
+                                                                        <div class="pl-2">{!!$question->description!!}</div>
+                                                                        </div>
                                                                     <div class="flex px-2">
                                                                         <a href="{{route('question.edit',$question->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
                                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"

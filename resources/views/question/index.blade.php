@@ -39,7 +39,7 @@
                                 @foreach ($questions as $question)
                                     <tr class="cursor-pointer">
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ $question->description }}
+                                            {!! $question->description !!}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{ $question->section->name }}

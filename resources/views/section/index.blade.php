@@ -45,7 +45,7 @@
                                             {{ $section->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ $section->description }}
+                                            {!! $section->description !!}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{ $section->topic->name }}
