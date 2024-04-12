@@ -53,20 +53,14 @@ class BookController extends Controller
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
-
-            // Store the image in the storage/app/public directory
             $coverPath = $cover->storeAs('public/books', $coverName);
-
-            // If you're using symbolic links for storage, generate the URL
-            $coverUrl = Storage::disk('public')->url($coverPath);
         } else {
-            // Handle case where no cover image is uploaded
             $coverUrl = null;
         }
 
         $book = new Book();
         $book->name = $request->name;
-        $book->cover = $coverUrl;
+        $book->cover = 'storage/books/'.$coverName;
         $book->slug = $request->slug;
         $book->description = $request->description;
         $book->detailed_info = $request->detailed_info;
@@ -126,10 +120,10 @@ class BookController extends Controller
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
-            $coverPath = $cover->storeAs('public/books/images', $coverName);
-            $coverUrl = Storage::url($coverPath);
+            $coverPath = $cover->storeAs('public/books', $coverName);
+            $coverUrl = 'storage/books/'.$coverName;;
         } else {
-            $coverUrl = null;
+            $coverUrl = $book->cover;
         }
         $book->name = $request->name;
         $book->cover = $coverUrl;
