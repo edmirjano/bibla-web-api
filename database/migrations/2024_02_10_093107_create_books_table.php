@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug')->unique();
-            $table->text('description');
-            $table->text('detailed_info');
+            $table->text('description')->nullable();
+            $table->text('detailed_info')->nullable();
             $table->string('cover')->nullable();
-            $table->string('author');
-            $table->float('rating');
+            $table->string('author')->nullable();
+            $table->float('rating')->nullable();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

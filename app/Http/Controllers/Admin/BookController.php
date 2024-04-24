@@ -42,12 +42,8 @@ class BookController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'slug' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'detailed_info' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
             'category_id' => 'exists:categories,id',
-            'rating' => 'required|numeric|max:255'
+            'rating' => 'numeric|max:255'
         ]);
 
         if ($request->hasFile('cover')) {
@@ -55,7 +51,7 @@ class BookController extends Controller
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/books', $coverName);
         } else {
-            $coverUrl = null;
+            $coverName = null;
         }
 
         $book = new Book();

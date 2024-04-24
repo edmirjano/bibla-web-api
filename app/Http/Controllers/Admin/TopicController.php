@@ -39,7 +39,7 @@ class TopicController extends Controller
         $groups = Group::all();
 
         $books = Book::with('groups')->get();
-        return view('topic.edit', compact('books','groups'));
+        return view('topic.edit', compact('books', 'groups'));
     }
 
     /**
@@ -62,9 +62,10 @@ class TopicController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(int $groupId)
     {
-        //
+        $topics = Topic::where('group_id', $groupId)->get();
+        return view('topic.index', compact('topics'));
     }
 
     /**
@@ -76,7 +77,8 @@ class TopicController extends Controller
         $groups = Group::all();
         $books = Book::with('groups')->get();
 
-        return view('topic.edit', compact('topic', 'books', 'groups'));    }
+        return view('topic.edit', compact('topic', 'books', 'groups'));
+    }
 
     /**
      * Update the specified resource in storage.
@@ -103,4 +105,9 @@ class TopicController extends Controller
         return redirect()->back();
     }
 
+    public function getByBook(int $bookId)
+    {
+        $topics = Topic::where('book_id', $bookId)->get();
+        return view('topic.index', compact('topics'));
+    }
 }

@@ -35,8 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('/book',BookController::class);
     Route::resource('/classroom',ClassRoomController::class);
     Route::resource('/category',CategoryController::class);
-    Route::resource('/group',GroupController::class);
+        Route::resource('/group',GroupController::class);
     Route::resource('/topic',TopicController::class);
+    Route::get('/book-topic/{bookId}',[TopicController::class,'getByBook'])->name('topic.byBook');
     Route::resource('/section',SectionController::class);
    Route::resource('/question',QuestionController::class);
     Route::get('/classrooms/{classroomId}/remove-user/{userId}', [ClassRoomController::class, 'removeUser'])

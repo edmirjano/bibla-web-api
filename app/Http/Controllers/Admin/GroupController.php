@@ -21,6 +21,15 @@ class GroupController extends Controller
         return view('groups.index', compact('groups'));
     }
 
+    public function show(int $bookId)
+    {
+        $groups = Group::where('book_id', $bookId)->get();
+        $book = Book::find($bookId);
+
+        return view('books.bookGroups', compact('groups', 'book'));
+
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -46,15 +55,18 @@ class GroupController extends Controller
     {
         $request->validate([
             'name' => 'required',
-           'book_id'=>'required'
+            'book_id' => 'exists:books,id'
         ]);
-       $newGroup=new Group();
-       $newGroup->name=$request->name;
-       $newGroup->book_id=$request->book_id;
-       $newGroup->save();
-        $session=session('previous_url');
-        session()->forget('previous_url');
-        return redirect()->to($session);
+        $bookId = $request->book_id;
+        $newGroup = new Group();
+        $newGroup->name = $request->name;
+        $newGroup->book_id = $bookId;
+        $newGroup->save();
+        $groups = Group::where('book_id', $bookId)->get();
+        $book = Book::find($bookId);
+
+        return view('books.bookGroups', compact('groups', 'book'));
+
     }
 
 
@@ -64,8 +76,8 @@ class GroupController extends Controller
     public function edit(Group $group)
     {
         session(['previous_url' => url()->previous()]);
-        $books=Book::all();
-        return view('groups.edit', compact('group','books'));
+        $books = Book::all();
+        return view('groups.edit', compact('group', 'books'));
     }
 
     /**
@@ -82,9 +94,6 @@ class GroupController extends Controller
         }
 
         $group->update($request->only('name', 'book_id'));
-        $session=session('previous_url');
-        session()->forget('previous_url');
-        return redirect()->to($session);
     }
 
     /**
