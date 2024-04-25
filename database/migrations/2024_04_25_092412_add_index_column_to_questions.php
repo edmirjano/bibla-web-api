@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('topics', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->foreignId('group_id')->constrained()->onDelete('cascade');
-            $table->text('description');
-            $table->timestamps();
+        Schema::table('questions', function (Blueprint $table) {
+            $table->integer('index')->after('id')->nullable();
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('topics');
+        Schema::table('questions', function (Blueprint $table) {
+            $table->dropColumn('index');
+        });
     }
 };

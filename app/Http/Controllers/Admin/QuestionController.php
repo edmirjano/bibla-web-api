@@ -43,8 +43,8 @@ class QuestionController extends Controller
         $request->validate([
             'description' => 'required|string|max:255',
             'section_id' => 'required|exists:sections,id',
+            'index'=>'nullable|integer'
         ]);
-
         Question::create($request->all());
         $session=session('previous_url');
         session()->forget('previous_url');
@@ -78,8 +78,9 @@ class QuestionController extends Controller
         $request->validate([
             'description' => 'required|string|max:255',
             'section_id' => 'required|exists:sections,id',
+            'index'=>'nullable|integer'
         ]);
-        $question->update(['description' => $request->description, "section_id" => $request->section_id]);
+        $question->update(['description' => $request->description, "section_id" => $request->section_id,"index"=>$request->index]);
         $session=session('previous_url');
         session()->forget('previous_url');
         return redirect()->to($session);

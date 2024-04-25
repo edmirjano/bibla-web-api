@@ -17,11 +17,6 @@ trait RelationshipTrait
         return $this->belongsTo(Category::class);
     }
 
-    public function topics():HasMany
-    {
-        return $this->hasMany(Topic::class);
-    }
-
     public function classroom(): HasOne
     {
         return $this->hasOne(Classroom::class);
@@ -29,5 +24,9 @@ trait RelationshipTrait
     public function groups(): HasMany
     {
         return $this->hasMany(Group::class);
+    }
+    public function topics()
+    {
+        return $this->hasManyThrough(Topic::class, Group::class);
     }
 }

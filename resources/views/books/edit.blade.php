@@ -96,7 +96,7 @@
                             </div>
                         </div>
                         <div id="imagePreview" class="mt-2"></div>
-                        @isset($book)
+                        @isset($book->cover)
                         <div  class="mt-2 w-48">
 
                             <img src={{asset($book->cover)}} alt={{$book->name}}>

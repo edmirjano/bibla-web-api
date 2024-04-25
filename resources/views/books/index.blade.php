@@ -23,20 +23,19 @@
                         <table class="w-full divide-gray-200 px-5">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th
-                                    class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Name
-
-                                <th
-                                    class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                </th>
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Author
                                 </th>
-                                <th
-                                    class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Category
                                 </th>
-                                <th
-                                    class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Action
+                                </th>
+                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 </th>
                             </tr>
                             </thead>
@@ -52,6 +51,12 @@
                                     </td>
                                     <td class="px-4 py-4 whitespace-nowrap">
                                         {{ $book->category->name }}
+                                    </td>
+                                    <td >
+
+                                        <a href="{{ route('group.show', $book->id) }}" class="text-blue-600 hover:underline">Show Groups</a> |
+                                        <a href="{{ route('topic.byBook', $book->id) }}" class="text-blue-600 hover:underline">Show Topics</a>
+
                                     </td>
                                     <td class="px-4 py-4 whitespace-nowrap flex justify-end">
                                         <div class="flex items-center space-x-3 align-middle">
@@ -81,13 +86,9 @@
                                             </form>
                                         </div>
                                     </td>
-                                <tr>
 
-                                    <td><a href="{{ route('group.show', $book->id) }}" class=" ">Show Groups</a></td>
-                                    <td><a href="{{ route('topic.byBook', [ $book->id]) }}" class="">Show Topic</a></td>
-                                    <td><a href="{{ route('section.show', $book->id) }}" class="">Show Groups</a></td>
                                 </tr>
-                                </tr>
+
 
                             @endforeach
                             </tbody>

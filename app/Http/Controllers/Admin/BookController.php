@@ -9,6 +9,7 @@ use App\Models\Group\Group;
 use App\Models\Question\Question;
 use Dotenv\Repository\Adapter\ReplacingWriter;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -18,6 +19,7 @@ class BookController extends Controller
      */
     public function index()
     {
+        Session::put('url',request()->fullUrl());
         $books = Book::all();
 
         return view('books.index', compact('books'));
@@ -53,10 +55,9 @@ class BookController extends Controller
         } else {
             $coverName = null;
         }
-
         $book = new Book();
         $book->name = $request->name;
-        $book->cover = 'storage/books/'.$coverName;
+        $book->cover = isset($coverName)?'storage/books/'.$coverName:$coverName;
         $book->slug = $request->slug;
         $book->description = $request->description;
         $book->detailed_info = $request->detailed_info;
@@ -65,25 +66,10 @@ class BookController extends Controller
         $book->rating = $request->rating;
 
         $book->save();
-
-        return redirect()->route('book.edit',$book->id);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function storeGroup(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            // Add more validation rules as needed
-        ]);
-        $group = new Group();
-        // Update the book
-        $group->name = $request->name;
-        $group->book_id = $request->book_id;
-        $group->save();
-        return redirect()->route('book.edit', ['book' => $group->book_id]);
+if(session('url')){
+    return redirect(session('url'));
+}
+        return redirect()->route('book.index');
     }
 
     /**
@@ -105,12 +91,8 @@ class BookController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'slug' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'detailed_info' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
             'category_id' => 'exists:categories,id',
-            'rating' => 'required|numeric|max:255'
+            'rating' => 'numeric|max:255'
         ]);
 
         if ($request->hasFile('cover')) {
@@ -130,7 +112,9 @@ class BookController extends Controller
         $book->category_id = $request->category_id;
         $book->rating = $request->rating;
         $book->update();
-
+        if(session('url')){
+            return redirect(session('url'));
+        }
         return redirect()->route('book.index');
     }
 

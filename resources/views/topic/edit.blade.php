@@ -29,55 +29,27 @@
                             </div>
 
                             <div>
-
-                                <label for="book_id" class="block font-medium text-sm text-gray-700">Select
-                                    Book</label>
-                                <select id="book_id" name="book_id"
+                                <label for="group_id" class="block font-medium text-sm text-gray-700">Select Group</label>
+                                <select id="group_id" name="group_id"
                                         class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                         autofocus>
-                                    @if (isset($book))
-                                        <option value="{{ $book->id }}" selected>{{ $book->name }}</option>
+                                        required autofocus>
+                                    @if(isset($groupId))
+                                        <option value="{{ $groupId }}" selected>{{ $groups->where('id', $groupId)->first()->name }}</option>
                                     @else
-                                        <option value="">Select Book</option>
-                                        @foreach ($books as $book)
-                                            <option value="{{ $book->id }}"
-                                                {{ isset($topic) && $topic->book && $book_id == $book->id ? 'selected' : '' }}>
-                                                {{ $book->name }}
-                                            </option>
-                                        @endforeach
-                                    @endif
-                                </select>
-
-                                @error('group_id')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div>
-                                <label for="group_id" class="block font-medium text-sm text-gray-700">Select
-                                    Group</label>
-                                @if(isset($group))
-                                <select id="group" name="group_id"
-                                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    required autofocus>
-                                    <option value="{{$group->id}}">{{$group->name}}</option>
-                                </select>
-                                @else
-                                    <select id="group_id" name="group_id"
-                                            class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                            required autofocus>
                                         <option value="">Select Group</option>
                                         @foreach($groups as $group)
                                             <option value="{{ $group->id }}" {{ isset($topic) && $topic->group_id == $group->id ? 'selected' : '' }}>
                                                 {{ $group->name }}
                                             </option>
-
                                         @endforeach
-                                    </select>
-                                    @error('group_id')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                    @enderror
-                                @endif
+                                    @endif
+                                </select>
+                                @error('group_id')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                             </div>
+
+
 
                             <div class="w-full">
                                 <label for="description" class="block font-medium text-sm text-gray-700">Description</label>
@@ -101,31 +73,107 @@
                         @endif
                     </form>
                 </div>
+
+                @isset($topic)
+                <div class="section px-4">
+                    <div class="py-5">
+                        @foreach($topic->sections as $section)
+                            <div class="my-2 bg-gray-300 rounded-sm">
+                                <div class="flex justify-between items-center cursor-pointer border-b border-gray-300 py-4 " onclick="toggleAccordion(this)">
+                                    <div class="flex items-center">
+                                        <svg class="w-6 h-6 mr-3 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                        <div>
+                                            <div class="font-semibold text-sm text-gray-800">Section Name: {{$section->name}}</div>
+                                            <p class="text-sm text-gray-600">{!!$section->description!!}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex px-2">
+
+                                        <a href="{{route('section.edit',$section->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                 height="16" fill="currentColor" class="bi bi-pencil"
+                                                 viewBox="0 0 16 16">
+                                                <path
+                                                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                                            </svg>
+                                        </a>
+                                        <form action="{{ route('section.destroy', $section->id) }}" method="POST"
+                                              class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-red-600 hover:text-red-900">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                     height="16" fill="currentColor" class="bi bi-trash"
+                                                     viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                    <path
+                                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <div class="py-5">
+                                            @foreach($section->questions()->orderBy('index')->get() as $question)
+                                                <div class="my-4 p-2 flex justify-between border-gray-300 bg-gray-400">
+                                                    <div class="text-gray-800 flex flex-row">
+                                                        <div style="widht: 20px; "> {{$loop->iteration}}.</div>
+                                                        <div class="pl-2">{!!$question->description!!}</div>
+                                                    </div>
+                                                    <div class="flex px-2">
+                                                        <a href="{{route('question.edit',$question->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                 height="16" fill="currentColor" class="bi bi-pencil"
+                                                                 viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
+                                                            </svg>
+                                                        </a>
+                                                        <form action="{{ route('question.destroy', $question->id) }}" method="POST"
+                                                              class="inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="text-red-600 hover:text-red-900">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                     height="16" fill="currentColor" class="bi bi-trash"
+                                                                     viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                                                                    <path
+                                                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                                                                </svg>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+
+                                        <a href="{{ route('question.create',['section_id'=>$section->id]) }}"
+                                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Question</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                        <a href="{{ route('section.create',['topic_id'=>$topic->id]) }}"
+                           class="bg-blue-500 hover:bg-blue-700 text-white font-bold  m-2 p-2 rounded">Create Section</a>
+                    </div>
+                </div>
             </div>
+            @endisset
+            </div>
+
         </div>
-
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
-
-            $('#book_id').change(function() {
-                var bookId = $(this).val();
-                $('#group_id').find('option').remove().end().append(
-                    '<option value="">Select Group</option>');
-                @if(isset($books))
-                if (bookId) {
-                    var groups = @json($books).find(book => book.id == bookId).groups;
-                    $.each(groups, function(key, group) {
-                        $('#group_id').append('<option value="' + group.id + '">' + group.name +
-                            '</option>');
-                    });
-                }
-                @endif
-            });
-        });
-    </script>
-    <script>
+        function toggleAccordion(element) {
+            element.nextElementSibling.classList.toggle('hidden');
+            const icon = element.querySelector('svg');
+            icon.classList.toggle('rotate-180');
+        }
         tinymce.init({
             selector: 'textarea',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',

@@ -56,12 +56,13 @@
                                         <input type="text" name="group_name" id="{{ $group->id }}" value="{{ $group->name }}">
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
+                                        <a href="{{route('topic.show',$group->id)}}" class="text-blue-600 hover:underline">Show topic</a>
+|
                                         <form action="{{ route('group.destroy', $group->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
                                         </form>
-                                        <a href="{{route('topic.show',$group->id)}}">Show topic</a>
                                     </td>
                                 </tr>
                             @endforeach
