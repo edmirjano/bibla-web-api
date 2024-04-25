@@ -16,9 +16,14 @@
                         @if (isset($question))
                             @method('PUT')
                         @endif
+
                         <div class="mb-4">
                             <label for="description" class="block text-gray-700">Description:</label>
                             <textarea id="description" name="description" class="border rounded px-3 py-2 w-full"  autofocus>{{ isset($question) ? $question->description : old('description') }}</textarea>
+                        </div>
+                        <div class="mb-4">
+                            <label for="index" class="block text-gray-700">Index for sort:</label>
+                            <input id="index" type="number" name="index" class="border rounded px-3 py-2 w-full" autofocus value="{{ isset($question) ? $question->index : old('index') }}">
                         </div>
 
                         <div>

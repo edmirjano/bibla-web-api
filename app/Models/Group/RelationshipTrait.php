@@ -15,7 +15,7 @@ trait RelationshipTrait
     }
     public function topics(): HasMany
     {
-        return $this->hasManY(Topic::class);
+        return $this->hasMany(Topic::class);
     }
 
 }

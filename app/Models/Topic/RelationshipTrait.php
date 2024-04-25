@@ -10,10 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 trait RelationshipTrait
 {
-    public function book(): BelongsTo
-    {
-        return $this->belongsTo(Book::class);
-    }
+
 
     public function sections(): HasMany
     {

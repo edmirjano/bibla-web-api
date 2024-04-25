@@ -34,31 +34,27 @@
                     </x-nav-link>
                 </div>
 
-                <div class="space-y-8">
-                    <x-nav-link :href="route('group.index')" :active="request()->routeIs('group.index')">
-                        {{ __('Groups') }}
-                    </x-nav-link>
+{{--                <div class="space-y-8">--}}
+{{--                    <x-nav-link :href="route('group.index')" :active="request()->routeIs('group.index')">--}}
+{{--                        {{ __('Groups') }}--}}
+{{--                    </x-nav-link>--}}
+{{--                </div>--}}
+{{--                <div class="space-y-8">--}}
+{{--                    <x-nav-link :href="route('topic.index')" :active="request()->routeIs('topic.index')">--}}
+{{--                        {{ __('Topics') }}--}}
+{{--                    </x-nav-link>--}}
+{{--                </div>--}}
+{{--                <div class="space-y-8">--}}
+{{--                    <x-nav-link :href="route('section.index')" :active="request()->routeIs('section.index')">--}}
+{{--                        {{ __('Sections') }}--}}
+{{--                    </x-nav-link>--}}
+{{--                </div>--}}
+{{--                <div class="space-y-8">--}}
+{{--                    <x-nav-link :href="route('question.index')" :active="request()->routeIs('question.index')">--}}
+{{--                        {{ __('Questions') }}--}}
+{{--                    </x-nav-link>--}}
                 </div>
-                <div class="space-y-8">
-                    <x-nav-link :href="route('topic.index')" :active="request()->routeIs('topic.index')">
-                        {{ __('Topics') }}
-                    </x-nav-link>
-                </div>
-                <div class="space-y-8">
-                    <x-nav-link :href="route('section.index')" :active="request()->routeIs('section.index')">
-                        {{ __('Sections') }}
-                    </x-nav-link>
-                </div>
-                <div class="space-y-8">
-                    <x-nav-link :href="route('question.index')" :active="request()->routeIs('question.index')">
-                        {{ __('Questions') }}
-                    </x-nav-link>
-                </div>
-                {{-- <div class="space-y-8">
-                    <x-nav-link :href="route('question.index')" :active="request()->routeIs('question.index')">
-                        {{ __('Questions') }}
-                    </x-nav-link>
-                </div> --}}
+
                 <hr>
                 @endrole
             </div>

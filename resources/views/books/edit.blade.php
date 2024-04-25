@@ -33,7 +33,7 @@
                                 <label for="slug" class="block font-medium text-sm text-gray-700">Slug</label>
                                 <input id="slug"
                                        class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       type="text" name="slug" value="{{ $book->slug ?? old('slug') }}" required
+                                       type="text" name="slug" value="{{ $book->slug ?? old('slug') }}"
                                        autofocus/>
                                 @error('slug')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -42,7 +42,7 @@
                             <div>
                                 <label for="description"
                                        class="block font-medium text-sm text-gray-700">Description</label>
-                                <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" required autofocus>
+                                <textarea id="description" name="description" class="border rounded px-3 py-2 w-full"  autofocus>
                                     {{$book->description ?? old('description')}}</textarea>
                                 @error('description')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -51,11 +51,8 @@
                             <div>
                                 <label for="detailed_info" class="block font-medium text-sm text-gray-700">Detailed
                                     Info</label>
-                                <input id="detailed_info"
-                                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       type="text" name="detailed_info"
-                                       value="{{ $book->detailed_info ?? old('detailed_info') }}" required autofocus
-                                       rows="10"/>
+                                <textarea id="detailed_info" name="detailed_info" class="border rounded px-3 py-2 w-full"  autofocus>
+                                   {{ $book->detailed_info ?? old('detailed_info') }}</textarea>
                                 @error('detailed_info')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -64,22 +61,13 @@
                                 <label for="author" class="block font-medium text-sm text-gray-700">Author</label>
                                 <input id="author"
                                        class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       type="text" name="author" value="{{ $book->author ?? old('author') }}" required
+                                       type="text" name="author" value="{{ $book->author ?? old('author') }}"
                                        autofocus/>
                                 @error('author')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div>
-                                <label for="rating" class="block font-medium text-sm text-gray-700">Rating</label>
-                                <input id="rating"
-                                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       type="number" name="rating" value="{{ $book->rating ?? old('rating') }}"
-                                       step="0.1" required autofocus/>
-                                @error('rating')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
-                            </div>
+
                             <div>
                                 <label for="category_id"
                                        class="block font-medium text-sm text-gray-700">Category</label>
@@ -108,7 +96,7 @@
                             </div>
                         </div>
                         <div id="imagePreview" class="mt-2"></div>
-                        @isset($book)
+                        @isset($book->cover)
                         <div  class="mt-2 w-48">
 
                             <img src={{asset($book->cover)}} alt={{$book->name}}>
@@ -122,187 +110,7 @@
                         </div>
                     </form>
                 </div>
-                @if(isset($book))
-                    <div class="container mx-auto">
-                        @foreach($book->groups as $group)
-                            <div class="group bg-gray-100 p-4 rounded-sm m-4">
-                                <div class="flex justify-between items-center cursor-pointer" onclick="toggleAccordion(this)">
-                                    <div class="flex items-center mb-4">
-                                        <svg class="w-6 h-6 mr-3 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                        </svg>
-                                        <div class="flex flex-row text-pretty">
-                                            <h3 class="text-lg font-semibold text-gray-800">Group Name</h3>
-                                            <h3 class="text-lg  text-gray-600 pl-2">{{$group->name}}</h3>
-                                        </div>
-                                    </div>
-                                    <div class="flex px-2">
-                                        <a href="{{route('group.edit',$group->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                 height="16" fill="currentColor" class="bi bi-pencil"
-                                                 viewBox="0 0 16 16">
-                                                <path
-                                                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                            </svg>
-                                        </a>
-                                        <form action="{{ route('group.destroy', $group->id) }}" method="POST"
-                                              class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                     height="16" fill="currentColor" class="bi bi-trash"
-                                                     viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                                    <path
-                                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                                </svg>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="bi-tropical-storm">
-                                    <div class="py-5">
-                                    @foreach($group->topics as $topic)
-                                        <div class="my-4 bg-gray-200 rounded-sm">
-                                            <div class="flex justify-between items-center cursor-pointer border-b border-gray-300 py-4" onclick="toggleAccordion(this)">
-                                                <div class="flex items-center">
-                                                    <svg class="w-6 h-6 mr-3 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                    </svg>
-                                                    <div>
-                                                        <h2 class="text-lg font-semibold text-gray-800">Topic Name: {{$topic->name}}</h2>
-                                                        <p class="text-gray-600">{!!$topic->description!!}</p>
-                                                    </div>
-                                                </div>
-                                                <div class="flex px-2">
 
-                                                    <a href="{{route('topic.edit',$topic->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                             height="16" fill="currentColor" class="bi bi-pencil"
-                                                             viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                                        </svg>
-                                                    </a>
-                                                    <form action="{{ route('topic.destroy', $topic->id) }}" method="POST"
-                                                          class="inline">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="text-red-600 hover:text-red-900">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                 height="16" fill="currentColor" class="bi bi-trash"
-                                                                 viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                                                <path
-                                                                    d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                                            </svg>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                            <div class="section">
-                                                <div class="py-5">
-                                                @foreach($topic->sections as $section)
-                                                    <div class="my-2 bg-gray-300 rounded-sm">
-                                                        <div class="flex justify-between items-center cursor-pointer border-b border-gray-300 py-4" onclick="toggleAccordion(this)">
-                                                            <div class="flex items-center">
-                                                                <svg class="w-6 h-6 mr-3 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                                                </svg>
-                                                                <div>
-                                                                    <div class="font-semibold text-sm text-gray-800">Section Name: {{$section->name}}</div>
-                                                                    <p class="text-sm text-gray-600">{!!$section->description!!}</p>
-                                                                </div>
-                                                            </div>
-                                                            <div class="flex px-2">
-
-                                                                <a href="{{route('section.edit',$section->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                         height="16" fill="currentColor" class="bi bi-pencil"
-                                                                         viewBox="0 0 16 16">
-                                                                        <path
-                                                                            d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                                                    </svg>
-                                                                </a>
-                                                                <form action="{{ route('section.destroy', $section->id) }}" method="POST"
-                                                                      class="inline">
-                                                                    @csrf
-                                                                    @method('DELETE')
-                                                                    <button type="submit" class="text-red-600 hover:text-red-900">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                             height="16" fill="currentColor" class="bi bi-trash"
-                                                                             viewBox="0 0 16 16">
-                                                                            <path
-                                                                                d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                                                            <path
-                                                                                d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                                                        </svg>
-                                                                    </button>
-                                                                </form>
-                                                            </div>
-                                                        </div>
-                                                        <div class="ml-4">
-                                                            <div class="py-5">
-                                                            @foreach($section->questions as $question)
-                                                                <div class="my-4 p-2 flex justify-between border-gray-300 bg-gray-400">
-                                                                    <div class="text-gray-800 flex flex-row">
-                                                                        <div style="widht: 20px; "> {{$loop->iteration}}.</div>
-                                                                        <div class="pl-2">{!!$question->description!!}</div>
-                                                                        </div>
-                                                                    <div class="flex px-2">
-                                                                        <a href="{{route('question.edit',$question->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                                 height="16" fill="currentColor" class="bi bi-pencil"
-                                                                                 viewBox="0 0 16 16">
-                                                                                <path
-                                                                                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                                                            </svg>
-                                                                        </a>
-                                                                        <form action="{{ route('question.destroy', $question->id) }}" method="POST"
-                                                                              class="inline">
-                                                                            @csrf
-                                                                            @method('DELETE')
-                                                                            <button type="submit" class="text-red-600 hover:text-red-900">
-                                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                                     height="16" fill="currentColor" class="bi bi-trash"
-                                                                                     viewBox="0 0 16 16">
-                                                                                    <path
-                                                                                        d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
-                                                                                    <path
-                                                                                        d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
-                                                                                </svg>
-                                                                            </button>
-                                                                        </form>
-                                                                    </div>
-                                                                </div>
-                                                            @endforeach
-
-                                                                <a href="{{ route('question.create',['section_id'=>$section->id]) }}"
-                                                                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Question</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                                    <a href="{{ route('section.create',['topic_id'=>$topic->id]) }}"
-                                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold  m-2 p-2 rounded">Create Section</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                        <a href="{{ route('topic.create', ['book_id' => $book->id,'group_id'=>$group->id]) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Topic</a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                <div class="flex justify-between">
-                    <a href="{{route('group.create',['book_id'=>$book->id])}}" class="btn-blue m-4">Create Group</a>
-                </div>
-                @endif
             </div>
     </div>
     </div>

@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Question extends Model
 {
     use HasFactory,RelationshipTrait;
-    protected $fillable=['description','section_id'];
+    protected $fillable=['description','section_id','index'];
 }
