@@ -41,7 +41,7 @@ class QuestionController extends Controller
     {
         //
         $request->validate([
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'section_id' => 'required|exists:sections,id',
             'index'=>'nullable|integer'
         ]);
@@ -76,7 +76,7 @@ class QuestionController extends Controller
     public function update(Request $request, Question $question)
     {
         $request->validate([
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'section_id' => 'required|exists:sections,id',
             'index'=>'nullable|integer'
         ]);

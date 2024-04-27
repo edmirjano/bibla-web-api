@@ -41,7 +41,6 @@ class TopicController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
             'group_id' => 'required|exists:groups,id',
         ]);
         Topic::create($request->all());
@@ -80,7 +79,6 @@ class TopicController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string',
             'group_id' => 'required|exists:groups,id',
         ]);
         $topic->update(['name' => $request->name, 'description' => $request->description, 'group_id' => $request->group_id]);
