@@ -53,7 +53,8 @@
 
                             <div class="w-full">
                                 <label for="description" class="block font-medium text-sm text-gray-700">Description</label>
-                                <textarea id="description" name="description" class="border rounded px-3 py-2 w-full"  autofocus>
+
+                                <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" autofocus>
                                         {{ isset($topic) ? $topic->description : old('description') }} </textarea>
                                 @error('description')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
