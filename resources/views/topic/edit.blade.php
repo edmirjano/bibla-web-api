@@ -53,6 +53,7 @@
 
                             <div class="w-full">
                                 <label for="description" class="block font-medium text-sm text-gray-700">Description</label>
+
                                 <textarea id="description" name="description" class="border rounded px-3 py-2 w-full" autofocus>
                                         {{ isset($topic) ? $topic->description : old('description') }} </textarea>
                                 @error('description')
@@ -85,8 +86,10 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                         </svg>
                                         <div>
-                                            <div class="font-semibold text-sm text-gray-800">Section Name: {{$section->name}}</div>
-                                            <p class="text-sm text-gray-600">{!!$section->description!!}</p>
+                                            <div class="font-semibold text-sm text-gray-800">{{$section->name}}</div>
+                                            <p class="text-sm text-gray-600">
+                                                {{ \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($section->description)), 40) }}
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="flex px-2">
@@ -121,8 +124,8 @@
                                             @foreach($section->questions()->orderBy('index')->get() as $question)
                                                 <div class="my-4 p-2 flex justify-between border-gray-300 bg-gray-400">
                                                     <div class="text-gray-800 flex flex-row">
-                                                        <div style="widht: 20px; "> {{$loop->iteration}}.</div>
-                                                        <div class="pl-2">{!!$question->description!!}</div>
+                                                        <div style="widht: 20px; "> {{$question->index}}.</div>
+                                                        <div class="pl-2">{{html_entity_decode(strip_tags($question->description))}}</div>
                                                     </div>
                                                     <div class="flex px-2">
                                                         <a href="{{route('question.edit',$question->id)}}" class="text-yellow-600 hover:text-yellow-900 px-4">

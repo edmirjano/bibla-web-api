@@ -44,7 +44,6 @@ class SectionController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
             'topic_id' => 'required|exists:topics,id',
         ]);
 
@@ -85,7 +84,6 @@ class SectionController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
             'topic_id' => 'required|exists:topics,id',
         ]);
 

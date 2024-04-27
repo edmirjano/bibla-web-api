@@ -15,7 +15,8 @@
                         </div>
                         <div>
                             <a href="{{ isset($bookId) ? route('topic.create', ['bookId' => $bookId]) : route('topic.create', ['groupId' => $groupId]) }}"
-                               class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Topic</a>
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create
+                                Topic</a>
                         </div>
 
                     </div>
@@ -37,10 +38,6 @@
                                     </th>
                                     <th
                                         class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Book Name
-                                    </th>
-                                    <th
-                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     </th>
                                 </tr>
                             </thead>
@@ -51,17 +48,15 @@
                                             {{ $topic->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            {!! $topic->description !!}
-                                        </td>
+                                            {{ \Illuminate\Support\Str::limit(strip_tags($topic->description), 40) }}
+                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             {{ $topic->group->name }}
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            {{ $topic->group->book->name }}
-                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap flex justify-end">
                                             <div class="flex items-center space-x-3 align-middle">
-                                                <a href="{{ route('topic.edit', $topic->id) }}" class="text-yellow-600 hover:text-yellow-900">
+                                                <a href="{{ route('topic.edit', $topic->id) }}"
+                                                    class="text-yellow-600 hover:text-yellow-900">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                         height="16" fill="currentColor" class="bi bi-pencil"
                                                         viewBox="0 0 16 16">
