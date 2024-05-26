@@ -43,6 +43,7 @@ class TopicController extends Controller
             'name' => 'required|string|max:255',
             'group_id' => 'required|exists:groups,id',
         ]);
+        
         Topic::create($request->all());
         if(session('url')){
             return redirect(session('url'));
