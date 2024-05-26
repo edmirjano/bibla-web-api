@@ -45,10 +45,23 @@ class ClassRoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+
+    public function edit(Request $request, string $id)
     {
         $classroom = Classroom::findOrFail($id);
-        $users = User::whereNotIn('id', $classroom->users->pluck('id'))->get();
+
+
+        $usersQuery = User::whereNotIn('id', $classroom->users->pluck('id'));
+
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $usersQuery->where(function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $usersQuery->paginate(10);
         return view('classroom.edit', compact('classroom', 'users'));
     }
 

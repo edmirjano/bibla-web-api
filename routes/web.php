@@ -9,7 +9,7 @@ use App\Http\Controllers\Admin\TopicController;
 use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Admin\QuestionController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Admin\UsersController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,6 +42,10 @@ Route::middleware('auth')->group(function () {
    Route::resource('/question',QuestionController::class);
     Route::get('/classrooms/{classroomId}/remove-user/{userId}', [ClassRoomController::class, 'removeUser'])
         ->name('classroom.removeUser');
+    Route::post('classroom/{classroomId}/add-user/{userId}', [ClassRoomController::class,'addUser'])->name('classroom.addUser');
+
+
+    Route::resource('/users', UsersController::class)->except(['show']);
     // Route::post('/group',[BookController::class,'storeGroup'])->name('group.store');
 });
 
