@@ -10,6 +10,10 @@ use App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\Admin\QuestionController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\AuthorController;
+use App\Http\Controllers\Admin\PlaylistController;
+use App\Http\Controllers\Admin\SongController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,7 +25,7 @@ use App\Http\Controllers\Admin\UsersController;
 |
 */
 
-Route::get('/',[\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'create']);
+Route::get('/', [\App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'create']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -32,21 +36,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('/book',BookController::class);
-    Route::resource('/classroom',ClassRoomController::class);
-    Route::resource('/category',CategoryController::class);
-        Route::resource('/group',GroupController::class);
-    Route::resource('/topic',TopicController::class);
-    Route::get('/book-topic/{bookId}',[TopicController::class,'getByBook'])->name('topic.byBook');
-    Route::resource('/section',SectionController::class);
-   Route::resource('/question',QuestionController::class);
+    Route::resource('/book', BookController::class);
+    Route::resource('/classroom', ClassRoomController::class);
+    Route::resource('/category', CategoryController::class);
+    Route::resource('/group', GroupController::class);
+    Route::resource('/topic', TopicController::class);
+    Route::get('/book-topic/{bookId}', [TopicController::class, 'getByBook'])->name('topic.byBook');
+    Route::resource('/section', SectionController::class);
+    Route::resource('/question', QuestionController::class);
     Route::get('/classrooms/{classroomId}/remove-user/{userId}', [ClassRoomController::class, 'removeUser'])
         ->name('classroom.removeUser');
-    Route::post('classroom/{classroomId}/add-user/{userId}', [ClassRoomController::class,'addUser'])->name('classroom.addUser');
-
+    Route::post('classroom/{classroomId}/add-user/{userId}', [ClassRoomController::class, 'addUser'])->name('classroom.addUser');
+    Route::resource('/song', SongController::class);
+    Route::resource('/author', AuthorController::class);
+    Route::resource('/playlist', PlaylistController::class);
 
     Route::resource('/users', UsersController::class)->except(['show']);
     // Route::post('/group',[BookController::class,'storeGroup'])->name('group.store');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
