@@ -55,7 +55,7 @@ class AuthorController extends Controller
         return redirect()->route('author.index');
     }
 
-    public function getAuthor()
+    public function getAuthors()
     {
         $authors = Author::all();
         return response()->json($authors);
