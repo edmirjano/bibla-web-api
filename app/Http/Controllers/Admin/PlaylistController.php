@@ -103,9 +103,9 @@ class PlaylistController extends Controller
         $playlist = new Playlist();
         $playlist->title = $request->title;
         $playlist->user_id = auth()->id();
+        $playlist->save();
         $playlist->songs()->attach($request->songs);
 
-        $playlist->save();
         return response()->json($playlist);
     }
 }
