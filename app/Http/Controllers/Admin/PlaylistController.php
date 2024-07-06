@@ -92,10 +92,20 @@ class PlaylistController extends Controller
         $playlist->delete();
         return redirect()->route('playlist.index');
     }
-    
+
     public function getPlaylists()
     {
         $playlists = Playlist::all();
         return response()->json($playlists);
+    }
+
+    public function createPlaylist(Request $request){
+        $playlist = new Playlist();
+        $playlist->title = $request->title;
+        $playlist->user_id = auth()->id();
+        $playlist->songs()->attach($request->songs);
+
+        $playlist->save();
+        return response()->json($playlist);
     }
 }

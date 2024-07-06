@@ -39,9 +39,9 @@ Route::get('/getPlaylists', [\App\Http\Controllers\Admin\PlaylistController::cla
 Route::post('/addSongViewer/{id}', [\App\Http\Controllers\Admin\SongController::class, 'addViewer']);
 Route::post('/addSongFavorite/{id}', [\App\Http\Controllers\Admin\SongController::class, 'addFavorite']);
 Route::post('/removeSongFavorite/{id}', [\App\Http\Controllers\Admin\SongController::class, 'removeFavorite']);
-Route::post('/createPlaylist', [\App\Http\Controllers\Admin\PlaylistController::class, 'store']);
+// Route::post('/createPlaylist', [\App\Http\Controllers\Admin\PlaylistController::class, 'store']);
 Route::post('/addSongToPlaylist', [\App\Http\Controllers\Admin\PlaylistController::class, 'addSong']);
 Route::post('/removeSongFromPlaylist', [\App\Http\Controllers\Admin\PlaylistController::class, 'removeSong']);
 
-
+Route::post('/createPlaylist', [\App\Http\Controllers\Admin\PlaylistController::class, 'createPlaylist']);
 Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
