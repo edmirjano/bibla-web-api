@@ -102,7 +102,7 @@ class PlaylistController extends Controller
     public function createPlaylist(Request $request){
         $playlist = new Playlist();
         $playlist->title = $request->title;
-        $playlist->user_id = auth()->id();
+        $playlist->user_id = $request->user_id;
         $playlist->save();
         $playlist->songs()->attach($request->songs);
 
