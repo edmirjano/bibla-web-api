@@ -35,8 +35,18 @@
                 </div>
                 <hr>
                 <div class="space-y-8">
-                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
-                        {{ __('Users') }}
+                    <x-nav-link :href="route('song.index')" :active="request()->routeIs('songs.index')">
+                        {{ __('Songs') }}
+                    </x-nav-link>
+                </div>
+                <div class="space-y-8">
+                    <x-nav-link :href="route('author.index')" :active="request()->routeIs('authors.index')">
+                        {{ __('Authors') }}
+                    </x-nav-link>
+                </div>
+                <div class="space-y-8">
+                    <x-nav-link :href="route('playlist.index')" :active="request()->routeIs('playlist.index')">
+                        {{ __('Playlist') }}
                     </x-nav-link>
                 </div>
 {{--                <div class="space-y-8">--}}
@@ -59,7 +69,12 @@
 {{--                        {{ __('Questions') }}--}}
 {{--                    </x-nav-link>--}}
                 </div>
-
+                <hr>
+                <div class="space-y-8">
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                        {{ __('Users') }}
+                    </x-nav-link>
+                </div>
                 <hr>
                 @endrole
             </div>
