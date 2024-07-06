@@ -9,10 +9,14 @@ use App\Http\Controllers\Controller;
 
 class PlaylistController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $playlists = Playlist::all();
-        return view('playlists.index', compact('playlists'));
+        if ($request->wantsJson()) {
+            return response()->json($playlists);
+        } else {
+            return view('playlists.index', compact('playlists'));
+        }
     }
 
     public function create()
@@ -24,18 +28,22 @@ class PlaylistController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
         ]);
-
         $playlist = new Playlist();
-        $playlist->name = $request->name;
+        $playlist->title = $request->title;
+        $playlist->user_id = $request->user_id;
         $playlist->save();
 
-        if($request->songs){
+        if ($request->songs) {
             $playlist->songs()->attach($request->songs);
         }
 
-        return redirect()->route('playlist.index');
+        if ($request->wantsJson()) {
+            return response()->json($playlist);
+        } else {
+            return redirect()->route('playlist.index');
+        }
     }
 
     public function edit(Playlist $playlist)
@@ -53,8 +61,27 @@ class PlaylistController extends Controller
         $playlist->name = $request->name;
         $playlist->update();
 
-        if($request->songs){
+        if ($request->songs) {
             $playlist->songs()->sync($request->songs);
+        }
+
+        return redirect()->route('playlist.index');
+    }
+
+
+    public function createPlaylistFromUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $playlist = new Playlist();
+        $playlist->title = $request->title;
+        $playlist->user_id = $request->id();
+        $playlist->save();
+
+        if ($request->songs) {
+            $playlist->songs()->attach($request->songs);
         }
 
         return redirect()->route('playlist.index');
@@ -64,5 +91,11 @@ class PlaylistController extends Controller
     {
         $playlist->delete();
         return redirect()->route('playlist.index');
+    }
+    
+    public function getPlaylists()
+    {
+        $playlists = Playlist::all();
+        return response()->json($playlists);
     }
 }

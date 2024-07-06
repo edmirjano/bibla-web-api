@@ -54,4 +54,10 @@ class AuthorController extends Controller
         $author->delete();
         return redirect()->route('author.index');
     }
+
+    public function getAuthor()
+    {
+        $authors = Author::all();
+        return response()->json($authors);
+    }
 }
