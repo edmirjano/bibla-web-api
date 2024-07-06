@@ -95,7 +95,7 @@ class PlaylistController extends Controller
 
     public function getPlaylists()
     {
-        $playlists = Playlist::all();
+        $playlists = Playlist::with('songs')->get();
         return response()->json($playlists);
     }
 
