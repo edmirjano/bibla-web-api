@@ -19,7 +19,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        Session::put('url',request()->fullUrl());
+        Session::put('url', request()->fullUrl());
         $books = Book::all();
 
         return view('books.index', compact('books'));
@@ -47,7 +47,6 @@ class BookController extends Controller
             'category_id' => 'exists:categories,id',
             'rating' => 'numeric|max:255'
         ]);
-
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
@@ -57,7 +56,7 @@ class BookController extends Controller
         }
         $book = new Book();
         $book->name = $request->name;
-        $book->cover = isset($coverName)?'storage/books/'.$coverName:$coverName;
+        $book->cover = isset($coverName) ? 'storage/books/' . $coverName : $coverName;
         $book->slug = $request->slug;
         $book->description = $request->description;
         $book->detailed_info = $request->detailed_info;
@@ -66,9 +65,9 @@ class BookController extends Controller
         $book->rating = $request->rating;
 
         $book->save();
-if(session('url')){
-    return redirect(session('url'));
-}
+        if (session('url')) {
+            return redirect(session('url'));
+        }
         return redirect()->route('book.index');
     }
 
@@ -99,7 +98,7 @@ if(session('url')){
             $cover = $request->file('cover');
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/books', $coverName);
-            $coverUrl = 'storage/books/'.$coverName;;
+            $coverUrl = 'storage/books/' . $coverName;;
         } else {
             $coverUrl = $book->cover;
         }
@@ -112,7 +111,7 @@ if(session('url')){
         $book->category_id = $request->category_id;
         $book->rating = $request->rating;
         $book->update();
-        if(session('url')){
+        if (session('url')) {
             return redirect(session('url'));
         }
         return redirect()->route('book.index');
