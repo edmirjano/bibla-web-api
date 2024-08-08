@@ -15,14 +15,14 @@ class PlaylistController extends Controller
         if ($request->wantsJson()) {
             return response()->json($playlists);
         } else {
-            return view('playlists.index', compact('playlists'));
+            return view('playlist.index', compact('playlists'));
         }
     }
 
     public function create()
     {
         $songs = Song::all();
-        return view('playlists.create', compact('songs'));
+        return view('playlist.create', compact('songs'));
     }
 
     public function store(Request $request)
@@ -49,7 +49,7 @@ class PlaylistController extends Controller
     public function edit(Playlist $playlist)
     {
         $songs = Song::all();
-        return view('playlists.edit', compact('playlist', 'songs'));
+        return view('playlist.edit', compact('playlist', 'songs'));
     }
 
     public function update(Request $request, Playlist $playlist)
