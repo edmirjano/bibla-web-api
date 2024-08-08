@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class UsersSeeder extends Seeder
 {
@@ -16,13 +14,8 @@ class UsersSeeder extends Seeder
      */
     public function run(): void
     {
-      $superAdmin= User::create([
-           'name' =>'super-admin',
-           'email' => 'super-admin@gmail.com',
-           'email_verified_at' => now(),
-           'password' => static::$password ??= Hash::make('password'),
-           ]);
-      $superAdmin->assignRole('super-admin');
+
+
         $admin= User::create([
             'name' =>'admin',
             'email' => 'admin@gmail.com',

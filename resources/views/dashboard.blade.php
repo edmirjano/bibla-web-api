@@ -9,18 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-
-                    @if(auth()->check())
-                        <div>
-                            <h3>Your Permissions:</h3>
-                            <ul>
-                                @foreach(auth()->user()->getAllPermissions() as $permission)
-                                    <li>{{ $permission->name }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    <h4>Welcome, {{auth()->user()->name}}!</h4>
                 </div>
             </div>
         </div>

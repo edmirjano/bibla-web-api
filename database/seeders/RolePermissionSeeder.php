@@ -19,12 +19,10 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'manage-permissions']);
         Permission::create(['name' => 'manage-posts']);
         Permission::create(['name' => 'manage-telescope']);
-        Role::create(['name' => 'super-admin'])->givePermissionTo([
+        Role::create(['name' => 'admin'])->givePermissionTo([
            'manage-users','manage-roles','manage-permissions','manage-posts','manage-telescope'
         ]);
-        Role::create(['name' => 'admin'])->givePermissionTo([
-            'manage-users','manage-permissions','manage-posts','manage-telescope'
-        ]);
+
         Role::create(['name' => 'teacher'])->givePermissionTo([
          'manage-posts',
         ]);
