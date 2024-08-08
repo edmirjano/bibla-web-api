@@ -11,12 +11,12 @@ class AuthorController extends Controller
     public function index()
     {
         $authors = Author::all();
-        return view('authors.index', compact('authors'));
+        return view('author.index', compact('authors'));
     }
 
     public function create()
     {
-        return view('authors.create');
+        return view('author.create');
     }
 
     public function store(Request $request)
@@ -34,7 +34,7 @@ class AuthorController extends Controller
 
     public function edit(Author $author)
     {
-        return view('authors.edit', compact('author'));
+        return view('author.edit', compact('author'));
     }
 
     public function update(Request $request, Author $author)
