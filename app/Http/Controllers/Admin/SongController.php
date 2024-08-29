@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Song;
-use App\Models\Author;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
+use App\Models\Author\Author;
+use App\Models\Song\Song;
+use Illuminate\Http\Request;
 
 class SongController extends Controller
 {

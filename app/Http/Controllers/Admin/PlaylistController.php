@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Playlist;
-use App\Models\Song;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\PlayList\Playlist;
+use App\Models\Song\Song;
+use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
 {

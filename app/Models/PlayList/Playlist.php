@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\PlayList;
 
+use App\Models\Song\Song;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
 class Playlist extends Model
 {
-    use HasFactory;
+    use HasFactory,RelationshipTrait;
 
     protected $fillable = ['title', 'number_of_songs', 'user_id'];
 
@@ -17,8 +17,4 @@ class Playlist extends Model
         return $this->belongsToMany(Song::class);
     }
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
 }
