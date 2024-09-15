@@ -1,0 +1,327 @@
+[
+    {
+        "Id": 1,
+        "Name": "Zanafilla ",
+        "Total_Chapters": 50
+    },
+    {
+        "Id": 2,
+        "Name": "Eksodi ",
+        "Total_Chapters": 40
+    },
+    {
+        "Id": 3,
+        "Name": "Levitiku ",
+        "Total_Chapters": 27
+    },
+    {
+        "Id": 4,
+        "Name": "Numrat ",
+        "Total_Chapters": 36
+    },
+    {
+        "Id": 5,
+        "Name": "Ligji i P\u00ebrt\u00ebrir\u00eb ",
+        "Total_Chapters": 34
+    },
+    {
+        "Id": 6,
+        "Name": "Jozueu ",
+        "Total_Chapters": 24
+    },
+    {
+        "Id": 7,
+        "Name": "Gjyqtar\u00ebt ",
+        "Total_Chapters": 21
+    },
+    {
+        "Id": 8,
+        "Name": "Ruthi ",
+        "Total_Chapters": 4
+    },
+    {
+        "Id": 9,
+        "Name": "1 i Samuelit ",
+        "Total_Chapters": 31
+    },
+    {
+        "Id": 10,
+        "Name": "2 i Samuelit ",
+        "Total_Chapters": 24
+    },
+    {
+        "Id": 11,
+        "Name": "1 i Mbret\u00ebrve ",
+        "Total_Chapters": 22
+    },
+    {
+        "Id": 12,
+        "Name": "2 i Mbret\u00ebrve ",
+        "Total_Chapters": 25
+    },
+    {
+        "Id": 13,
+        "Name": "1 i Kronikave ",
+        "Total_Chapters": 29
+    },
+    {
+        "Id": 14,
+        "Name": "2 i Kronikave ",
+        "Total_Chapters": 36
+    },
+    {
+        "Id": 15,
+        "Name": "Esdra ",
+        "Total_Chapters": 10
+    },
+    {
+        "Id": 16,
+        "Name": "Nehemia ",
+        "Total_Chapters": 13
+    },
+    {
+        "Id": 17,
+        "Name": "Ester ",
+        "Total_Chapters": 10
+    },
+    {
+        "Id": 18,
+        "Name": "Jobi ",
+        "Total_Chapters": 42
+    },
+    {
+        "Id": 19,
+        "Name": "Psalmet ",
+        "Total_Chapters": 150
+    },
+    {
+        "Id": 20,
+        "Name": "Fjal\u00ebt e urta ",
+        "Total_Chapters": 31
+    },
+    {
+        "Id": 21,
+        "Name": "Predikuesi ",
+        "Total_Chapters": 12
+    },
+    {
+        "Id": 22,
+        "Name": "Kantiku i Kantik\u00ebve ",
+        "Total_Chapters": 8
+    },
+    {
+        "Id": 23,
+        "Name": "Isaia ",
+        "Total_Chapters": 66
+    },
+    {
+        "Id": 24,
+        "Name": "Jeremia ",
+        "Total_Chapters": 52
+    },
+    {
+        "Id": 25,
+        "Name": "Vajtimet ",
+        "Total_Chapters": 5
+    },
+    {
+        "Id": 26,
+        "Name": "Ezekieli ",
+        "Total_Chapters": 48
+    },
+    {
+        "Id": 27,
+        "Name": "Danieli ",
+        "Total_Chapters": 12
+    },
+    {
+        "Id": 28,
+        "Name": "Osea ",
+        "Total_Chapters": 14
+    },
+    {
+        "Id": 29,
+        "Name": "Joeli ",
+        "Total_Chapters": 3
+    },
+    {
+        "Id": 30,
+        "Name": "Amosi ",
+        "Total_Chapters": 9
+    },
+    {
+        "Id": 31,
+        "Name": "Abdia ",
+        "Total_Chapters": 1
+    },
+    {
+        "Id": 32,
+        "Name": "Jona ",
+        "Total_Chapters": 4
+    },
+    {
+        "Id": 33,
+        "Name": "Mikea ",
+        "Total_Chapters": 7
+    },
+    {
+        "Id": 34,
+        "Name": "Nahumi ",
+        "Total_Chapters": 3
+    },
+    {
+        "Id": 35,
+        "Name": "Habakuku ",
+        "Total_Chapters": 3
+    },
+    {
+        "Id": 36,
+        "Name": "Sofonia ",
+        "Total_Chapters": 3
+    },
+    {
+        "Id": 37,
+        "Name": "Hagai ",
+        "Total_Chapters": 2
+    },
+    {
+        "Id": 38,
+        "Name": "Zakaria ",
+        "Total_Chapters": 14
+    },
+    {
+        "Id": 39,
+        "Name": "Malakia ",
+        "Total_Chapters": 4
+    },
+    {
+        "Id": 40,
+        "Name": "Mateu ",
+        "Total_Chapters": 28
+    },
+    {
+        "Id": 41,
+        "Name": "Marku ",
+        "Total_Chapters": 16
+    },
+    {
+        "Id": 42,
+        "Name": "Luka ",
+        "Total_Chapters": 24
+    },
+    {
+        "Id": 43,
+        "Name": "Gjoni ",
+        "Total_Chapters": 21
+    },
+    {
+        "Id": 44,
+        "Name": "Veprat e Apostujve ",
+        "Total_Chapters": 28
+    },
+    {
+        "Id": 45,
+        "Name": "Romak\u00ebve ",
+        "Total_Chapters": 16
+    },
+    {
+        "Id": 46,
+        "Name": "1 e Korintasve ",
+        "Total_Chapters": 16
+    },
+    {
+        "Id": 47,
+        "Name": "2 e Korintasve ",
+        "Total_Chapters": 13
+    },
+    {
+        "Id": 48,
+        "Name": "Galatasve ",
+        "Total_Chapters": 6
+    },
+    {
+        "Id": 49,
+        "Name": "Efesian\u00ebve ",
+        "Total_Chapters": 6
+    },
+    {
+        "Id": 50,
+        "Name": "Filipian\u00ebve ",
+        "Total_Chapters": 4
+    },
+    {
+        "Id": 51,
+        "Name": "Kolosian\u00ebve ",
+        "Total_Chapters": 4
+    },
+    {
+        "Id": 52,
+        "Name": "1 Thesalonikasve ",
+        "Total_Chapters": 5
+    },
+    {
+        "Id": 56,
+        "Name": "1 Timoteut ",
+        "Total_Chapters": 6
+    },
+    {
+        "Id": 57,
+        "Name": "2 Timoteut ",
+        "Total_Chapters": 4
+    },
+    {
+        "Id": 58,
+        "Name": "Titi ",
+        "Total_Chapters": 3
+    },
+    {
+        "Id": 59,
+        "Name": "Filemonit ",
+        "Total_Chapters": 1
+    },
+    {
+        "Id": 60,
+        "Name": "Hebrenjve ",
+        "Total_Chapters": 12
+    },
+    {
+        "Id": 61,
+        "Name": "Jakobit ",
+        "Total_Chapters": 5
+    },
+    {
+        "Id": 62,
+        "Name": "1 Pjetrit ",
+        "Total_Chapters": 5
+    },
+    {
+        "Id": 63,
+        "Name": "2 Pjetrit ",
+        "Total_Chapters": 3
+    },
+    {
+        "Id": 64,
+        "Name": "1 Gjonit ",
+        "Total_Chapters": 5
+    },
+    {
+        "Id": 65,
+        "Name": "2 Gjonit ",
+        "Total_Chapters": 1
+    },
+    {
+        "Id": 66,
+        "Name": "3 Gjonit ",
+        "Total_Chapters": 1
+    },
+    {
+        "Id": 67,
+        "Name": "Juda ",
+        "Total_Chapters": 1
+    },
+    {
+        "Id": 68,
+        "Name": "Zbulesa ",
+        "Total_Chapters": 21
+    }
+]

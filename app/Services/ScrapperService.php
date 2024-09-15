@@ -13,18 +13,20 @@ class ScrapperService
     private array $content;
     private string $url = "";
     private int $chapterCount;
-    private int $bookId = 0;
+    private int $bookId = 59;
     private array $bookContent = [];
 
     public function handle()
     {
+        // $this -> incrementIdsInJson("scrapper/perupdatealbb.json", "scrapper/perupdatealbb3.json", "scrapper/nocontent.json");
         $browser = new HttpBrowser(HttpClient::create());
         $urls = $this->readFile();
         $this->content = [];
 
         foreach ($urls as $index => $url) {
             try {
-dump($url);
+                $index += 1133;
+                dump($url);
                 $book = Str::between($url, '/7/', '.');
                 $newUrl = explode('.', $book)[0];
 
@@ -50,6 +52,59 @@ dump($url);
         $this->saveScrapperFiles();
     }
 
+    public function my_json_decode($s) {
+        $s = str_replace(
+            array('"',  "'"),
+            array('\"', '"'),
+            $s
+        );
+        $s = preg_replace('/(\w+):/i', '"\1":', $s);
+        return json_decode(sprintf('{%s}', $s));
+    }
+    public function incrementIdsInJson($inputFilePath, $outputFilePath, $noContentFilePath)
+    {
+        try {
+            // Read the JSON file
+            $jsonContent = Storage::disk('public')->get($inputFilePath);
+            $dataArray = json_decode($jsonContent, true);
+
+            // Check if the JSON content is an array
+            if (!is_array($dataArray)) {
+                throw new \Exception("Invalid JSON format.");
+            }
+
+            // Array to hold items without "Content" property
+            $noContentItems = [];
+
+            // Increment the Id field for each object in the array and find items without "Content"
+            foreach ($dataArray as &$item) {
+                if (!isset($item['Name'])) {
+                    dump($item);
+                    $noContentItems[] = $item;
+                }
+                if (isset($item['Id'])) {
+                    $item['Id'] += 1;
+                }
+            }
+
+            // Encode the modified array back to JSON
+            $modifiedJsonContent = json_encode($dataArray, JSON_PRETTY_PRINT);
+
+            // Save the modified JSON to the original output file
+            Storage::disk('public')->put($outputFilePath, $modifiedJsonContent);
+
+            // Encode the noContentItems array to JSON
+            $noContentJsonContent = json_encode($noContentItems, JSON_PRETTY_PRINT);
+
+            // Save the noContentItems JSON to a new file
+            Storage::disk('public')->put($noContentFilePath, $noContentJsonContent);
+
+            echo "Successfully incremented Ids and saved to {$outputFilePath}\n";
+            echo "Items without 'Content' property saved to {$noContentFilePath}\n";
+        } catch (\Exception $e) {
+            echo "Error: " . $e->getMessage() . "\n";
+        }
+    }
 
     public function readFile()
     {
@@ -85,10 +140,8 @@ dump($url);
             Storage::disk('public')->put('scrapper/book.json', $bookData);
             Storage::disk('public')->put('scrapper/chapter.json', $jsonData);
             Log::info("Success saving Scrapper fils in storage . inside /scrapper");
-
         } catch (\Exception $exception) {
             Log::error("Error saving scrapper  files with messages {$exception->getMessage()}");
         }
     }
-
 }
