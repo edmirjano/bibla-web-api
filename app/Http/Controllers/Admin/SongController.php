@@ -14,6 +14,11 @@ class SongController extends Controller
         $songs = Song::all();
         return view('song.index', compact('songs'));
     }
+    public function apiGetAllSongs()
+    {
+        $songs = Song::with('author')->get();
+        return response()->json($songs, 200);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -32,39 +37,40 @@ class SongController extends Controller
 
     public function store(Request $request)
     {
-        //
-        dd($request->all());
         $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg',
             'mp3link' => 'nullable|mimes:mp3',
         ]);
-        dd($request->all());
+
+        // Handle the cover file
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
-            $coverPath = $cover->storeAs('public/songs', $coverName);
+            $coverPath = $cover->storeAs('public/songs/cover', $coverName);
         } else {
-            $coverName = null;
+            $coverPath = null;
         }
+
+        // Handle the mp3 file
         if ($request->hasFile('mp3link')) {
             $mp3link = $request->file('mp3link');
             $mp3linkName = time() . '.' . $mp3link->getClientOriginalExtension();
-            $mp3linkPath = $mp3link->storeAs('public/songs', $mp3linkName);
+            $mp3linkPath = $mp3link->storeAs('public/songs/mp3', $mp3linkName);
         } else {
-            $mp3linkName = null;
+            $mp3linkPath = null;
         }
+
+        // Create a new Song instance
         $song = new Song();
         $song->title = $request->title;
         $song->author_id = $request->author_id;
-        $song->cover = isset($coverName) ? 'storage/books/' . $coverName : $coverName;
-        $song->mp3link = isset($mp3linkName) ? 'storage/books/' . $mp3linkName : $mp3linkName;
+        $song->cover = $coverPath ? str_replace('public/', 'storage/', $coverPath) : null;
+        $song->mp3link = $mp3linkPath ? str_replace('public/', 'storage/', $mp3linkPath) : null;
         $song->save();
-        if (session('url')) {
-            return redirect(session('url'));
-        }
-        return redirect()->to('song.index');
+
+        return redirect()->back();
     }
 
 
@@ -81,14 +87,29 @@ class SongController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg',
+            'mp3link' => 'nullable|mimes:mp3',
         ]);
-
+        if ($request->hasFile('cover')) {
+            $cover = $request->file('cover');
+            $coverName = time() . '.' . $cover->getClientOriginalExtension();
+            $coverPath = $cover->storeAs('public/songs/cover', $coverName);
+        } else {
+            $coverName = null;
+        }
+        if ($request->hasFile('mp3link')) {
+            $mp3link = $request->file('mp3link');
+            $mp3linkName = time() . '.' . $mp3link->getClientOriginalExtension();
+            $mp3linkPath = $mp3link->storeAs('public/songs/mp3', $mp3linkName);
+        } else {
+            $mp3linkName = null;
+        }
+        $song = new Song();
         $song->title = $request->title;
         $song->author_id = $request->author_id;
-        $song->update();
-        $session = session('previous_url');
-        session()->forget('previous_url');
-        return redirect()->to($session);
+        $song->cover = isset($coverName) ? 'storage/songs/cover' . $coverName : $coverName;
+        $song->mp3link = isset($mp3linkName) ? 'storage/songs/mp3' . $mp3linkName : $mp3linkName;
+        $song->save();
     }
 
     public function addViewer($id)
@@ -101,7 +122,6 @@ class SongController extends Controller
 
         $dbSong->increment('views');
 
-        // Optionally, reload the instance if you need to return the updated model
         $dbSong->refresh();
 
         return response()->json($dbSong->views);

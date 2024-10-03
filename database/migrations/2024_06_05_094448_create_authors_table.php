@@ -12,7 +12,7 @@ class CreateAuthorsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('number_of_songs')->default(0);
-            $table->string('cover');
+            $table->string('cover')->nullable();
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
-class RegisterController extends Controller
+class AuthApiController extends Controller
 {
     public function register(Request $request)
     {
@@ -33,5 +33,17 @@ class RegisterController extends Controller
         } catch (ValidationException $e) {
             return response()->json(['errors' => $e->errors()], 422);
         }
+    }
+
+    public function login(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+        if (auth()->attempt($credentials)) {
+            $token = auth()->user()->createToken('')->plainTextToken;
+
+            return response()->json(['token' => $token]);
+        }
+
+        return response()->json(['error' => 'Invalid credentials'], 401);
     }
 }

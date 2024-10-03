@@ -51,6 +51,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('/author', AuthorController::class);
     Route::resource('/playlist', PlaylistController::class);
 
+    Route::get('playlists/{playlist}/songs', [PlaylistController::class, 'manageSongs'])->name('playlist.songs.manage');
+    Route::put('playlists/{playlist}/songs', [PlaylistController::class, 'updateSongs'])->name('playlist.songs.update');
+
     Route::resource('/users', UsersController::class)->except(['show']);
     // Route::post('/group',[BookController::class,'storeGroup'])->name('group.store');
 });

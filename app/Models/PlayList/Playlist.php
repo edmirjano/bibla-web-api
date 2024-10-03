@@ -10,7 +10,7 @@ class Playlist extends Model
 {
     use HasFactory,RelationshipTrait;
 
-    protected $fillable = ['title', 'number_of_songs', 'user_id'];
+    protected $fillable = ['title', 'user_id'];
 
     public function songs()
     {
