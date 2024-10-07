@@ -24,7 +24,7 @@ class AuthorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
         ]);
 
         if ($request->hasFile('cover')) {
@@ -52,7 +52,7 @@ class AuthorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
         ]);
 
         if ($request->hasFile('cover')) {
@@ -61,10 +61,10 @@ class AuthorController extends Controller
             }
 
             if ($request->hasFile('cover')) {
-                $cover = $request->file('cover');
+            $cover = $request->file('cover');
 
-                $coverName = time() . '.' . $cover->getClientOriginalExtension();
-                $coverPath = $cover->storeAs('public/authors', $coverName);
+            $coverName = time() . '.' . $cover->getClientOriginalExtension();
+            $coverPath = $cover->storeAs('public/authors', $coverName);
             }
         }
 
