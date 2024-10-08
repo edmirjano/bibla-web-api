@@ -1,13 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Books') }}
-        </h2>
+
     </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+    <div class="h-screen min-h-screen p-4">
+        <div class="mx-auto  h-full">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg h-96">
+                <div class="sm:px-20 bg-white border-b border-gray-200">
                     <div class="flex justify-between items-center">
                         <div class="mt-8 text-2xl">
                             Books
@@ -23,33 +21,38 @@
                         <table class="w-full divide-gray-200 px-5">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th class="py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >
                                     Name
                                 </th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >
                                     Author
                                 </th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >
                                     Category
                                 </th>
-                                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >
                                     Action
                                 </th>
-                                <th class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th  class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >
                                 </th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($books as $book)
                                 <tr class="cursor-pointer">
-                                    <td class="px-4 py-4 whitespace-nowrap">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         {{ $book->name }}
                                     </td>
 
-                                    <td class="px-4 py-4 whitespace-nowrap">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         {{ $book->author }}
                                     </td>
-                                    <td class="px-4 py-4 whitespace-nowrap">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         {{ $book->category->name }}
                                     </td>
                                     <td >
@@ -58,7 +61,7 @@
                                         <a href="{{ route('topic.byBook', $book->id) }}" class="text-blue-600 hover:underline">Show Topics</a>
 
                                     </td>
-                                    <td class="px-4 py-4 whitespace-nowrap flex justify-end">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <div class="flex items-center space-x-3 align-middle">
                                             <a href="{{ route('book.edit', $book->id) }}"
                                                class="text-yellow-600 hover:text-yellow-900">

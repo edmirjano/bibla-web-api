@@ -1,20 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Category Page') }}
-        </h2>
-    </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-                    <div class="mt-8 text-2xl">
-                        Categories
-                    </div>
 
-                    <div class="mt-6">
-                        <button id="addCategoryBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Categories</button>
-                    </div>
+    </x-slot>
+    <div class="h-screen min-h-screen p-4">
+        <div class="mx-auto  h-full">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg h-96">
+                <div class="sm:px-20 bg-white border-b border-gray-200">
+                  <div class="flex justify-between">
+                      <div class="mt-8 text-2xl">
+                          Categories
+                      </div>
+
+                      <div class="mt-6">
+                          <button id="addCategoryBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Categories</button>
+                      </div></div>
                     <div id="addCategoryModal" class="modal hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center ">
                         <div class="modal-content bg-white p-8 rounded-lg">
                             <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
@@ -33,27 +32,31 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >
                                     ID
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Name
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >                                    Name
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Delete
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >                                    Delete
                                 </th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($categories as $category)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         {{ $category->id }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <input type="text" name="category_name" id="{{ $category->id }}" value="{{ $category->name }}">
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')

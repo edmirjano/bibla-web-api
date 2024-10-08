@@ -1,22 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Class Room Page') }}
-        </h2>
+
     </x-slot>
+    <div class="h-screen min-h-screen p-4">
+        <div class="mx-auto  h-full">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg h-96">
+                <div class="sm:px-20 bg-white border-b border-gray-200">
+                  <div class="flex justify-between">  <div class="mt-8 text-2xl">
+                          Classrooms
+                      </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-                    <div class="mt-8 text-2xl">
-                        Classrooms
-                    </div>
-
-                    <div class="mt-6">
-                        <a href="{{ route('classroom.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Classroom</a>
-                    </div>
-
+                      <div class="mt-6">
+                          <a href="{{ route('classroom.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create Classroom</a>
+                      </div>
+                  </div>
                     <div class="mt-6">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">

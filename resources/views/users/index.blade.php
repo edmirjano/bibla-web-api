@@ -1,31 +1,30 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('User Management') }}
-        </h2>
+
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="p-4">
+        <div class=" mx-auto ">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+                <div class="sm:px-20 bg-white border-b border-gray-200">
                     <div class="mt-6  flex flex-row justify-between">
                         <h4>Users</h4>
+
+                        <div class="mt-6">
+                            <a href="{{ route('users.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create User</a>
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-6">
+
                         <form action="{{ route('users.index') }}" method="GET">
-                            <div class="flex items-center mb-4">
+                            <div class="flex items-center mb-4 flex justify-end">
                                 <input type="text" name="search" value="{{ request('search') }}" placeholder="Search users..." class="form-input rounded-md shadow-sm mr-2">
                                 <button type="submit"  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
                             </div>
                         </form>
-                    </div>
-
-                    <div class="mt-6">
-                        <a href="{{ route('users.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create User</a>
-                    </div>
-
-                    <div class="mt-6">
-
-
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>

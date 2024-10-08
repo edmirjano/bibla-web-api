@@ -64,9 +64,10 @@
         </header>
         @endif
 
-        <!-- Page Content -->
         <main>
-            {{ $slot }}
+           <div class="w-full min-h-screen">
+               {{ $slot }}
+           </div>
         </main>
     </div>
 </body>

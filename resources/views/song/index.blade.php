@@ -1,14 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Songs') }}
-        </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+    <div class="h-screen min-h-screen p-4">
+        <div class="mx-auto  h-full">
+            <div class="bg-white  sm:px-20 overflow-hidden shadow-xl sm:rounded-lg h-96">
                     <div class="flex justify-between items-center">
                         <div class="mt-8 text-2xl">
                             Songs
@@ -47,8 +43,9 @@
                                         {{ $song->author->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
+                                        {{ asset($song->mp3link) }}
                                         <audio id="audioPlayer-{{ $song->id }}">
-                                            <source src="{{ asset($song->mp3ling) }}" type="audio/mpeg">
+                                            <source src="{{ asset($song->mp3linK) }}" type="audio/mpeg">
                                             Your browser does not support the audio element.
                                         </audio>
 

@@ -1,26 +1,22 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Playlist Page') }}
-        </h2>
+
     </x-slot>
+    <div class="h-screen min-h-screen p-4">
+        <div class="mx-auto  h-full">
+            <div class="bg-white sm:px-20 overflow-hidden shadow-xl sm:rounded-lg h-96">
+                  <div class="flex justify-between">
+                      <div class="mt-8 text-2xl">
+                          Playlists
+                      </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-                    <div class="mt-8 text-2xl">
-                        Playlists
-                    </div>
+                      <div class="mt-6">
+                          <button id="addPlaylistBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                              Create Playlist
+                          </button>
+                      </div>
+                  </div>
 
-                    <!-- Button to trigger Add Playlist Modal -->
-                    <div class="mt-6">
-                        <button id="addPlaylistBtn" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Create Playlist
-                        </button>
-                    </div>
-
-                    <!-- Add Playlist Modal -->
                     <div id="addPlaylistModal" class="modal hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center ">
                         <div class="modal-content bg-white p-8 rounded-lg">
                             <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
