@@ -11,32 +11,32 @@
                         @endif
 
                         <div class="mt-4">
-                            <label for="name" class="block font-medium text-sm text-gray-700">{{ __('Name') }}</label>
-                            <input id="name" class="block mt-1 w-full" type="text" name="name" value="{{ old('name', $user->name??"") }}" required autofocus />
+                            <label for="name" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{ __('Name') }}</label>
+                            <input id="name" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" type="text" name="name" value="{{ old('name', $user->name??"") }}" required autofocus />
                             @error('name')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="mt-4">
-                            <label for="email" class="block font-medium text-sm text-gray-700">{{ __('Email') }}</label>
-                            <input id="email" class="block mt-1 w-full" type="email" name="email" value="{{ old('email', $user->email??"") }}" required />
+                            <label for="email" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{ __('Email') }}</label>
+                            <input id="email" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" type="email" name="email" value="{{ old('email', $user->email??"") }}" required />
                             @error('email')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="mt-4">
-                            <label for="password" class="block font-medium text-sm text-gray-700">{{ __('Password') }}</label>
-                            <input id="password" class="block mt-1 w-full" type="password" name="password"  {{isset($user->exists) ? '' : 'required' }} autocomplete="new-password" />
+                            <label for="password" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{ __('Password') }}</label>
+                            <input id="password" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" type="password" name="password"  {{isset($user->exists) ? '' : 'required' }} autocomplete="new-password" />
                             @error('password')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror
                         </div>
 
                         <div class="mt-4">
-                            <label for="password_confirmation" class="block font-medium text-sm text-gray-700">{{ __('Confirm Password') }}</label>
-                            <input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" {{isset($user->exists)? '' : 'required' }} />
+                            <label for="password_confirmation" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{ __('Confirm Password') }}</label>
+                            <input id="password_confirmation" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" type="password" name="password_confirmation" {{isset($user->exists)? '' : 'required' }} />
                             @error('password_confirmation')
                             <span class="text-red-500 text-sm">{{ $message }}</span>
                             @enderror

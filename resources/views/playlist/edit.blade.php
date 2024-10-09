@@ -26,7 +26,7 @@
                         @method('PUT')
                         <div class="grid grid-cols-1 gap-4">
                             <label for="songs" class="block text-sm font-medium text-gray-700">Select Songs:</label>
-                            <select id="songs" name="songs[]" class="border rounded px-3 py-2 w-full" multiple>
+                            <select id="songs" name="songs[]" class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"  multiple>
                                 @foreach($songs as $song)
                                     <option value="{{ $song->id }}"
                                         {{ in_array($song->id, $playlist->songs->pluck('id')->toArray()) ? 'selected' : '' }}>

@@ -1,12 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ isset($book) ? __('Edit') : __('Create') }} {{ __('Book') }}
-        </h2>
+
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="p-4">
+        <div class=" mx-auto">
                 <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
                     <form method="POST"
@@ -19,9 +17,9 @@
                         @endif
                         <div class="grid grid-cols-2 gap-4">
                             <div>
-                                <label for="name" class="block font-medium text-sm text-gray-700">Book Name</label>
+                                <label for="name" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Book Name</label>
                                 <input id="name"
-                                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                                        type="text" name="name" value="{{ $book->name ?? old('name') }}" required
                                        autofocus oninput="generateSlug(event)"/>
                                 @error('name')
@@ -30,9 +28,9 @@
                             </div>
 
                             <div>
-                                <label for="slug" class="block font-medium text-sm text-gray-700">Slug</label>
+                                <label for="slug" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Slug</label>
                                 <input id="slug"
-                                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                                        type="text" name="slug" value="{{ $book->slug ?? old('slug') }}"
                                        autofocus/>
                                 @error('slug')
@@ -41,7 +39,7 @@
                             </div>
                             <div>
                                 <label for="description"
-                                       class="block font-medium text-sm text-gray-700">Description</label>
+                                       class="uppercase tracking-wide text-black text-xs font-bold mb-2">Description</label>
                                 <textarea id="description" name="description" class="border rounded px-3 py-2 w-full"  autofocus>
                                     {{$book->description ?? old('description')}}</textarea>
                                 @error('description')
@@ -49,7 +47,7 @@
                                 @enderror
                             </div>
                             <div>
-                                <label for="detailed_info" class="block font-medium text-sm text-gray-700">Detailed
+                                <label for="detailed_info" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Detailed
                                     Info</label>
                                 <textarea id="detailed_info" name="detailed_info" class="border rounded px-3 py-2 w-full"  autofocus>
                                    {{ $book->detailed_info ?? old('detailed_info') }}</textarea>
@@ -58,9 +56,9 @@
                                 @enderror
                             </div>
                             <div>
-                                <label for="author" class="block font-medium text-sm text-gray-700">Author</label>
+                                <label for="author" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Author</label>
                                 <input id="author"
-                                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                                        type="text" name="author" value="{{ $book->author ?? old('author') }}"
                                        autofocus/>
                                 @error('author')
@@ -70,9 +68,9 @@
 
                             <div>
                                 <label for="category_id"
-                                       class="block font-medium text-sm text-gray-700">Category</label>
+                                       class="uppercase tracking-wide text-black text-xs font-bold mb-2">Category</label>
                                 <select id="category_id" name="category_id"
-                                        class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                                         required autofocus value={{ $book->category->id ?? old('category_id') }}>
                                     <option value="">Select Category</option>
                                     @foreach ($categories as $category)
@@ -86,11 +84,16 @@
                                 @enderror
                             </div>
                             <div>
-                                <label for="cover" class="block font-medium text-sm text-gray-700">Cover</label>
-                                <input id="cover"
-                                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                       type="file" name="cover" value="{{ $book->cover ?? old('cover') }}"
-                                       autofocus onchange="previewImage(event)"/> @error('cover')
+                                <label for="cover" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Cover</label>
+                                <div id="dropzone"
+                                     class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 flex items-center justify-center cursor-pointer"
+                                     ondragover="handleDragOver(event)"
+                                     ondragleave="handleDragLeave(event)"
+                                     ondrop="handleFileDrop(event)">
+                                    <span id="dropzoneText">click to select a file</span>
+                                    <input id="cover" class="hidden" type="file" name="cover" accept="image/*" onchange="previewImage(event)" />
+                                </div>
+                                @error('cover')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -114,7 +117,54 @@
             </div>
     </div>
     </div>
+    <script>
+        const dropzone = document.getElementById('dropzone');
+        const dropzoneText = document.getElementById('dropzoneText');
+        const coverInput = document.getElementById('cover');
 
+        // Handle click to simulate file input click
+        dropzone.addEventListener('click', function() {
+            coverInput.click(); // Simulate file input click
+        });
+
+        // Handle drag over event
+        function handleDragOver(event) {
+            event.preventDefault();
+            dropzone.classList.add('bg-blue-200'); // Change background color to indicate drag over
+        }
+
+        // Handle drag leave event
+        function handleDragLeave(event) {
+            dropzone.classList.remove('bg-blue-200'); // Reset background color when drag leaves
+        }
+
+        // Handle file drop event
+        function handleFileDrop(event) {
+            event.preventDefault();  // Prevent default behavior (Stop file from being opened)
+            dropzone.classList.remove('bg-blue-200'); // Reset background color after file drop
+
+            const files = event.dataTransfer.files;  // Get dropped files
+
+            if (files.length > 0) {
+                coverInput.files = files;  // Assign dropped files to the hidden file input
+                previewImage();  // Call preview function to display the image
+            }
+        }
+
+        // Preview image before upload
+        function previewImage() {
+            const file = coverInput.files[0];  // Get the file from the input
+            if (file) {
+                const reader = new FileReader();  // Create a FileReader object
+                reader.onload = function(e) {
+                    const output = document.getElementById('imagePreview');
+                    output.innerHTML = `<img src="${e.target.result}" class="mt-2 max-w-xs">`;  // Display the image
+                    dropzoneText.innerHTML = file.name;  // Display the file name in the dropzone
+                }
+                reader.readAsDataURL(file);  // Read the file as a Data URL for the preview
+            }
+        }
+    </script>
     <script>
 
         function toggleAccordion(element) {
@@ -145,5 +195,24 @@
             ],
         });
     </script>
+    <style>
+        #dropzone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
+        #dropzone.bg-blue-200 {
+            background-color: #ebf8ff; /* Light blue background on drag over */
+        }
+
+        .max-w-xs {
+            max-width: 150px;
+        }
+    </style>
 </x-app-layout>

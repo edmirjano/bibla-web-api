@@ -4,7 +4,7 @@
     </x-slot>
     <div class="h-screen min-h-screen p-4">
         <div class="mx-auto  h-full">
-            <div class="bg-white sm:px-20 overflow-hidden shadow-xl sm:rounded-lg h-96">
+            <div class="bg-white sm:px-20 overflow-hidden shadow-xl sm:rounded-lg h-screen">
                   <div class="flex justify-between">
                       <div class="mt-8 text-2xl">
                           Playlists
@@ -23,8 +23,8 @@
                             <form id="addPlaylistForm" action="{{ route('playlist.store') }}" method="POST">
                                 @csrf
                                 <div class="mb-4">
-                                    <label for="title" class="block text-gray-700">Playlist Title:</label>
-                                    <input type="text" id="title" name="title" required class="border rounded px-3 py-2 w-full">
+                                    <label for="title" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Playlist Title:</label>
+                                    <input type="text" id="title" name="title" required class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
                                 </div>
                                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Playlist</button>
                             </form>
@@ -54,7 +54,7 @@
                                         {{ $playlist->id }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <input type="text" name="playlist_title" id="{{ $playlist->id }}" value="{{ $playlist->title }}">
+                                        <input type="text" name="playlist_title" id="{{ $playlist->id }}" value="{{ $playlist->title }}" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex justify-around">

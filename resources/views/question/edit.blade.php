@@ -1,14 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Section') }}
-        </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="p-4">
+        <div class="mx-auto">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+                <div class="sm:px-20 bg-white border-b border-gray-200">
                     <form method="POST"
                           action="{{ isset($question) ? route('question.update', $question->id) : route('question.store') }}"
                           enctype="multipart/form-data">
@@ -18,19 +15,19 @@
                         @endif
 
                         <div class="mb-4">
-                            <label for="description" class="block text-gray-700">Description:</label>
-                            <textarea id="description" name="description" class="border rounded px-3 py-2 w-full"  autofocus>{{ isset($question) ? $question->description : old('description') }}</textarea>
+                            <label for="description" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Description:</label>
+                            <textarea id="description" name="description" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"  autofocus>{{ isset($question) ? $question->description : old('description') }}</textarea>
                         </div>
                         <div class="mb-4">
-                            <label for="index" class="block text-gray-700">Index for sort:</label>
-                            <input id="index" type="number" name="index" class="border rounded px-3 py-2 w-full" autofocus value="{{ isset($question) ? $question->index : old('index') }}">
+                            <label for="index" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Index for sort:</label>
+                            <input id="index" type="number" name="index" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" autofocus value="{{ isset($question) ? $question->index : old('index') }}">
                         </div>
 
                         <div>
                             <label for="section_id" class="block font-medium text-sm text-gray-700">Select
                                 Section</label>
                             <select id="section_id" name="section_id"
-                                    class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                                     required autofocus>
                                 <option value="">Select Section </option>
                                 @if(count($sections)==1)

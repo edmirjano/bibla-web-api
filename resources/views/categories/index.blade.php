@@ -54,7 +54,7 @@
                                         {{ $category->id }}
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                        <input type="text" name="category_name" id="{{ $category->id }}" value="{{ $category->name }}">
+                                        <input type="text" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" name="category_name" id="{{ $category->id }}" value="{{ $category->name }}">
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="inline">

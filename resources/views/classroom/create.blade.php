@@ -12,13 +12,13 @@
                     <form action="{{ route('classroom.store') }}" method="POST">
                         @csrf
                         <div class="mt-4">
-                            <label for="name" class="block font-medium text-sm text-gray-700">Name:</label>
-                            <input type="text" name="name" id="name" class="form-input rounded-md shadow-sm mt-1 block w-full" />
+                            <label for="name" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Name:</label>
+                            <input type="text" name="name" id="name" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" />
                         </div>
 
                         <div class="mt-4">
-                            <label for="description" class="block font-medium text-sm text-gray-700">Description:</label>
-                            <textarea name="description" id="description" class="form-textarea rounded-md shadow-sm mt-1 block w-full"></textarea>
+                            <label for="description" class="uppercase tracking-wide text-black text-xs font-bold mb-2">Description:</label>
+                            <textarea name="description" id="description" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" ></textarea>
                         </div>
 
                         <div class="flex items-center justify-end mt-4">
