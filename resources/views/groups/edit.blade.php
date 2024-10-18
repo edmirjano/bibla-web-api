@@ -20,7 +20,7 @@
                             <div>
                                 <label for="name" class="block font-medium text-sm text-gray-700">Group Name</label>
                                 <input id="name"
-                                       class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                       class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                                        type="text" name="name" value="{{ isset($group) ? $group->name : old('name') }}"
                                        required autofocus/>
                                 @error('name')
@@ -33,7 +33,7 @@
                                     <label for="book_id" class="block font-medium text-sm text-gray-700">Select
                                         Book</label>
                                     <select id="book_id" name="book_id"
-                                            class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                            class="w-full bg-gray-200 border border-gray-200 text-black text-xs py-3 px-4 pr-8 mb-3 rounded"
                                             required autofocus>
                                         <option value="">Select Book</option>
                                         @foreach($books as $book)

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Author;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Author\Author;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AuthorController extends Controller
 {
@@ -16,20 +17,30 @@ class AuthorController extends Controller
 
     public function create()
     {
-        return view('author.create');
+        return view('author.edit');
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
         ]);
 
-        $author = new Author();
-        $author->name = $request->name;
-        $author->save();
+        if ($request->hasFile('cover')) {
+            $cover = $request->file('cover');
 
-        return redirect()->route('author.index');
+            $coverName = time() . '.' . $cover->getClientOriginalExtension();
+            $coverPath = $cover->storeAs('public/authors', $coverName);
+        }
+
+        Author::create([
+            'name' => $request->input('name'),
+            'cover' => $coverPath ?? null,
+        ]);
+
+        return redirect()->route('author.index')->with('success', 'Author created successfully.');
+
     }
 
     public function edit(Author $author)
@@ -41,12 +52,28 @@ class AuthorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
         ]);
 
-        $author->name = $request->name;
-        $author->update();
+        if ($request->hasFile('cover')) {
+            if ($author->cover) {
+                Storage::disk('public')->delete($author->cover);
+            }
 
-        return redirect()->route('author.index');
+            if ($request->hasFile('cover')) {
+            $cover = $request->file('cover');
+
+            $coverName = time() . '.' . $cover->getClientOriginalExtension();
+            $coverPath = $cover->storeAs('public/authors', $coverName);
+            }
+        }
+
+        $author->update([
+            'name' => $request->input('name'),
+            'cover' => $coverPath ?? $author->cover,
+        ]);
+
+        return redirect()->route('author.index')->with('success', 'Author updated successfully.');
     }
 
     public function destroy(Author $author)

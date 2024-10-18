@@ -1,13 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Groups of book: '.$book->name )}}
-        </h2>
+
     </x-slot>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="p-4">
+        <div class="mx-auto">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
+                <div class="sm:px-20 bg-white border-b border-gray-200">
                     <div class="mt-8 text-2xl">
                         Groups
                     </div>
@@ -34,28 +32,31 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    ID
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >                                    ID
                                 </th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Name
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >                                    Name
                                 </th>
 
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Action
+                                <th
+                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                                >                                    Action
                                 </th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                             @foreach($groups as $group)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         {{ $group->id }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <input type="text" name="group_name" id="{{ $group->id }}" value="{{ $group->name }}">
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                         <a href="{{route('topic.show',$group->id)}}" class="text-blue-600 hover:underline">Show topic</a>
 |
                                         <form action="{{ route('group.destroy', $group->id) }}" method="POST" class="inline">
