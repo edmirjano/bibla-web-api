@@ -7,9 +7,15 @@ export default {
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './src/**/*.{html,js,css}',
     ],
 
     theme: {
+        colors: {
+            'dark' : '#212529',
+            'dark-hover' : '#414952',
+            'button-white': '#fcfcfc'
+        },
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
@@ -18,4 +24,5 @@ export default {
     },
 
     plugins: [forms],
+
 };
