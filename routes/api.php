@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\PlaylistController;
+use App\Http\Controllers\Api\AuthorController;
+use App\Http\Controllers\Api\SongController;
+use App\Http\Controllers\Api\ClassRoomController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,17 +16,37 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::get('/songs', [SongController::class, 'getAllSongs']);
+Route::get('/songs/{song}', [SongController::class, 'getSong']);
+Route::post('/addSongViewer/{song}', [SongController::class, 'addViewer']);
+Route::get('/playlists', [PlaylistController::class, 'getPlaylists']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/songs', [\App\Http\Controllers\Admin\SongController::class, 'apiGetAllSongs']);
-    Route::get('/getSongs', [\App\Http\Controllers\Admin\SongController::class, 'getSongs']);
-    Route::get('/getAuthors', [\App\Http\Controllers\Admin\AuthorController::class, 'getAuthors']);
-    Route::get('/getPlaylists', [\App\Http\Controllers\Admin\PlaylistController::class, 'getPlaylists']);
-    Route::post('/addSongViewer/{id}', [\App\Http\Controllers\Admin\SongController::class, 'addViewer']);
-    Route::post('/addSongFavorite/{id}', [\App\Http\Controllers\Admin\SongController::class, 'addFavorite']);
-    Route::post('/removeSongFavorite/{id}', [\App\Http\Controllers\Admin\SongController::class, 'removeFavorite']);
-    Route::post('/addSongToPlaylist', [\App\Http\Controllers\Admin\PlaylistController::class, 'addSong']);
-    Route::post('/removeSongFromPlaylist', [\App\Http\Controllers\Admin\PlaylistController::class, 'removeSong']);
-    Route::post('/createPlaylist', [\App\Http\Controllers\Api\PlaylistController::class, 'store']);
+
+    Route::post('/addSongFavorite/{song}', [SongController::class, 'addFavorite']);
+    Route::post('/removeSongFavorite/{song}', [SongController::class, 'removeFavorite']);
+
+    Route::get('/authors', [AuthorController::class, 'getAuthors']);
+    Route::get('/authors/{author}', [AuthorController::class, 'getAuthor']);
+    Route::put('/authors/{author}', [AuthorController::class, 'updateAuthor']);
+    Route::delete('/authors/{author}', [AuthorController::class, 'deleteAuthor']);
+    // Playlist-related routes
+    Route::get('/playlists/{playlist}', [PlaylistController::class, 'getPlaylist']);
+    Route::put('/playlists/{playlist}', [PlaylistController::class, 'updatePlaylist']);
+    Route::delete('/playlists/{playlist}', [PlaylistController::class, 'deletePlaylist']);
+    Route::post('/updateSongs/{playlist}', [PlaylistController::class, 'updateSongs']);
+    Route::post('/playlists/{playlist}/addSong', [PlaylistController::class, 'addSongToPlaylist']);
+    Route::post('/playlists/{playlist}/removeSong', [PlaylistController::class, 'removeSongFromPlaylist']);
+
+
+    // Classrooms
+    Route::get('/classrooms', [ClassroomController::class, 'getAllClassrooms']);
+    Route::get('/classrooms/{classroom}', [ClassroomController::class, 'getClassroom']);
+    Route::post('/classrooms', [ClassroomController::class, 'store']);
+    Route::put('/classrooms/{classroom}', [ClassroomController::class, 'update']);
+    Route::delete('/classrooms/{classroom}', [ClassroomController::class, 'destroy']);
+    Route::post('/classrooms/{classroomId}/addUser/{userId}', [ClassroomController::class, 'addUser']);
+    Route::post('/classrooms/{classroomId}/removeUser/{userId}', [ClassroomController::class, 'removeUser']);
+
 });
 
