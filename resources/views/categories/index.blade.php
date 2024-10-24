@@ -4,7 +4,7 @@
     </x-slot>
     <div class="h-screen min-h-screen p-4">
         <div class="mx-auto  h-full">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg h-96">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="sm:px-20 bg-white border-b border-gray-200">
                     <div class="flex justify-between">
                         <div class="mt-8 text-2xl">
@@ -15,9 +15,9 @@
                             {{ '+ ADD' }}
                         </x-add-button>
                     </div>
-                    <div id="addCategoryModal"
-                        class="modal hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center ">
-                        <div class="modal-content bg-white p-8 rounded-lg">
+
+                    <div id="addCategoryModal" class="modal hidden fixed inset-0 flex justify-center items-center z-50">
+                        <div class="modal-content p-8 rounded-lg shadow-xl bg-modal-gray relative">
                             <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
                             <form id="addCategoryForm" action="{{ route('category.store') }}" method="POST">
                                 @csrf
@@ -26,8 +26,7 @@
                                     <input type="text" id="name" name="name" required
                                         class="border rounded px-3 py-2 w-full">
                                 </div>
-                                <button type="submit"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add
+                                <button type="submit" class="text-white font-bold py-2 px-4 rounded">Add
                                     Category</button>
                             </form>
                         </div>

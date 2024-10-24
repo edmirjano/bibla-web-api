@@ -17,9 +17,8 @@
                     </div>
                 </div>
 
-                <div id="addPlaylistModal"
-                    class="modal hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center ">
-                    <div class="modal-content bg-white p-8 rounded-lg">
+                <div id="addPlaylistModal" class="modal hidden fixed inset-0 flex justify-center items-center z-50">
+                    <div class="modal-content p-8 rounded-lg shadow-xl bg-modal-gray relative">
                         <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
                         <form id="addPlaylistForm" action="{{ route('playlist.store') }}" method="POST">
                             @csrf
