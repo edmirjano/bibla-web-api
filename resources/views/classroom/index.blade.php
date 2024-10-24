@@ -52,14 +52,16 @@
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            <a href="{{ route('classroom.edit', $classroom->id) }}"
-                                                class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                                            <form action="{{ route('classroom.destroy', $classroom->id) }}"
-                                                method="POST" class="inline">
+                                            <a href="{{ route('classroom.edit', $classroom->id) }}" class="inline-block">
+                                                <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
+                                            </a>
+                                            <form action="{{ route('classroom.destroy', $classroom->id) }}" method="POST"
+                                                class="inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit"
-                                                    class="text-red-600 hover:text-red-900">Delete</button>
+                                                <button type="submit">
+                                                    <img src="{{ asset('icons/delete.svg') }}" alt="Delete">
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>

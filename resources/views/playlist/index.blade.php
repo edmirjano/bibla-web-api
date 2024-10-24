@@ -69,19 +69,16 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex justify-around">
-                                            <a href="{{ route('playlist.edit', $playlist->id) }}"
-                                                class="text-yellow-600 hover:text-yellow-900">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                    fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
-                                                    <path
-                                                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325" />
-                                                </svg> </a>
+                                            <a href="{{ route('playlist.edit', $playlist->id) }}">
+                                                <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
+                                            </a>
                                             <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST"
                                                 class="inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit"
-                                                    class="text-red-600 hover:text-red-900">Delete</button>
+                                                <button type="submit">
+                                                    <img src="{{ asset('icons/delete.svg') }}" alt="Delete">
+                                                </button>
                                             </form>
                                         </div>
 
@@ -99,26 +96,26 @@
     <!-- JavaScript Section -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Show Add Playlist Modal on button click
-            $("#addPlaylistBtn").click(function() {
+            $("#addPlaylistBtn").click(function () {
                 $("#addPlaylistModal").removeClass('hidden');
             });
 
             // Hide the modal when the close button is clicked
-            $("#closeModal").click(function() {
+            $("#closeModal").click(function () {
                 $("#addPlaylistModal").addClass('hidden');
             });
 
             // Hide the modal when clicked outside of it
-            $(window).click(function(event) {
+            $(window).click(function (event) {
                 if (event.target == document.getElementById("addPlaylistModal")) {
                     $("#addPlaylistModal").addClass('hidden');
                 }
             });
 
             // AJAX request to update playlist title on input change
-            $('input[name="playlist_title"]').on('input', function() {
+            $('input[name="playlist_title"]').on('input', function () {
                 var playlistId = $(this).attr('id');
                 var newTitle = $(this).val();
                 updatePlaylistTitle(playlistId, newTitle);
@@ -133,10 +130,10 @@
                         title: newTitle,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function(response) {
+                    success: function (response) {
                         console.log('Playlist title updated successfully');
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         console.log('Error updating playlist title');
                     }
                 });
