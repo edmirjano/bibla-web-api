@@ -10,6 +10,7 @@ class Classroom extends Model
     use HasFactory,RelationshipTrait;
     protected $fillable = [
         'name',
-       'description'
+        'description',
+        'book_id'
     ];
 }

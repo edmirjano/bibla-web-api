@@ -54,7 +54,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        // Redirect to the books index page
-        return redirect()->route('categories.index');
+        return redirect()->route('category.index');
     }
 }
