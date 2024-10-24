@@ -5,23 +5,35 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Classroom\Classroom;
 use App\Models\User\User;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class ClassRoomController extends Controller
 {
-    /**
-     * Get all classrooms along with related models (books, groups, topics).
-     */
     public function getAllClassrooms(): JsonResponse
     {
-        $classrooms = Classroom::with('book')->get();
+        try {
+            $classrooms = Classroom::with([
+                'book.groups.topics.sections.questions',
+                'book.groups.topics.sections.responses',
+                'book.groups.topics',
+                'book.groups',
+                'book.category'
+            ])->get();
 
-        return response()->json([
-            'success' => true,
-            'data' => $classrooms
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'data' => $classrooms
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while retrieving classrooms.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -29,13 +41,53 @@ class ClassRoomController extends Controller
      */
     public function getClassroom(Classroom $classroom): JsonResponse
     {
-        // Eager load the related models (books, groups, topics)
-        $classroom->load(['books', 'groups', 'topics']);
+        try {
+            $classroom->load([
+                'book.groups.topics.sections.questions',
+                'book.groups.topics.sections.responses',
+                'book.groups.topics',
+                'book.groups',
+                'book.category'
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'data' => $classroom
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'data' => $classroom
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Classroom not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while retrieving the classroom.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Get classrooms by user.
+     */
+    public function getClassroomsByUser(User $user): JsonResponse
+    {
+        try {
+            $classrooms = $user->classrooms;
+
+            return response()->json([
+                'success' => true,
+                'data' => $classrooms
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while retrieving classrooms for this user.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -43,18 +95,27 @@ class ClassRoomController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'book_id' => 'required|exists:books,id'
+            ]);
 
-        $classroom = Classroom::create($validatedData);
+            $classroom = Classroom::create($validatedData);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Classroom created successfully',
-            'data' => $classroom
-        ], 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Classroom created successfully',
+                'data' => $classroom
+            ], 201);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while creating the classroom.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -62,18 +123,33 @@ class ClassRoomController extends Controller
      */
     public function update(Request $request, Classroom $classroom): JsonResponse
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'book_id' => 'required|exists:books,id'
+            ]);
 
-        $classroom->update($validatedData);
+            $classroom->update($validatedData);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Classroom updated successfully',
-            'data' => $classroom
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Classroom updated successfully',
+                'data' => $classroom
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Classroom not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while updating the classroom.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -81,39 +157,76 @@ class ClassRoomController extends Controller
      */
     public function destroy(Classroom $classroom): JsonResponse
     {
-        $classroom->delete();
+        try {
+            $classroom->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Classroom deleted successfully'
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Classroom deleted successfully'
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while deleting the classroom.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
      * Add a user to the classroom via API.
      */
-    public function addUser($classroomId, $userId): JsonResponse
+    public function addUser(int $classroomId, int $userId): JsonResponse
     {
-        $classroom = Classroom::findOrFail($classroomId);
-        $classroom->users()->attach($userId);
+        try {
+            $classroom = Classroom::findOrFail($classroomId);
+            $classroom->addUser($userId);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'User added to classroom successfully'
-        ], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'User added to classroom successfully'
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Classroom not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while adding the user to the classroom.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
      * Remove a user from the classroom via API.
      */
-    public function removeUser($classroomId, $userId): JsonResponse
+    public function removeUser(int $classroomId,int $userId): JsonResponse
     {
-        $classroom = Classroom::findOrFail($classroomId);
-        $classroom->users()->detach($userId);
+        try {
 
-        return response()->json([
-            'success' => true,
-            'message' => 'User removed from classroom successfully'
-        ], 200);
+        $classroom = Classroom::findOrFail($classroomId);
+        $classroom->removeUser($userId);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'User removed from classroom successfully'
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Classroom not found.',
+                'error' => $e->getMessage(),
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while removing the user from the classroom.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

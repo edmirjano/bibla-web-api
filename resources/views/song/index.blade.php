@@ -47,9 +47,8 @@
                                         {{ $song->author->name }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        {{ asset($song->mp3link) }}
                                         <audio id="audioPlayer-{{ $song->id }}">
-                                            <source src="{{ asset($song->mp3linK) }}" type="audio/mpeg">
+                                            <source src="{{ $song->mp3linK }}" type="audio/mpeg">
                                             Your browser does not support the audio element.
                                         </audio>
 
