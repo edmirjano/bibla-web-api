@@ -20,6 +20,9 @@ Route::get('/songs', [SongController::class, 'getAllSongs']);
 Route::get('/songs/{song}', [SongController::class, 'getSong']);
 Route::post('/addSongViewer/{song}', [SongController::class, 'addViewer']);
 Route::get('/playlists', [PlaylistController::class, 'getPlaylists']);
+Route::get('/authors', [AuthorController::class, 'getAuthors']);
+Route::get('/playlists/{playlist}', [PlaylistController::class, 'getPlaylist']);
+Route::get('/authors/{author}', [AuthorController::class, 'getAuthor']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
