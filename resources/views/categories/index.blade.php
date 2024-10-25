@@ -5,9 +5,9 @@
     <div class="h-screen min-h-screen p-4">
         <div class="mx-auto  h-full">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <div class="sm:px-20 bg-white border-b border-gray-200">
+                <div class="sm:px-20 container mx-auto px-4 sm:px-8">
                     <div class="flex justify-between">
-                        <div class="mt-8 text-2xl">
+                        <div class="mt-8 text-2xl font-semibold leading-tight">
                             Categories
                         </div>
 
@@ -17,7 +17,7 @@
                     </div>
 
                     <div id="addCategoryModal" class="modal hidden fixed inset-0 flex justify-center items-center z-50">
-                        <div class="modal-content p-8 rounded-lg shadow-xl bg-modal-gray relative">
+                        <div class="modal-content p-8 rounded-lg shadow-xl bg-light-gray relative">
                             <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
                             <form id="addCategoryForm" action="{{ route('category.store') }}" method="POST">
                                 @csrf
@@ -32,36 +32,36 @@
                         </div>
                     </div>
 
-                    <div class="mt-6">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+                    <div class="mt-6 inline-block min-w-full shadow-md rounded-md overflow-hidden">
+                        <table class="min-w-full leading-normal">
+                            <thead>
                                 <tr>
                                     <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                         ID
                                     </th>
                                     <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                         Name
                                     </th>
                                     <th
-                                        class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                         Delete
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                            <tbody>
                                 @foreach ($categories as $category)
-                                    <tr>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <tr class="border-b border-table-gray">
+                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             {{ $category->id }}
                                         </td>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             <input type="text"
                                                 class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
                                                 name="category_name" id="{{ $category->id }}" value="{{ $category->name }}">
                                         </td>
-                                        <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             <form action="{{ route('category.destroy', $category->id) }}" method="POST"
                                                 class="inline">
                                                 @csrf
