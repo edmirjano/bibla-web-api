@@ -12,8 +12,8 @@ class CreateSongsTable extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('author_id')->constrained();
-            $table->string('mp3link');
-            $table->string('cover');
+            $table->string('mp3link')->nullable();
+            $table->string('cover')->nullable();
             $table->integer('views')->default(0);
             $table->integer('favorites')->default(0);
             $table->timestamps();

@@ -67,23 +67,7 @@ class PlaylistController extends Controller
     }
 
 
-    public function createPlaylistFromUser(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
 
-        $playlist = new Playlist();
-        $playlist->title = $request->title;
-        $playlist->user_id = $request->id();
-        $playlist->save();
-
-        if ($request->songs) {
-            $playlist->songs()->attach($request->songs);
-        }
-
-        return redirect()->route('playlist.index');
-    }
 
     public function destroy(Playlist $playlist)
     {
@@ -91,34 +75,16 @@ class PlaylistController extends Controller
         return redirect()->route('playlist.index')->with('success', 'Playlist deleted successfully.');
     }
 
-    public function getPlaylists()
-    {
-        $playlists = Playlist::with('songs')->get();
-        return response()->json($playlists);
-    }
-
-    public function createPlaylist(Request $request){
-        $playlist = new Playlist();
-        $playlist->title = $request->title;
-        $playlist->number_of_songs = count($request->songs);
-        $playlist->user_id = $request->user_id;
-        $playlist->save();
-        $playlist->songs()->attach($request->songs);
-
-        return response()->json($playlist);
-    }
 
 
-    // Update songs in the playlist
+
     public function updateSongs(Request $request, Playlist $playlist)
     {
-        // Validate song input
         $request->validate([
             'songs' => 'array', // Validate it as an array of song IDs
             'songs.*' => 'exists:songs,id' // Each ID must exist in the songs table
         ]);
 
-        // Sync the selected songs with the playlist (add/remove automatically)
         $playlist->songs()->sync($request->songs);
 
         return redirect()->route('playlist.index', $playlist->id)

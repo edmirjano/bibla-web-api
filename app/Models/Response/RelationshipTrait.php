@@ -18,4 +18,5 @@ trait RelationshipTrait
     {
         return $this->belongsTo(User::class);
     }
+
 }
