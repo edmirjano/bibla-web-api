@@ -62,8 +62,8 @@ class SongController extends Controller
         $song = new Song();
         $song->title = $request->title;
         $song->author_id = $request->author_id;
-        $song->cover = $coverPath ? str_replace('public/', 'storage/', $coverPath) : null;
-        $song->mp3link = $mp3linkPath ? str_replace('public/', 'storage/', $mp3linkPath) : null;
+        $song->cover = $coverPath ? str_replace('public/', 'storage/', $coverPath) : '';
+        $song->mp3link = $mp3linkPath ? str_replace('public/', 'storage/', $mp3linkPath) : '';
         $song->save();
         return redirect()->route('song.index');
     }
@@ -108,7 +108,7 @@ class SongController extends Controller
 
         return redirect()->route('song.index');
     }
-    
+
     public function destroy(Song $song)
     {
         $song->playlists()->detach();
