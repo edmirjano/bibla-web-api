@@ -1,42 +1,42 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ isset($song) ? __('Edit') : __('Create') }} {{ __('Song') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-                    <form method="POST"
-                          action="{{ isset($song) ? route('song.update', $song->id) : route('song.store') }}"
-                          enctype="multipart/form-data">
+                    <form method="POST" action="{{ isset($song) ? route('song.update', $song->id) : route('song.store') }}" enctype="multipart/form-data">
                         @csrf
                         @if (isset($song))
                             @method('PUT')
                         @endif
+
+                        <!-- Song Title -->
                         <div class="mt-4">
                             <label for="title" :value="__('Title')" />
-                            <input id="title" class="block mt-1 w-full" type="text" name="title"
-                                   value="{{ $song->title ?? old('title') }}" required autofocus />
+                            <input id="title" class="block mt-1 w-full" type="text" name="title" value="{{ $song->title ?? old('title') }}" required autofocus />
                         </div>
+
+                        <!-- Author Selection -->
                         <div class="mt-4">
                             <label for="author_id" :value="__('Author')" />
-
                             <select id="author_id" name="author_id" class="block mt-1 w-full">
                                 @foreach ($authors as $author)
-                                    <option value="{{ $author->id }}"
-                                        {{ isset($song) && $song->author_id == $author->id ? 'selected' : '' }}>
-                                        {{ $author->name }}</option>
+                                    <option value="{{ $author->id }}" {{ isset($song) && $song->author_id == $author->id ? 'selected' : '' }}>
+                                        {{ $author->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
-                        <div>
+
+                        <!-- Music File Dropzone -->
+                        <div class="mt-4">
                             <label for="mp3link" class="block font-medium text-sm text-gray-700">Music</label>
-                            <input id="mp3link"
-                                   class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                   type="file" name="mp3link" autofocus />
+                            <div id="musicDropzone" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 flex items-center justify-center cursor-pointer"
+                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleFileDrop(event, 'mp3link')">
+        <span id="musicDropzoneText">
+            {{ isset($song->mp3link) ? basename($song->mp3link) : 'Click to select a file or drag and drop' }}
+        </span>
+                                <input id="mp3link" class="hidden" type="file" name="mp3link" accept="audio/*" onchange="updateDropzoneText(this, 'musicDropzoneText')" />
+                            </div>
                             @error('mp3link')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -44,24 +44,32 @@
                                 <p class="mt-2">Current MP3: <a href="{{ asset($song->mp3link) }}" target="_blank">Listen</a></p>
                             @endif
                         </div>
-                        <div>
+
+
+                        <!-- Cover Image Dropzone -->
+                        <div class="mt-4">
                             <label for="cover" class="block font-medium text-sm text-gray-700">Cover</label>
-                            <input id="cover"
-                                   class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                   type="file" name="cover" autofocus onchange="previewImage(event)" />
+                            <div id="coverDropzone" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 flex items-center justify-center cursor-pointer"
+                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleFileDrop(event, 'cover')">
+                                <span id="coverDropzoneText">Click to select an image or drag and drop</span>
+                                <input id="cover" class="hidden" type="file" name="cover" accept="image/*" autofocus onchange="previewImage(event, 'imagePreview')" />
+                            </div>
                             @error('cover')
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+
+                        <!-- Image Preview -->
                         <div id="imagePreview" class="mt-2"></div>
                         @isset($song->cover)
                             <div class="mt-2 w-48">
                                 <img src="{{ asset($song->cover) }}" alt="{{ $song->title }}">
                             </div>
                         @endisset
+
+                        <!-- Submit Button -->
                         <div class="flex items-center justify-end mt-4">
-                            <button type="submit"
-                                    class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 disabled:opacity-25 transition">
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 disabled:opacity-25 transition">
                                 {{ isset($song) ? 'Update' : 'Create' }}
                             </button>
                         </div>
@@ -70,14 +78,70 @@
             </div>
         </div>
     </div>
+
     <script>
-        function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const output = document.getElementById('imagePreview');
-                output.innerHTML = `<img src="${reader.result}" class="mt-2 max-w-xs">`;
+        // Dropzone click simulation for Music and Cover file inputs
+        const musicDropzone = document.getElementById('musicDropzone');
+        const coverDropzone = document.getElementById('coverDropzone');
+        const musicInput = document.getElementById('mp3link');
+        const coverInput = document.getElementById('cover');
+
+        musicDropzone.addEventListener('click', () => musicInput.click());
+        coverDropzone.addEventListener('click', () => coverInput.click());
+
+        // Drag and Drop functionality
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.target.classList.add('bg-blue-200');
+        }
+
+        function handleDragLeave(event) {
+            event.target.classList.remove('bg-blue-200');
+        }
+
+        function handleFileDrop(event, inputId) {
+            event.preventDefault();
+            event.target.classList.remove('bg-blue-200');
+            const files = event.dataTransfer.files;
+            document.getElementById(inputId).files = files;
+
+            // Update text to show the file name
+            const dropzoneText = inputId === 'mp3link' ? 'musicDropzoneText' : 'coverDropzoneText';
+            document.getElementById(dropzoneText).innerText = files[0].name;
+
+            if (inputId === 'cover') previewImage({ target: { files } }, 'imagePreview');
+        }
+
+        // Image preview
+        function previewImage(event, previewId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const output = document.getElementById(previewId);
+                    output.innerHTML = `<img src="${e.target.result}" class="mt-2 max-w-xs">`;
+                }
+                reader.readAsDataURL(file);
             }
-            reader.readAsDataURL(event.target.files[0]);
+        }
+        function updateDropzoneText(inputElement, dropzoneTextId) {
+            const fileName = inputElement.files[0].name;
+            document.getElementById(dropzoneTextId).textContent = fileName;
         }
     </script>
+
+    <style>
+        .bg-blue-200 { background-color: #ebf8ff; }
+        #musicDropzone, #coverDropzone {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 150px;
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .max-w-xs { max-width: 150px; }
+    </style>
 </x-app-layout>

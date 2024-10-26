@@ -36,12 +36,12 @@ class AuthorController extends Controller
 
         Author::create([
             'name' => $request->input('name'),
-            'cover' => $coverPath ?? null,
+            'cover' => $coverPath ? asset('storage/authors/' . basename($coverPath)): '',
         ]);
 
         return redirect()->route('author.index')->with('success', 'Author created successfully.');
     }
-    
+
     public function edit(Author $author)
     {
         return view('author.edit', compact('author'));
@@ -67,7 +67,7 @@ class AuthorController extends Controller
 
         $author->update([
             'name' => $request->input('name'),
-            'cover' => $coverPath ?? $author->cover,
+            'cover' => $coverPath ?    asset('storage/authors/' . basename($coverPath)): $author->cover,
         ]);
 
         return redirect()->route('author.index')->with('success', 'Author updated successfully.');

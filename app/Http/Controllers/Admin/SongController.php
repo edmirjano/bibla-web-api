@@ -62,8 +62,8 @@ class SongController extends Controller
         $song = new Song();
         $song->title = $request->title;
         $song->author_id = $request->author_id;
-        $song->cover = $coverPath ? str_replace('public/', 'storage/', $coverPath) : '';
-        $song->mp3link = $mp3linkPath ? str_replace('public/', 'storage/', $mp3linkPath) : '';
+        $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
+        $song->mp3link = $mp3linkPath ?  asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
         $song->save();
         return redirect()->route('song.index');
     }
@@ -79,12 +79,14 @@ class SongController extends Controller
 
     public function update(Request $request, Song $song)
     {
+
         $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg',
-            'mp3link' => 'nullable|mimes:mp3',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // max 10 MB
+            'mp3link' => 'nullable|mimes:mp3|max:10240', // max 10 MB
         ]);
+
 
         $coverPath = $song->cover;
         if ($request->hasFile('cover')) {
@@ -92,23 +94,20 @@ class SongController extends Controller
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/songs/cover', $coverName);
         }
-
         $mp3linkPath = $song->mp3link;
         if ($request->hasFile('mp3link')) {
             $mp3link = $request->file('mp3link');
             $mp3linkName = time() . '.' . $mp3link->getClientOriginalExtension();
             $mp3linkPath = $mp3link->storeAs('public/songs/mp3', $mp3linkName);
         }
-
         $song->title = $request->title;
         $song->author_id = $request->author_id;
-        $song->cover = $coverPath ? str_replace('public/', 'storage/', $coverPath) : null;
-        $song->mp3link = $mp3linkPath ? str_replace('public/', 'storage/', $mp3linkPath) : null;
+        $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
+        $song->mp3link = $mp3linkPath ?  asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
         $song->save();
-
         return redirect()->route('song.index');
-    }
 
+    }
     public function destroy(Song $song)
     {
         $song->playlists()->detach();
