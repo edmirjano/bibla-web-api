@@ -29,9 +29,9 @@ class AuthorController extends Controller
 
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
-
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/authors', $coverName);
+            $coverPath = str_replace('public/', 'storage/', $coverPath);
         }
 
         Author::create([
@@ -40,9 +40,8 @@ class AuthorController extends Controller
         ]);
 
         return redirect()->route('author.index')->with('success', 'Author created successfully.');
-
     }
-
+    
     public function edit(Author $author)
     {
         return view('author.edit', compact('author'));
@@ -60,12 +59,10 @@ class AuthorController extends Controller
                 Storage::disk('public')->delete($author->cover);
             }
 
-            if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
-
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/authors', $coverName);
-            }
+            $coverPath = str_replace('public/', 'storage/', $coverPath);
         }
 
         $author->update([
