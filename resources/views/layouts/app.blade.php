@@ -28,7 +28,7 @@
                 <div class="max-w-7xl py-4 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
                 </div>
-                <div class="py-2.5">
+                <div class="py-2.5 px-4">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button

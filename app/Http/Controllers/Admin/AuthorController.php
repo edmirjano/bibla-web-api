@@ -29,18 +29,17 @@ class AuthorController extends Controller
 
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
-
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/authors', $coverName);
+            $coverPath = str_replace('public/', 'storage/', $coverPath);
         }
 
         Author::create([
             'name' => $request->input('name'),
-            'cover' => $coverPath ?? null,
+            'cover' => $coverPath ? asset('storage/authors/' . basename($coverPath)): '',
         ]);
 
         return redirect()->route('author.index')->with('success', 'Author created successfully.');
-
     }
 
     public function edit(Author $author)
@@ -60,17 +59,15 @@ class AuthorController extends Controller
                 Storage::disk('public')->delete($author->cover);
             }
 
-            if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
-
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/authors', $coverName);
-            }
+            $coverPath = str_replace('public/', 'storage/', $coverPath);
         }
 
         $author->update([
             'name' => $request->input('name'),
-            'cover' => $coverPath ?? $author->cover,
+            'cover' => $coverPath ?    asset('storage/authors/' . basename($coverPath)): $author->cover,
         ]);
 
         return redirect()->route('author.index')->with('success', 'Author updated successfully.');
