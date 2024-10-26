@@ -14,7 +14,9 @@ export default {
         colors: {
             'dark' : '#212529',
             'dark-hover' : '#414952',
-            'button-white': '#fcfcfc'
+            'button-white': '#fcfcfc',
+            'light-gray' : '#F3F4F6',
+            'table-gray' : '#D1D5DB'
         },
         extend: {
             fontFamily: {

@@ -9,9 +9,6 @@
                 <div class="p-6 text-gray-900">
                     <h4>Welcome, {{auth()->user()->name}}! </h4>
                 </div>
-                <div class="p-6 text-gray-900">
-                    <h1>Page is under construction</h1>
-                </div>
             </div>
         </div>
     </div>
