@@ -85,15 +85,15 @@ class SongController extends Controller
             'cover' => 'nullable|image|mimes:jpeg,png,jpg',
             'mp3link' => 'nullable|mimes:mp3',
         ]);
-        $coverPath = null;
+        $coverPath = $song->cover;
         if ($request->hasFile('cover')) {
             $cover = $request->file('cover');
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/songs/cover', $coverName);
         }
 
-        // Handle the mp3 file
-        $mp3linkPath = null;
+        $mp3linkPath = $song->mp3link;
+
         if ($request->hasFile('mp3link')) {
             $mp3link = $request->file('mp3link');
             $mp3linkName = time() . '.' . $mp3link->getClientOriginalExtension();
@@ -101,15 +101,17 @@ class SongController extends Controller
         }
 
 
-        $song = new Song();
         $song->title = $request->title;
         $song->author_id = $request->author_id;
         $song->cover = $coverPath ? asset('/songs/cover/' . basename($coverPath)) : null;
         $song->mp3link = $mp3linkPath ?  asset("songs/mp3/" . basename($mp3linkPath)) : null;
         $song->save();
+        return redirect()->route('song.index');
+
     }
     public function destroy(Song $song)
     {
+        $song->playlists()->detach();
         $song->delete();
         return redirect()->route('song.index');
     }

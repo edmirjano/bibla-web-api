@@ -14,8 +14,7 @@
                         <x-add-button href="{{ route('song.create') }}" class="mt-6">
                             {{ '+ ADD' }}
                         </x-add-button>
-
-                    </div>
+              </div>
                     <div class="mt-6 inline-block min-w-full shadow-md rounded-md overflow-hidden">
                         <table class="min-w-full leading-normal">
                             <thead>

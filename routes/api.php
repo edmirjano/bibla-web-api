@@ -20,6 +20,9 @@ Route::get('/songs', [SongController::class, 'getAllSongs']);
 Route::get('/songs/{song}', [SongController::class, 'getSong']);
 Route::post('/addSongViewer/{song}', [SongController::class, 'addViewer']);
 Route::get('/playlists', [PlaylistController::class, 'getPlaylists']);
+Route::get('/authors', [AuthorController::class, 'getAuthors']);
+Route::get('/playlists/{playlist}', [PlaylistController::class, 'getPlaylist']);
+Route::get('/authors/{author}', [AuthorController::class, 'getAuthor']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -45,8 +48,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/classrooms', [ClassroomController::class, 'store']);
     Route::put('/classrooms/{classroom}', [ClassroomController::class, 'update']);
     Route::delete('/classrooms/{classroom}', [ClassroomController::class, 'destroy']);
-    Route::post('/classrooms/{classroomId}/addUser/{userId}', [ClassroomController::class, 'addUser']);
-    Route::post('/classrooms/{classroomId}/removeUser/{userId}', [ClassroomController::class, 'removeUser']);
+    Route::get('/classrooms/user/{user}/', [ClassroomController::class, 'getClassroomsByUser']);
+    Route::post('/classrooms/{classroom}/addUser/{userId}', [ClassroomController::class, 'addUser']);
+    Route::post('/classrooms/{classroom}/removeUser/{userId}', [ClassroomController::class, 'removeUser']);
 
 });
 
