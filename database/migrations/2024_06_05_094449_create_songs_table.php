@@ -16,6 +16,9 @@ class CreateSongsTable extends Migration
             $table->string('cover')->nullable();
             $table->integer('views')->default(0);
             $table->integer('favorites')->default(0);
+            $table->string('yt_link')->nullable();
+            $table->string('spotify_link')->nullable();
+            $table->longText('lyrics')->nullable();
             $table->timestamps();
         });
     }

@@ -38,6 +38,9 @@ class SongController extends Controller
             'author_id' => 'required|exists:authors,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg',
             'mp3link' => 'nullable|mimes:mp3',
+            'yt_link' => 'nullable|string|max:255',
+            'spotify_link' => 'nullable|string|max:255',
+            'lyrics' => 'nullable|string',
         ]);
 
         // Handle the cover file
@@ -63,7 +66,11 @@ class SongController extends Controller
         $song->title = $request->title;
         $song->author_id = $request->author_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
-        $song->mp3link = $mp3linkPath ?  asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
+        $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
+        $song->yt_link = $request->yt_link;
+        $song->spotify_link = $request->spotify_link;
+        $song->lyrics = $request->lyrics;
+
         $song->save();
         return redirect()->route('song.index');
     }
@@ -85,6 +92,9 @@ class SongController extends Controller
             'author_id' => 'required|exists:authors,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // max 10 MB
             'mp3link' => 'nullable|mimes:mp3|max:10240', // max 10 MB
+            'yt_link' => 'nullable|string|max:255',
+            'spotify_link' => 'nullable|string|max:255',
+            'lyrics' => 'nullable|string',
         ]);
 
 
@@ -103,7 +113,11 @@ class SongController extends Controller
         $song->title = $request->title;
         $song->author_id = $request->author_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
-        $song->mp3link = $mp3linkPath ?  asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
+        $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
+        $song->yt_link = $request->yt_link;
+        $song->spotify_link = $request->spotify_link;
+        $song->lyrics = $request->lyrics;
+
         $song->save();
         return redirect()->route('song.index');
 
