@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Song extends Model
 {
-    use HasFactory,RelationshipTrait;
+    use HasFactory, RelationshipTrait;
 
-    protected $fillable = ['title', 'author_id', 'mp3link', 'cover', 'views', 'favorites'];
+    protected $fillable = ['title', 'author_id', 'mp3link', 'cover', 'views', 'favorites', 'yt_link', 'spotify_link', 'lyrics'];
 
 }

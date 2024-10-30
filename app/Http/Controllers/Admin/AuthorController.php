@@ -24,7 +24,8 @@ class AuthorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'bio' => 'nullable|string'
         ]);
 
         if ($request->hasFile('cover')) {
@@ -36,7 +37,8 @@ class AuthorController extends Controller
 
         Author::create([
             'name' => $request->input('name'),
-            'cover' => $coverPath ? asset('storage/authors/' . basename($coverPath)): '',
+            'cover' => $coverPath ? asset('storage/authors/' . basename($coverPath)) : '',
+            'bio' => $request->input('bio')
         ]);
 
         return redirect()->route('author.index')->with('success', 'Author created successfully.');
@@ -51,7 +53,8 @@ class AuthorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'bio' => 'nullable|string'
         ]);
 
         if ($request->hasFile('cover')) {
@@ -67,7 +70,8 @@ class AuthorController extends Controller
 
         $author->update([
             'name' => $request->input('name'),
-            'cover' => $coverPath ?    asset('storage/authors/' . basename($coverPath)): $author->cover,
+            'cover' => $coverPath ? asset('storage/authors/' . basename($coverPath)) : $author->cover,
+            'bio' => $request->input('bio')
         ]);
 
         return redirect()->route('author.index')->with('success', 'Author updated successfully.');

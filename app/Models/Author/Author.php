@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Author extends Model
 {
-    use HasFactory ,RelationshipTrait;
+    use HasFactory, RelationshipTrait;
 
-    protected $fillable = ['name', 'number_of_songs', 'cover'];
+    protected $fillable = ['name', 'number_of_songs', 'cover', 'bio'];
 
 }

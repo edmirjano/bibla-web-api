@@ -14,7 +14,7 @@
                         <x-add-button href="{{ route('song.create') }}" class="mt-6">
                             {{ '+ ADD' }}
                         </x-add-button>
-              </div>
+                    </div>
                     <div class="mt-6 inline-block min-w-full shadow-md rounded-md overflow-hidden">
                         <table class="min-w-full leading-normal">
                             <thead>
@@ -29,14 +29,25 @@
                                     </th>
                                     <th
                                         class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Player
                                     </th>
                                     <th
                                         class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Links
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Lyrics
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Action
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($songs as $song)
+
                                     <tr class="border-b border-table-gray">
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             {{ $song->title }}
@@ -55,6 +66,40 @@
                                                 Play
                                             </button>
                                         </td>
+                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
+                                            <div>
+                                                Play on
+                                                <a href="{{ $song->yt_link }}" class="hover:underline" target="_blank">
+                                                    Youtube
+                                                </a>/
+                                                <a href="{{ $song->spotify_link }}" class="hover:underline" target="_blank">
+                                                    Spotify
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
+
+                                            <x-add-button id="addCategoryBtn_{{ $song->id }}" class="bg-transparent"
+                                                onclick="showModal('addCategoryModal_{{ $song->id }}')">
+                                                {{ 'Show Lyrics' }}
+                                            </x-add-button>
+
+                                            <div id="addCategoryModal_{{ $song->id }}"
+                                                class="modal hidden fixed inset-0 flex justify-center items-center z-50">
+                                                <div
+                                                    class="modal-content p-6 w-1/2 h-1/2 rounded-lg shadow-xl bg-light-gray relative">
+                                                    <button onclick="hideModal('addCategoryModal_{{ $song->id }}')"
+                                                        class="absolute top-0 right-1 text-3xl text-gray-700 hover:text-gray-900">
+                                                        &times;
+                                                    </button>
+                                                    <textarea
+                                                        class="w-full h-full p-2 text-base border rounded-md resize-none"
+                                                        readonly>
+                                                        {{ $song->lyrics }}
+                                                    </textarea>
+                                                </div>
+                                            </div>
+                                        </td>
 
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             <div class="flex space-x-3 align-middle">
@@ -70,10 +115,10 @@
                                                 </form>
                                             </div>
                                         </td>
+
                                     </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
                     </div>
                 </div>
@@ -81,6 +126,7 @@
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         function togglePlayStop(songId) {
             var audioPlayer = document.getElementById('audioPlayer-' + songId);
@@ -96,5 +142,27 @@
                 playButton.textContent = "Play";
             }
         }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        $(document).ready(function () {
+            // Show Add Category Modal on button click
+            $("#addCategoryBtn").click(function () {
+                $("#addCategoryModal").removeClass('hidden');
+            });
+
+            // Hide the modal when clicked outside of it
+            $(window).click(function (event) {
+                if (event.target == document.getElementById("addCategoryModal")) {
+                    $("#addCategoryModal").addClass('hidden');
+                }
+            });
+        })
     </script>
 </x-app-layout>
