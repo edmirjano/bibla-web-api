@@ -13,14 +13,16 @@
 
                         <!-- Song Title -->
                         <div class="mt-4">
-                            <label for="title" :value="__('Title')">Title</label>
+                            <label for="title" :value="__('Title')"
+                                class="block font-medium text-m text-gray-700">Title</label>
                             <input id="title" class="block mt-1 w-full" type="text" name="title"
                                 value="{{ $song->title ?? old('title') }}" required autofocus />
                         </div>
 
                         <!-- Author Selection -->
                         <div class="mt-4">
-                            <label for="author_id" :value="__('Author')">Author</label>
+                            <label for="author_id" :value="__('Author')"
+                                class="block font-medium text-m text-gray-700">Author</label>
                             <select id="author_id" name="author_id" class="block mt-1 w-full">
                                 @foreach ($authors as $author)
                                     <option value="{{ $author->id }}" {{ isset($song) && $song->author_id == $author->id ? 'selected' : '' }}>
@@ -31,20 +33,22 @@
                         </div>
 
                         <div class="mt-4">
-                            <label for="yt_link" :value="__('Youtube Link')">Youtube Link</label>
+                            <label for="yt_link" :value="__('Youtube Link')"
+                                class="block font-medium text-m text-gray-700">Youtube Link</label>
                             <input id="yt_link" class="block mt-1 w-full" type="text" name="yt_link"
                                 value="{{ $song->yt_link ?? old('yt_link') }}" />
                         </div>
 
                         <div class="mt-4">
-                            <label for="spotify_link" :value="__('Spotify Link')">Spotify Link</label>
+                            <label for="spotify_link" :value="__('Spotify Link')"
+                                class="block font-medium text-m text-gray-700">Spotify Link</label>
                             <input id="spotify_link" class="block mt-1 w-full" type="text" name="spotify_link"
                                 value="{{ $song->spotify_link ?? old('spotify_)link') }}" />
                         </div>
 
                         <!-- Music File Dropzone -->
                         <div class="mt-4">
-                            <label for="mp3link" class="block font-medium text-sm text-gray-700">Music</label>
+                            <label for="mp3link" class="block font-medium text-m text-gray-700">Music</label>
                             <div id="musicDropzone"
                                 class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 flex items-center justify-center cursor-pointer"
                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
@@ -66,7 +70,7 @@
 
                         <!-- Cover Image Dropzone -->
                         <div class="mt-4">
-                            <label for="cover" class="block font-medium text-sm text-gray-700">Cover</label>
+                            <label for="cover" class="block font-medium text-m text-gray-700">Cover</label>
                             <div id="coverDropzone"
                                 class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 flex items-center justify-center cursor-pointer"
                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
@@ -91,10 +95,9 @@
                         @endisset
 
                         <div>
-                            <label for="lyrics"
-                                class="uppercase tracking-wide text-black text-xs font-bold mb-2">Lyrics</label>
-                            <textarea id="lyrics" name="lyrics" class="border rounded px-3 py-2 w-full" autofocus>
-                                {{ $song->lyrics ?? old('lyrics') }}</textarea>
+                            <label for="lyrics" class="block font-medium text-m text-gray-700">Lyrics</label>
+                            <textarea id="lyrics" name="lyrics" class="border rounded px-3 py-2 w-full"
+                                autofocus>{{ $song->lyrics ?? old('lyrics') }}</textarea>
                             @error('lyrics')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
