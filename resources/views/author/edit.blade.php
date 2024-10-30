@@ -55,13 +55,15 @@
                                 @enderror
                             </div>
                         </div>
+                        <div id="imagePreview" class="mt-2 w-64"></div>
+
 
                         <!-- Current Cover Image -->
-                        @isset($author->cover)
-                            <div class="mt-2 w-48">
-                                <img src="{{ asset($author->cover) }}" alt="{{ $author->name }}" class="mt-2 max-w-xs">
-                            </div>
-                        @endisset
+{{--                        @isset($author->cover)--}}
+{{--                            <div class="mt-2 w-48">--}}
+{{--                                <img src="{{ asset($author->cover) }}" alt="{{ $author->name }}" class="mt-2 max-w-xs">--}}
+{{--                            </div>--}}
+{{--                        @endisset--}}
 
                         <div class="flex items-center justify-end mt-4">
                             <button type="submit"

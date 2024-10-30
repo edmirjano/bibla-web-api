@@ -5,14 +5,24 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Song\Song;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class SongController extends Controller
 {
-    public function getAllSongs(): JsonResponse
+    public function getAllSongs(Request $request): JsonResponse
     {
         try {
-            $songs = Song::with('author')->get();
+            $search = $request->query('search');
 
+            $songs = Song::with('author')
+                ->where(function ($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('lyrics', 'like', "%{$search}%")
+                        ->orWhereHas('author', function ($query) use ($search) {
+                            $query->where('name', 'like', "%{$search}%");
+                        });
+                })
+                ->get();
             return response()->json([
                 'success' => true,
                 'data' => $songs

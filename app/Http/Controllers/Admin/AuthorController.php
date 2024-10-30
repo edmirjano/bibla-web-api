@@ -56,6 +56,7 @@ class AuthorController extends Controller
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bio' => 'nullable|string'
         ]);
+        $coverPath=null;
 
         if ($request->hasFile('cover')) {
             if ($author->cover) {
