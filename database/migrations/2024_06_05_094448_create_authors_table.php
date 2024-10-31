@@ -13,7 +13,6 @@ class CreateAuthorsTable extends Migration
             $table->string('name');
             $table->integer('number_of_songs')->default(0);
             $table->string('cover')->nullable();
-            $table->text('bio')->nullable();
             $table->timestamps();
         });
     }
