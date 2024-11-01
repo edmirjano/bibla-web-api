@@ -33,6 +33,17 @@
                         </div>
 
                         <div class="mt-4">
+                            <label for="playlists" class="block font-medium text-m text-gray-700">Playlists</label>
+                            <select id="playlists" name="playlists[]" class="block mt-1 w-full" multiple>
+                                @foreach ($playlists as $playlist)
+                                    <option value="{{ $playlist->id }}" {{ isset($song) && $song->playlists->contains($playlist->id) ? 'selected' : '' }}>
+                                        {{ $playlist->title }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mt-4">
                             <label for="yt_link" :value="__('Youtube Link')"
                                 class="block font-medium text-m text-gray-700">Youtube Link</label>
                             <input id="yt_link" class="block mt-1 w-full" type="text" name="yt_link"
@@ -57,7 +68,7 @@
                                     {{ isset($song->mp3link) ? basename($song->mp3link) : 'Click to select a file or drag and drop' }}
                                 </span>
                                 <input id="mp3link" class="hidden" type="file" name="mp3link" accept="audio/*"
-                                    onchange="updateDropzoneText(this, 'musicDropzoneText')" />
+                                    onchange="updateDropzoneText(this, 'musicDropzoneText')" required />
                             </div>
                             @error('mp3link')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

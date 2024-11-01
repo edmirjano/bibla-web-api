@@ -29,6 +29,10 @@
                                     </th>
                                     <th
                                         class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Playlist
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                         Player
                                     </th>
                                     <th
@@ -54,6 +58,15 @@
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             {{ $song->author->name }}
+
+                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
+                                            @if($song->playlists->isNotEmpty())
+                                                <ul>
+                                                    @foreach($song->playlists as $playlist)
+                                                        <li>{{ $playlist->title }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             <audio id="audioPlayer-{{ $song->id }}">
