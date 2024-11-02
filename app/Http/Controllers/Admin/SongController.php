@@ -36,7 +36,7 @@ class SongController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
             'mp3link' => 'nullable|mimes:mp3',
             'yt_link' => 'nullable|string|max:255',
             'spotify_link' => 'nullable|string|max:255',
@@ -90,7 +90,7 @@ class SongController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // max 10 MB
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,,webp|max:10240', // max 10 MB
             'mp3link' => 'nullable|mimes:mp3|max:10240', // max 10 MB
             'yt_link' => 'nullable|string|max:255',
             'spotify_link' => 'nullable|string|max:255',
