@@ -33,6 +33,8 @@ class AuthorController extends Controller
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/authors', $coverName);
             $coverPath = str_replace('public/', 'storage/', $coverPath);
+        } else {
+            $coverPath = null;
         }
 
         Author::create([
@@ -56,7 +58,7 @@ class AuthorController extends Controller
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
             'bio' => 'nullable|string'
         ]);
-        $coverPath=null;
+        $coverPath = null;
 
         if ($request->hasFile('cover')) {
             if ($author->cover) {

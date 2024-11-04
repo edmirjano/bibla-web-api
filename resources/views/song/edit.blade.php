@@ -24,6 +24,7 @@
                             <label for="author_id" :value="__('Author')"
                                 class="block font-medium text-m text-gray-700">Author</label>
                             <select id="author_id" name="author_id" class="block mt-1 w-full">
+                                <option value="">Select Author</option>
                                 @foreach ($authors as $author)
                                     <option value="{{ $author->id }}" {{ isset($song) && $song->author_id == $author->id ? 'selected' : '' }}>
                                         {{ $author->name }}
@@ -41,6 +42,7 @@
                                     </option>
                                 @endforeach
                             </select>
+                            <p class="text-xs">Press Control + Left Mouse Click to remove</pcla>
                         </div>
 
                         <div class="mt-4">
