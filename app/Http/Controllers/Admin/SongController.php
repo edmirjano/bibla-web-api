@@ -45,6 +45,7 @@ class SongController extends Controller
             'yt_link' => 'nullable|string|max:255',
             'spotify_link' => 'nullable|string|max:255',
             'lyrics' => 'nullable|string',
+            'release_year' => 'nullable|integer'
         ]);
 
         // Handle the cover file
@@ -74,6 +75,7 @@ class SongController extends Controller
         $song->yt_link = $request->yt_link;
         $song->spotify_link = $request->spotify_link;
         $song->lyrics = $request->lyrics;
+        $song->release_year = $request->release_year;
 
         $song->save();
         $song->playlists()->attach($request['playlists']);
@@ -103,6 +105,7 @@ class SongController extends Controller
             'yt_link' => 'nullable|string|max:255',
             'spotify_link' => 'nullable|string|max:255',
             'lyrics' => 'nullable|string',
+            'release_year' => 'nullable|integer'
         ]);
 
 
@@ -125,6 +128,7 @@ class SongController extends Controller
         $song->yt_link = $request->yt_link;
         $song->spotify_link = $request->spotify_link;
         $song->lyrics = $request->lyrics;
+        $song->release_year = $request->release_year;
 
         $song->save();
         $song->playlists()->sync($request['playlists']);
