@@ -9,7 +9,7 @@
                 <div class="sm:px-20 container mx-auto px-4 sm:px-8">
                     <div class="flex justify-between">
                         <div class="mt-8 text-2xl font-semibold leading-tight">
-                            Classrooms
+                            Group
                         </div>
 
                         <div class="mt-6">
@@ -55,11 +55,12 @@
                                         </td>
 
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
-                                            <a href="{{ route('classroom.edit', $classroom->id) }}" class="inline-block">
+                                            <a href="{{ route('classroom.edit', $classroom->id) }}"
+                                                class="inline-block">
                                                 <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                             </a>
-                                            <form action="{{ route('classroom.destroy', $classroom->id) }}" method="POST"
-                                                class="inline-block">
+                                            <form action="{{ route('classroom.destroy', $classroom->id) }}"
+                                                method="POST" class="inline-block">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit">
