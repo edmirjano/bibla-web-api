@@ -42,9 +42,11 @@ class PlaylistController extends Controller
     public function getPlaylists(User $user): JsonResponse
     {
         if (auth('sanctum')->check()) {
-            $playlists =  Playlist::where('user_id',auth('sanctum')->user()->id)->with('songs')->get();
+            $playlists = Playlist::where('user_id', auth('sanctum')->user()->id)
+                                 ->with(['songs.author'])
+                                 ->get();
         } else {
-            $playlists = Playlist::with('songs')->get();
+            $playlists = Playlist::with(['songs.author'])->get();
         }
 
         return response()->json([

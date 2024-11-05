@@ -40,7 +40,7 @@ class SongController extends Controller
             'author_id' => 'required|exists:authors,id',
             'playlists' => 'nullable|array',
             'playlists.*' => 'exists:playlists,id',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
             'mp3link' => 'nullable|mimes:mp3',
             'yt_link' => 'nullable|string|max:255',
             'spotify_link' => 'nullable|string|max:255',
