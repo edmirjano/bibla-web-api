@@ -10,24 +10,31 @@ use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
 {
-    public function store(Request $request)
+    public function addNewPlaylist(Request $request): JsonResponse
     {
         try {
-            // Validate the request
+
             $request->validate([
                 'title' => 'required|string|max:255',
+                'songs' => 'nullable|array',
+                'songs.*' => 'exists:songs,id'
             ]);
 
-
+            // Create the playlist
             $playlist = Playlist::create([
                 'title' => $request->title,
                 'user_id' => auth()->user()->id,
             ]);
 
+            // Attach songs if they are provided
+            if (!empty($request->songs)) {
+                $playlist->songs()->attach($request->songs);
+            }
+
             return response()->json([
                 'success' => true,
                 'message' => 'Playlist created successfully',
-                'data' => $playlist
+                'data' => $playlist->load('songs')
             ], 201);
         } catch (\Exception $e) {
             return response()->json([

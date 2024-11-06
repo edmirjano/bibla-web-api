@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/authors/{author}', [AuthorController::class, 'deleteAuthor']);
     // Playlist-related routes
     Route::get('/playlists/{playlist}', [PlaylistController::class, 'getPlaylist']);
+    Route::post('/playlists', [PlaylistController::class, 'addNewPlaylist']);
+
     Route::put('/playlists/{playlist}', [PlaylistController::class, 'updatePlaylist']);
     Route::delete('/playlists/{playlist}', [PlaylistController::class, 'deletePlaylist']);
     Route::post('/updateSongs/{playlist}', [PlaylistController::class, 'updateSongs']);
