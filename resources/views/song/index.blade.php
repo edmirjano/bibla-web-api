@@ -60,7 +60,13 @@
                                             {{ $song->title }}
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
-                                            {{ $song->author->name }}
+                                            @if($song->authors->isNotEmpty())
+                                                <ul>
+                                                    @foreach($song->authors as $author)
+                                                        <li>{{ $author->name }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             {{ $song->release_year }}
@@ -91,16 +97,14 @@
                                                 <a href="{{ $song->yt_link }}" class="hover:underline" target="_blank">
                                                     Youtube
                                                 </a>/
-                                                <a href="{{ $song->spotify_link }}" class="hover:underline"
-                                                    target="_blank">
+                                                <a href="{{ $song->spotify_link }}" class="hover:underline" target="_blank">
                                                     Spotify
                                                 </a>
                                             </div>
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
 
-                                            <x-add-button id="addCategoryBtn_{{ $song->id }}"
-                                                class="bg-transparent"
+                                            <x-add-button id="addCategoryBtn_{{ $song->id }}" class="bg-transparent"
                                                 onclick="showModal('addCategoryModal_{{ $song->id }}')">
                                                 {{ 'Show Lyrics' }}
                                             </x-add-button>
@@ -113,7 +117,9 @@
                                                         class="absolute top-0 right-1 text-3xl text-gray-700 hover:text-gray-900">
                                                         &times;
                                                     </button>
-                                                    <textarea class="w-full h-full p-2 text-base border rounded-md resize-none" readonly>
+                                                    <textarea
+                                                        class="w-full h-full p-2 text-base border rounded-md resize-none"
+                                                        readonly>
                                                         {{ $song->lyrics }}
                                                     </textarea>
                                                 </div>
@@ -170,14 +176,14 @@
             document.getElementById(modalId).classList.add('hidden');
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             // Show Add Category Modal on button click
-            $("#addCategoryBtn").click(function() {
+            $("#addCategoryBtn").click(function () {
                 $("#addCategoryModal").removeClass('hidden');
             });
 
             // Hide the modal when clicked outside of it
-            $(window).click(function(event) {
+            $(window).click(function (event) {
                 if (event.target == document.getElementById("addCategoryModal")) {
                     $("#addCategoryModal").addClass('hidden');
                 }

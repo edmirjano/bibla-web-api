@@ -21,23 +21,16 @@
 
                         <!-- Author Selection -->
                         <div class="mt-4">
-                            <label for="author_id" :value="__('Author')"
-                                class="block font-medium text-m text-gray-700">Author</label>
-                            <select id="author_id" name="author_id" class="block mt-1 w-full">
-                                <option value="">Select Author</option>
+                            <label for="authors" :value="__('Author')"
+                                class="block font-medium text-m text-gray-700">Authors</label>
+                            <select id="authors" name="authors[]" class="block mt-1 w-full" multiple>
                                 @foreach ($authors as $author)
-                                    <option value="{{ $author->id }}"
-                                        {{ isset($song) && $song->author_id == $author->id ? 'selected' : '' }}>
+                                    <option value="{{ $author->id }}" {{ isset($song) && $song->author->contains($author->id) ? 'selected' : '' }}>
                                         {{ $author->name }}
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
-                        <div class="mt-4">
-                            <label for="release_year" :value="__('Release Year')"
-                                class="block font-medium text-m text-gray-700">Release Year</label>
-                            <input id="release_year" class="block mt-1 w-full" type="number" name="release_year"
-                                value="{{ $song->release_year ?? old('release_year') }}" required autofocus />
+                            <p class="text-xs">Press Control + Left Mouse Click to remove</p>
                         </div>
 
                         <div class="mt-4">
@@ -50,7 +43,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <p class="text-xs">Press Control + Left Mouse Click to remove</pcla>
+                            <p class="text-xs">Press Control + Left Mouse Click to remove</p>
                         </div>
 
                         <div class="mt-4">
