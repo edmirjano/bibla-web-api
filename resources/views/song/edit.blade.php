@@ -24,12 +24,33 @@
                             <label for="author_id" :value="__('Author')"
                                 class="block font-medium text-m text-gray-700">Author</label>
                             <select id="author_id" name="author_id" class="block mt-1 w-full">
+                                <option value="">Select Author</option>
                                 @foreach ($authors as $author)
-                                    <option value="{{ $author->id }}" {{ isset($song) && $song->author_id == $author->id ? 'selected' : '' }}>
+                                    <option value="{{ $author->id }}"
+                                        {{ isset($song) && $song->author_id == $author->id ? 'selected' : '' }}>
                                         {{ $author->name }}
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="mt-4">
+                            <label for="release_year" :value="__('Release Year')"
+                                class="block font-medium text-m text-gray-700">Release Year</label>
+                            <input id="release_year" class="block mt-1 w-full" type="number" name="release_year"
+                                value="{{ $song->release_year ?? old('release_year') }}" required autofocus />
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="playlists" class="block font-medium text-m text-gray-700">Playlists</label>
+                            <select id="playlists" name="playlists[]" class="block mt-1 w-full" multiple>
+                                @foreach ($playlists as $playlist)
+                                    <option value="{{ $playlist->id }}"
+                                        {{ isset($song) && $song->playlists->contains($playlist->id) ? 'selected' : '' }}>
+                                        {{ $playlist->title }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <p class="text-xs">Press Control + Left Mouse Click to remove</pcla>
                         </div>
 
                         <div class="mt-4">
@@ -57,7 +78,7 @@
                                     {{ isset($song->mp3link) ? basename($song->mp3link) : 'Click to select a file or drag and drop' }}
                                 </span>
                                 <input id="mp3link" class="hidden" type="file" name="mp3link" accept="audio/*"
-                                    onchange="updateDropzoneText(this, 'musicDropzoneText')" />
+                                    onchange="updateDropzoneText(this, 'musicDropzoneText')" required />
                             </div>
                             @error('mp3link')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -76,8 +97,8 @@
                                 ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
                                 ondrop="handleFileDrop(event, 'cover')">
                                 <span id="coverDropzoneText">Click to select an image or drag and drop</span>
-                                <input id="cover" class="hidden" type="file" name="cover" accept="image/*" autofocus
-                                    onchange="previewImage(event, 'imagePreview')" />
+                                <input id="cover" class="hidden" type="file" name="cover" accept="image/*"
+                                    autofocus onchange="previewImage(event, 'imagePreview')" />
                             </div>
                             @error('cover')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
@@ -96,8 +117,7 @@
 
                         <div>
                             <label for="lyrics" class="block font-medium text-m text-gray-700">Lyrics</label>
-                            <textarea id="lyrics" name="lyrics" class="border rounded px-3 py-2 w-full"
-                                autofocus>{{ $song->lyrics ?? old('lyrics') }}</textarea>
+                            <textarea id="lyrics" name="lyrics" class="border rounded px-3 py-2 w-full" autofocus>{{ $song->lyrics ?? old('lyrics') }}</textarea>
                             @error('lyrics')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -148,7 +168,11 @@
             const dropzoneText = inputId === 'mp3link' ? 'musicDropzoneText' : 'coverDropzoneText';
             document.getElementById(dropzoneText).innerText = files[0].name;
 
-            if (inputId === 'cover') previewImage({ target: { files } }, 'imagePreview');
+            if (inputId === 'cover') previewImage({
+                target: {
+                    files
+                }
+            }, 'imagePreview');
         }
 
         // Image preview
@@ -156,13 +180,14 @@
             const file = event.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = function(e) {
                     const output = document.getElementById(previewId);
                     output.innerHTML = `<img src="${e.target.result}" class="mt-2 max-w-xs">`;
                 }
                 reader.readAsDataURL(file);
             }
         }
+
         function updateDropzoneText(inputElement, dropzoneTextId) {
             const fileName = inputElement.files[0].name;
             document.getElementById(dropzoneTextId).textContent = fileName;
@@ -173,13 +198,13 @@
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
             tinycomments_author: 'Emanuel Gjoni',
             mergetags_list: [{
-                value: 'First.Name',
-                title: 'First Name'
-            },
-            {
-                value: 'Email',
-                title: 'Email'
-            },
+                    value: 'First.Name',
+                    title: 'First Name'
+                },
+                {
+                    value: 'Email',
+                    title: 'Email'
+                },
             ],
         });
     </script>

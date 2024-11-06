@@ -43,8 +43,8 @@
                                     ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)"
                                     ondrop="handleFileDrop(event)">
                                     <span id="coverDropzoneText">Click to select an image or drag and drop</span>
-                                    <input id="cover" class="hidden" type="file" name="cover" accept="image/*" required
-                                        autofocus onchange="previewImage(event)" />
+                                    <input id="cover" class="hidden" type="file" name="cover" accept="image/*" autofocus
+                                        onchange="previewImage(event)" />
 
                                     <!-- Preview for the current image -->
                                     {{-- <div id="imagePreview"
@@ -59,11 +59,12 @@
 
 
                         <!-- Current Cover Image -->
-{{--                        @isset($author->cover)--}}
-{{--                            <div class="mt-2 w-48">--}}
-{{--                                <img src="{{ asset($author->cover) }}" alt="{{ $author->name }}" class="mt-2 max-w-xs">--}}
-{{--                            </div>--}}
-{{--                        @endisset--}}
+                        {{-- @isset($author->cover)--}}
+                        {{-- <div class="mt-2 w-48">--}}
+                            {{-- <img src="{{ asset($author->cover) }}" alt="{{ $author->name }}"
+                                class="mt-2 max-w-xs">--}}
+                            {{-- </div>--}}
+                        {{-- @endisset--}}
 
                         <div class="flex items-center justify-end mt-4">
                             <button type="submit"
