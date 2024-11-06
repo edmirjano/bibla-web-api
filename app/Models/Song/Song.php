@@ -11,6 +11,5 @@ class Song extends Model
 {
     use HasFactory, RelationshipTrait, SoftDeletes;
 
-    protected $fillable = ['title', 'author_id', 'mp3link', 'cover', 'views', 'favorites', 'yt_link', 'spotify_link', 'lyrics', 'release_year'];
-
+    protected $fillable = ['title', 'mp3link', 'cover', 'views', 'favorites', 'yt_link', 'spotify_link', 'lyrics', 'release_year'];
 }

@@ -21,23 +21,24 @@
 
                         <!-- Author Selection -->
                         <div class="mt-4">
-                            <label for="author_id" :value="__('Author')"
-                                class="block font-medium text-m text-gray-700">Author</label>
-                            <select id="author_id" name="author_id" class="block mt-1 w-full">
-                                <option value="">Select Author</option>
+                            <label for="authors" :value="__('Author')"
+                                class="block font-medium text-m text-gray-700">Authors</label>
+                            <select id="authors" name="authors[]" class="block mt-1 w-full" multiple>
                                 @foreach ($authors as $author)
                                     <option value="{{ $author->id }}"
-                                        {{ isset($song) && $song->author_id == $author->id ? 'selected' : '' }}>
+                                        {{ isset($song) && $song->authors->contains($author->id) ? 'selected' : '' }}>
                                         {{ $author->name }}
                                     </option>
                                 @endforeach
                             </select>
+                            <p class="text-xs">Press Control + Left Mouse Click to remove</p>
                         </div>
+
                         <div class="mt-4">
                             <label for="release_year" :value="__('Release Year')"
                                 class="block font-medium text-m text-gray-700">Release Year</label>
                             <input id="release_year" class="block mt-1 w-full" type="number" name="release_year"
-                                value="{{ $song->release_year ?? old('release_year') }}" required autofocus />
+                                value="{{ $song->release_year ?? old('release_year') }}" />
                         </div>
 
                         <div class="mt-4">
@@ -50,7 +51,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <p class="text-xs">Press Control + Left Mouse Click to remove</pcla>
+                            <p class="text-xs">Press Control + Left Mouse Click to remove</p>
                         </div>
 
                         <div class="mt-4">
@@ -78,7 +79,7 @@
                                     {{ isset($song->mp3link) ? basename($song->mp3link) : 'Click to select a file or drag and drop' }}
                                 </span>
                                 <input id="mp3link" class="hidden" type="file" name="mp3link" accept="audio/*"
-                                    onchange="updateDropzoneText(this, 'musicDropzoneText')" required />
+                                    onchange="updateDropzoneText(this, 'musicDropzoneText')" />
                             </div>
                             @error('mp3link')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>

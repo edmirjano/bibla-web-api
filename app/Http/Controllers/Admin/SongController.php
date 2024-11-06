@@ -23,11 +23,6 @@ class SongController extends Controller
     public function create(Request $request)
     {
         session(['previous_url' => url()->previous()]);
-        $authorId = $request->input('autho_Id');
-        if (isset($authorId)) {
-            $authors = [Song::find($authorId)];
-            return view('song.edit', compact('authors'));
-        }
         $playlists = Playlist::all();
         $authors = Author::all();
         return view('song.edit', compact('authors', 'playlists'));
@@ -37,7 +32,8 @@ class SongController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'author_id' => 'required|exists:authors,id',
+            'authors' => 'required|array',
+            'authors.*' => 'required|exists:authors,id',
             'playlists' => 'nullable|array',
             'playlists.*' => 'exists:playlists,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
@@ -69,7 +65,6 @@ class SongController extends Controller
         // Create a new Song instance
         $song = new Song();
         $song->title = $request->title;
-        $song->author_id = $request->author_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
         $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
         $song->yt_link = $request->yt_link;
@@ -79,6 +74,7 @@ class SongController extends Controller
 
         $song->save();
         $song->playlists()->attach($request['playlists']);
+        $song->authors()->attach($request['authors']);
         return redirect()->route('song.index');
     }
 
@@ -97,7 +93,8 @@ class SongController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'author_id' => 'required|exists:authors,id',
+            'authors' => 'required|array',
+            'authors.*' => 'required|exists:authors,id',
             'playlists' => 'nullable|array',
             'playlists.*' => 'exists:playlists,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // max 10 MB
@@ -122,7 +119,6 @@ class SongController extends Controller
             $mp3linkPath = $mp3link->storeAs('public/songs/mp3', $mp3linkName);
         }
         $song->title = $request->title;
-        $song->author_id = $request->author_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
         $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
         $song->yt_link = $request->yt_link;
@@ -132,12 +128,14 @@ class SongController extends Controller
 
         $song->save();
         $song->playlists()->sync($request['playlists']);
+        $song->authors()->sync($request['authors']);
         return redirect()->route('song.index');
 
     }
     public function destroy(Song $song)
     {
         $song->playlists()->detach();
+        $song->authors()->detach();
         $song->delete();
         return redirect()->route('song.index');
     }
