@@ -63,14 +63,15 @@
                                                 </form>
                                             </div>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
+                    <div class="pagination mt-2">
+                        {{ $songs->links() }}
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
