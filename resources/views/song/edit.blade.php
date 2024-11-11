@@ -82,7 +82,7 @@
                                     onchange="updateDropzoneText(this, 'musicDropzoneText')" />
                             </div>
                             @error('mp3link')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-error-red text-sm mt-1">{{ $message }}</p>
                             @enderror
                             @if (isset($song) && $song->mp3link)
                                 <p class="mt-2">Current MP3: <a href="{{ asset($song->mp3link) }}"
@@ -102,7 +102,7 @@
                                     autofocus onchange="previewImage(event, 'imagePreview')" />
                             </div>
                             @error('cover')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-error-red text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -120,7 +120,7 @@
                             <label for="lyrics" class="block font-medium text-m text-gray-700">Lyrics</label>
                             <textarea id="lyrics" name="lyrics" class="border rounded px-3 py-2 w-full" autofocus>{{ $song->lyrics ?? old('lyrics') }}</textarea>
                             @error('lyrics')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-error-red text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 

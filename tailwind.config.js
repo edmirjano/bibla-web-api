@@ -16,7 +16,8 @@ export default {
             'dark-hover' : '#414952',
             'button-white': '#fcfcfc',
             'light-gray' : '#F3F4F6',
-            'table-gray' : '#D1D5DB'
+            'table-gray' : '#D1D5DB',
+            'error-red' : '#ef4444'
         },
         extend: {
             fontFamily: {
