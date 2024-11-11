@@ -71,10 +71,10 @@
                                     {{ isset($song->mp3link) ? basename($song->mp3link) : 'Click to select a file or drag and drop' }}
                                 </span>
                                 <input id="mp3link" class="hidden" type="file" name="mp3link" accept="audio/*"
-                                    onchange="updateDropzoneText(this, 'musicDropzoneText')" required />
+                                    onchange="updateDropzoneText(this, 'musicDropzoneText')"/>
                             </div>
                             @error('mp3link')
-                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                <p class="text-error-red text-sm mt-1">{{ $message }}</p>
                             @enderror
                             @if (isset($song) && $song->mp3link)
                                 <p class="mt-2">Current MP3: <a href="{{ asset($song->mp3link) }}"

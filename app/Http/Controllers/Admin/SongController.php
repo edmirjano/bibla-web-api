@@ -30,19 +30,25 @@ class SongController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'authors' => 'required|array',
-            'authors.*' => 'required|exists:authors,id',
-            'playlists' => 'nullable|array',
-            'playlists.*' => 'exists:playlists,id',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
-            'mp3link' => 'nullable|mimes:mp3',
-            'yt_link' => 'nullable|string|max:255',
-            'spotify_link' => 'nullable|string|max:255',
-            'lyrics' => 'nullable|string',
-            'release_year' => 'nullable|integer'
-        ]);
+        $request->validate(
+            [
+                'title' => 'required|string|max:255',
+                'authors' => 'nullable|array',
+                'authors.*' => 'nullable|exists:authors,id',
+                'playlists' => 'nullable|array',
+                'playlists.*' => 'exists:playlists,id',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
+                'mp3link' => 'required|mimes:mp3',
+                'yt_link' => 'nullable|string|max:255',
+                'spotify_link' => 'nullable|string|max:255',
+                'lyrics' => 'nullable|string',
+                'release_year' => 'nullable|integer'
+            ],
+            [
+                'mp3link.mimes' => 'The music file must be an MP3 format.',
+                'mp3link.required' => 'The Music field is required.',
+            ]
+        );
 
         // Handle the cover file
         if ($request->hasFile('cover')) {
@@ -58,8 +64,6 @@ class SongController extends Controller
             $mp3link = $request->file('mp3link');
             $mp3linkName = time() . '.' . $mp3link->getClientOriginalExtension();
             $mp3linkPath = $mp3link->storeAs('public/songs/mp3', $mp3linkName);
-        } else {
-            $mp3linkPath = null;
         }
 
         // Create a new Song instance
@@ -93,12 +97,12 @@ class SongController extends Controller
 
         $request->validate([
             'title' => 'required|string|max:255',
-            'authors' => 'required|array',
-            'authors.*' => 'required|exists:authors,id',
+            'authors' => 'nullable|array',
+            'authors.*' => 'nullable|exists:authors,id',
             'playlists' => 'nullable|array',
             'playlists.*' => 'exists:playlists,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // max 10 MB
-            'mp3link' => 'nullable|mimes:mp3|max:10240', // max 10 MB
+            'mp3link' => 'required|mimes:mp3|max:10240', // max 10 MB
             'yt_link' => 'nullable|string|max:255',
             'spotify_link' => 'nullable|string|max:255',
             'lyrics' => 'nullable|string',
@@ -118,6 +122,7 @@ class SongController extends Controller
             $mp3linkName = time() . '.' . $mp3link->getClientOriginalExtension();
             $mp3linkPath = $mp3link->storeAs('public/songs/mp3', $mp3linkName);
         }
+
         $song->title = $request->title;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
         $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
