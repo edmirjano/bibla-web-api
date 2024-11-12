@@ -34,7 +34,7 @@ class AuthorController extends Controller
             $coverPath = $cover->storeAs('public/authors', $coverName);
             $coverPath = str_replace('public/', 'storage/', $coverPath);
         } else {
-            $coverPath = null;
+            $coverPath = asset('storage/app/public/authors/default_cover.jpeg');
         }
 
         Author::create([
