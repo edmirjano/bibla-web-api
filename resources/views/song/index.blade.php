@@ -125,16 +125,15 @@
                                                 <a href="{{ route('song.edit', $song->id) }}" class="inline-block">
                                                     <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                                 </a>
-                                                <form action="{{ route('song.destroy', $song->id) }}" method="POST">
+                                                <form action="{{ route('song.destroy', $song->id) }}" method="POST" id="deleteForm_{{ $song->id }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="self-center">
+                                                    <button type="button" onclick="showDeleteModal({{ $song->id }})">
                                                         <img src="{{ asset('icons/delete.svg') }}" alt="Delete">
                                                     </button>
                                                 </form>
                                             </div>
                                         </td>
-
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -144,9 +143,49 @@
 
             </div>
         </div>
+        <div id="deleteModal" class="modal hidden fixed inset-0 flex justify-center items-center z-50">
+            <div class="modal-content p-6 w-1/3 bg-white rounded-lg shadow-xl relative">
+                <button onclick="hideModal('deleteModal')" class="absolute top-0 right-1 text-3xl text-gray-700 hover:text-gray-900">
+                    &times;
+                </button>
+                <h3 class="text-xl font-semibold mb-4">Are you sure you want to delete this song?</h3>
+                <div class="flex justify-between">
+                    <form id="deleteForm" action="" method="POST" class="w-full">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
+                            Yes, Delete
+                        </button>
+                    </form>
+                    <button onclick="hideModal('deleteModal')" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+        let formToDelete = null;
+
+        // Show delete confirmation modal
+        function showDeleteModal(songId) {
+            // Set the form that will handle the delete request
+            formToDelete = document.getElementById('deleteForm_' + songId);
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        // Hide modal
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Submit the form to delete the song
+        function deleteSong() {
+            if (formToDelete) {
+                formToDelete.submit();  // Submit the form to delete the song
+            }
+        }
         function togglePlayStop(songId) {
             var audioPlayer = document.getElementById('audioPlayer-' + songId);
             var playButton = document.getElementById('playButton-' + songId);

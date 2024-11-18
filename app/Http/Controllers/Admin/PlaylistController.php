@@ -32,7 +32,9 @@ class PlaylistController extends Controller
         ]);
         Playlist::create([
             'title' => $request->title,
-            'user_id'=>auth()->user()->id
+            'user_id'=>auth()->user()->id,
+            "is_from_admin"=>true
+
         ]);
 
         return redirect()->route('playlist.index')->with('success', 'Playlist created successfully.');

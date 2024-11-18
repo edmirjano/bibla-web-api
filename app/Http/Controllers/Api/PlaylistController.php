@@ -24,6 +24,7 @@ class PlaylistController extends Controller
             $playlist = Playlist::create([
                 'title' => $request->title,
                 'user_id' => auth()->user()->id,
+                "is_from_admin"=>false
             ]);
 
             // Attach songs if they are provided
@@ -50,11 +51,13 @@ class PlaylistController extends Controller
     {
         if (auth('sanctum')->check()) {
             $playlists = Playlist::where('user_id', auth('sanctum')->user()->id)
-                                 ->with(['songs.author'])
-                                 ->get();
+                ->orWhere('is_from_admin', true)
+                ->with(['songs.author'])
+                ->get();
         } else {
-            $playlists = Playlist::with(['songs.author'])->get();
-        }
+            $playlists = Playlist::where('is_from_admin', true)
+                ->with(['songs.author'])
+                ->get();        }
 
         return response()->json([
             'success' => true,
