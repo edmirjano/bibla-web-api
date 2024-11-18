@@ -1,6 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-
+        <form method="GET" action="{{ route('playlist.index') }}" class="flex">
+            <input type="text" name="search" value="{{ old('search', $query ?? '') }}" placeholder="Search songs..."
+                   class="border rounded px-4 py-2">
+            <button type="submit" class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Search
+            </button>
+        </form>
     </x-slot>
     <div class="h-screen min-h-screen p-4">
         <div class="mx-auto  h-full">
