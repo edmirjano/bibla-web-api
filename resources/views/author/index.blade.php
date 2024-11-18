@@ -25,6 +25,11 @@
                                     </th>
                                     <th
                                         class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Bio
+                                    </th>
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Action
                                     </th>
                                 </tr>
                             </thead>
@@ -35,7 +40,31 @@
                                             {{ $author->name }}
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
-                                            <div class="flex space-x-3 justify-end align-middle">
+
+                                            <x-add-button id="addCategoryBtn_{{ $author->id }}" class="bg-transparent"
+                                                onclick="showModal('addCategoryModal_{{ $author->id }}')">
+                                                {{ 'Show Bio' }}
+                                            </x-add-button>
+
+                                            <div id="addCategoryModal_{{ $author->id }}"
+                                                class="modal hidden fixed inset-0 flex justify-center items-center z-50">
+                                                <div
+                                                    class="modal-content p-6 w-1/2 h-1/2 rounded-lg shadow-xl bg-light-gray relative">
+                                                    <button onclick="hideModal('addCategoryModal_{{ $author->id }}')"
+                                                        class="absolute top-0 right-1 text-3xl text-gray-700 hover:text-gray-900">
+                                                        &times;
+                                                    </button>
+                                                    <textarea
+                                                        class="w-full h-full p-2 text-base border rounded-md resize-none"
+                                                        readonly>
+                                                                {{ $author->bio }}
+                                                            </textarea>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
+                                            <div class="flex space-x-3 align-middle">
                                                 <a href="{{ route('author.edit', $author->id) }}">
                                                     <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                                 </a>
@@ -57,4 +86,20 @@
             </div>
         </div>
     </div>
+    <script>
+
+        $(window).click(function (event) {
+            if (event.target == document.getElementById("addCategoryModal")) {
+                $("#addCategoryModal").addClass('hidden');
+            }
+        });
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+    </script>
 </x-app-layout>

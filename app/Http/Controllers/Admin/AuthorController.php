@@ -24,7 +24,8 @@ class AuthorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'bio' => 'nullable|string'
         ]);
 
         if ($request->hasFile('cover')) {
@@ -32,11 +33,14 @@ class AuthorController extends Controller
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/authors', $coverName);
             $coverPath = str_replace('public/', 'storage/', $coverPath);
+        } else {
+            $coverPath = null;
         }
 
         Author::create([
             'name' => $request->input('name'),
-            'cover' => $coverPath ? asset('storage/authors/' . basename($coverPath)): '',
+            'cover' => $coverPath ? asset('storage/authors/' . basename($coverPath)) : '',
+            'bio' => $request->input('bio')
         ]);
 
         return redirect()->route('author.index')->with('success', 'Author created successfully.');
@@ -51,8 +55,10 @@ class AuthorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048'
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'bio' => 'nullable|string'
         ]);
+        $coverPath = null;
 
         if ($request->hasFile('cover')) {
             if ($author->cover) {
@@ -67,7 +73,8 @@ class AuthorController extends Controller
 
         $author->update([
             'name' => $request->input('name'),
-            'cover' => $coverPath ?    asset('storage/authors/' . basename($coverPath)): $author->cover,
+            'cover' => $coverPath ? asset('storage/authors/' . basename($coverPath)) : $author->cover,
+            'bio' => $request->input('bio')
         ]);
 
         return redirect()->route('author.index')->with('success', 'Author updated successfully.');

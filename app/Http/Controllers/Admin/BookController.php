@@ -53,6 +53,7 @@ class BookController extends Controller
             $coverPath = $cover->storeAs('public/books/cover', $coverName);
         } else {
             $coverName = null;
+            $coverPath = null;
         }
         $book = new Book();
         $book->name = $request->name;

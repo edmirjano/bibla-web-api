@@ -8,7 +8,7 @@
                 <div class="sm:px-20 container mx-auto px-4 sm:px-8">
                     <div class="flex justify-between items-center">
                         <div class="mt-8 text-2xl font-semibold leading-tight">
-                            Books
+                            Study plans
                         </div>
 
                         <x-add-button href="{{ route('book.create') }}" class="mt-6">

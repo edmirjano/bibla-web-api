@@ -10,14 +10,25 @@ use Illuminate\Http\Request;
 class AuthorController extends Controller
 {
 
-    public function getAuthors(): JsonResponse
+    public function getAuthors(Request $request): JsonResponse
     {
         try {
-            $authors = Author::all();
+            $search = $request->query('search');
 
+            $authors = Author::withCount('songs')
+                ->where('name', 'like', "%{$search}%")
+                ->get();
+                
             return response()->json([
                 'success' => true,
-                'data' => $authors
+                'data' => $authors->map(function ($author) {
+                    return [
+                        'id' => $author->id,
+                        'name' => $author->name,
+                        'cover' => $author->cover,
+                        'number_of_songs' => $author->songs_count,
+                    ];
+                })
             ], 200);
 
         } catch (\Exception $e) {

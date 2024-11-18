@@ -29,7 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/addSongFavorite/{song}', [SongController::class, 'addFavorite']);
     Route::post('/removeSongFavorite/{song}', [SongController::class, 'removeFavorite']);
 
-    Route::get('/authors', [AuthorController::class, 'getAuthors']);
     Route::get('/authors/{author}', [AuthorController::class, 'getAuthor']);
     Route::put('/authors/{author}', [AuthorController::class, 'updateAuthor']);
     Route::delete('/authors/{author}', [AuthorController::class, 'deleteAuthor']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Author\Author;
+use App\Models\PlayList\Playlist;
 use App\Models\Song\Song;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -27,8 +28,9 @@ class SongController extends Controller
             $authors = [Song::find($authorId)];
             return view('song.edit', compact('authors'));
         }
+        $playlists = Playlist::all();
         $authors = Author::all();
-        return view('song.edit', compact('authors'));
+        return view('song.edit', compact('authors', 'playlists'));
     }
 
     public function store(Request $request)
@@ -36,8 +38,14 @@ class SongController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg',
+            'playlists' => 'nullable|array',
+            'playlists.*' => 'exists:playlists,id',
+            'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
             'mp3link' => 'nullable|mimes:mp3',
+            'yt_link' => 'nullable|string|max:255',
+            'spotify_link' => 'nullable|string|max:255',
+            'lyrics' => 'nullable|string',
+            'release_year' => 'nullable|integer'
         ]);
 
         // Handle the cover file
@@ -63,8 +71,14 @@ class SongController extends Controller
         $song->title = $request->title;
         $song->author_id = $request->author_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
-        $song->mp3link = $mp3linkPath ?  asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
+        $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
+        $song->yt_link = $request->yt_link;
+        $song->spotify_link = $request->spotify_link;
+        $song->lyrics = $request->lyrics;
+        $song->release_year = $request->release_year;
+
         $song->save();
+        $song->playlists()->attach($request['playlists']);
         return redirect()->route('song.index');
     }
 
@@ -74,7 +88,8 @@ class SongController extends Controller
         session(['previous_url' => url()->previous()]);
 
         $authors = Author::all();
-        return view('song.edit', compact('authors', 'song'));
+        $playlists = Playlist::all();
+        return view('song.edit', compact('authors', 'playlists', 'song'));
     }
 
     public function update(Request $request, Song $song)
@@ -83,8 +98,14 @@ class SongController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
+            'playlists' => 'nullable|array',
+            'playlists.*' => 'exists:playlists,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // max 10 MB
             'mp3link' => 'nullable|mimes:mp3|max:10240', // max 10 MB
+            'yt_link' => 'nullable|string|max:255',
+            'spotify_link' => 'nullable|string|max:255',
+            'lyrics' => 'nullable|string',
+            'release_year' => 'nullable|integer'
         ]);
 
 
@@ -103,8 +124,14 @@ class SongController extends Controller
         $song->title = $request->title;
         $song->author_id = $request->author_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
-        $song->mp3link = $mp3linkPath ?  asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
+        $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
+        $song->yt_link = $request->yt_link;
+        $song->spotify_link = $request->spotify_link;
+        $song->lyrics = $request->lyrics;
+        $song->release_year = $request->release_year;
+
         $song->save();
+        $song->playlists()->sync($request['playlists']);
         return redirect()->route('song.index');
 
     }
