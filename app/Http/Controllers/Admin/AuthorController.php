@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Storage;
 
 class AuthorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $authors = Author::all();
-        return view('author.index', compact('authors'));
-    }
+        $query = $request->input('search');
+        $authors = Author::when($query, function ($queryBuilder) use ($query) {
+            return $queryBuilder->where('name', 'like', "%{$query}%");
+        })->get();
 
+        return view('author.index', compact('authors', 'query'));
+    }
     public function create()
     {
         return view('author.edit');

@@ -11,11 +11,15 @@ class PlaylistController extends Controller
 {
     public function index(Request $request)
     {
-        $playlists = Playlist::all();
+        $query = $request->input('search');
+        $playlists = Playlist::when($query, function ($queryBuilder) use ($query) {
+            return $queryBuilder->where('title', 'like', "%{$query}%");
+        })->get();
+
         if ($request->wantsJson()) {
-            return response()->json($playlists);
+            return response()->json(['playlists' => $playlists]);
         } else {
-            return view('playlist.index', compact('playlists'));
+            return view('playlist.index', compact('playlists', 'query'));
         }
     }
 
@@ -32,7 +36,9 @@ class PlaylistController extends Controller
         ]);
         Playlist::create([
             'title' => $request->title,
-            'user_id'=>auth()->user()->id
+            'user_id'=>auth()->user()->id,
+            "is_from_admin"=>true
+
         ]);
 
         return redirect()->route('playlist.index')->with('success', 'Playlist created successfully.');

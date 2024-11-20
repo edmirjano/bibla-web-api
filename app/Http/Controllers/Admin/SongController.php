@@ -11,11 +11,20 @@ use Illuminate\Support\Facades\Storage;
 
 class SongController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $songs = Song::paginate(10);
-        return view('song.index', compact('songs'));
+        $query = $request->input('search');
+        $songs = Song::withTrashed()  // Include soft-deleted songs
+        ->when($query, function ($queryBuilder) use ($query) {
+            return $queryBuilder->where('title', 'like', "%{$query}%")
+                ->orWhereHas('author', function ($q) use ($query) {
+                    $q->where('name', 'like', "%{$query}%");
+                });
+        })-paginate(10);
+
+        return view('song.index', compact('songs', 'query'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -143,6 +152,13 @@ class SongController extends Controller
         $song->authors()->detach();
         $song->delete();
         return redirect()->route('song.index');
+    }
+    public function restore($id)
+    {
+        $song = Song::onlyTrashed()->findOrFail($id);
+        $song->restore();
+
+        return redirect()->route('song.index')->with('success', 'Song restored successfully.');
     }
 
 }

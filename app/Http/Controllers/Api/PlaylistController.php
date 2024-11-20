@@ -10,24 +10,32 @@ use Illuminate\Http\Request;
 
 class PlaylistController extends Controller
 {
-    public function store(Request $request)
+    public function addNewPlaylist(Request $request): JsonResponse
     {
         try {
-            // Validate the request
+
             $request->validate([
                 'title' => 'required|string|max:255',
+                'songs' => 'nullable|array',
+                'songs.*' => 'exists:songs,id'
             ]);
 
-
+            // Create the playlist
             $playlist = Playlist::create([
                 'title' => $request->title,
                 'user_id' => auth()->user()->id,
+                "is_from_admin"=>false
             ]);
+
+            // Attach songs if they are provided
+            if (!empty($request->songs)) {
+                $playlist->songs()->attach($request->songs);
+            }
 
             return response()->json([
                 'success' => true,
                 'message' => 'Playlist created successfully',
-                'data' => $playlist
+                'data' => $playlist->load('songs')
             ], 201);
         } catch (\Exception $e) {
             return response()->json([
@@ -43,11 +51,13 @@ class PlaylistController extends Controller
     {
         if (auth('sanctum')->check()) {
             $playlists = Playlist::where('user_id', auth('sanctum')->user()->id)
-                                 ->with(['songs.author'])
-                                 ->get();
+                ->orWhere('is_from_admin', true)
+                ->with(['songs.author'])
+                ->get();
         } else {
-            $playlists = Playlist::with(['songs.author'])->get();
-        }
+            $playlists = Playlist::where('is_from_admin', true)
+                ->with(['songs.author'])
+                ->get();        }
 
         return response()->json([
             'success' => true,

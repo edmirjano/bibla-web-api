@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
         ->name('classroom.removeUser');
     Route::post('classroom/{classroomId}/add-user/{userId}', [ClassRoomController::class, 'addUser'])->name('classroom.addUser');
     Route::resource('/song', SongController::class);
+    Route::post('/song/{song}/restore', [SongController::class, 'restore'])->name('song.restore');
+
     Route::resource('/author', AuthorController::class);
     Route::resource('/playlist', PlaylistController::class);
 
