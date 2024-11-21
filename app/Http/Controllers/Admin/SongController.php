@@ -20,7 +20,7 @@ class SongController extends Controller
                 ->orWhereHas('author', function ($q) use ($query) {
                     $q->where('name', 'like', "%{$query}%");
                 });
-        })-paginate(10);
+        })->paginate(10);
 
         return view('song.index', compact('songs', 'query'));
     }
