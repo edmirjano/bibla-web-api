@@ -8,7 +8,6 @@
         </div>
     @endif
 
-
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
@@ -39,6 +38,14 @@
             </label>
         </div>
 
+        <!-- Google reCAPTCHA -->
+        @if (app()->environment('production'))
+            <div class="mt-4">
+                <div gclass="-recaptcha" data-sitekey="6LcbA4gqAAAAAPrAvJMRq-7qI128hNPaYo9_wPBb"></div>
+                <x-input-error :messages="$errors->get('g-recaptcha-response')" class="mt-2" />
+            </div>
+        @endif
+
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
                 <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
@@ -51,4 +58,8 @@
             </x-primary-button>
         </div>
     </form>
+
+    @if (app()->environment('production'))
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    @endif
 </x-guest-layout>

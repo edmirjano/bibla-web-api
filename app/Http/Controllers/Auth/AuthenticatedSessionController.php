@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
@@ -25,6 +26,22 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        // Validate reCAPTCHA only in production
+        if (app()->environment('production')) {
+            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                'secret' => env('RECAPTCHA_SECRET_KEY'),
+                'response' => $request->input('g-recaptcha-response'),
+                'remoteip' => $request->ip(),
+            ]);
+
+            $responseBody = json_decode($response->body());
+
+            if (!$responseBody->success) {
+                return redirect()->back()->withErrors(['g-recaptcha-response' => 'reCAPTCHA validation failed.']);
+            }
+        }
+
+        // Authenticate the user
         $request->authenticate();
         if (!Auth::user()->hasRole('admin')) {
             Auth::logout();
