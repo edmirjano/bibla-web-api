@@ -41,7 +41,7 @@
         <!-- Google reCAPTCHA -->
         @if (app()->environment('production'))
             <div class="mt-4">
-                <div class="g-recaptcha" data-sitekey="6LcQjLAUAAAAAL8nP56-FHuJwTfFn52pbqq1ZvtI"></div>
+                <div class="g-recaptcha" data-sitekey="6LcOB4gqAAAAAEA3nbWZDayNhxJr19lKROTa9NrO"></div>
                 <x-input-error :messages="$errors->get('g-recaptcha-response')" class="mt-2" />
             </div>
         @endif
