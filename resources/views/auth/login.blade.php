@@ -39,12 +39,12 @@
         </div>
 
         <!-- Google reCAPTCHA -->
-        @if (app()->environment('production'))
+        {{-- @if (app()->environment('production'))
             <div class="mt-4">
                 <div class="g-recaptcha" data-sitekey="6LcOB4gqAAAAAEA3nbWZDayNhxJr19lKROTa9NrO"></div>
                 <x-input-error :messages="$errors->get('g-recaptcha-response')" class="mt-2" />
             </div>
-        @endif
+        @endif --}}
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
@@ -60,7 +60,7 @@
         </div>
     </form>
 
-    @if (app()->environment('production'))
+    {{-- @if (app()->environment('production'))
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    @endif
+    @endif --}}
 </x-guest-layout>

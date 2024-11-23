@@ -26,19 +26,19 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
-        if (app()->environment('production')) {
-            $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-                'secret' => env('6LcOB4gqAAAAAFfRqUvvQNVp8DiTgxIgiuV7Mn--'),
-                'response' => $request->input('g-recaptcha-response'),
-                'remoteip' => $request->ip(),
-            ]);
+        // if (app()->environment('production')) {
+        //     $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+        //         'secret' => env('6LcOB4gqAAAAAFfRqUvvQNVp8DiTgxIgiuV7Mn--'),
+        //         'response' => $request->input('g-recaptcha-response'),
+        //         'remoteip' => $request->ip(),
+        //     ]);
 
-            $responseBody = json_decode($response->body());
+        //     $responseBody = json_decode($response->body());
 
-            if (!$responseBody->success) {
-                return redirect()->back()->withErrors(['g-recaptcha-response' => 'reCAPTCHA validation failed.']);
-            }
-        }
+        //     if (!$responseBody->success) {
+        //         return redirect()->back()->withErrors(['g-recaptcha-response' => 'reCAPTCHA validation failed.']);
+        //     }
+        // }
 
         // Authenticate the user
         $request->authenticate();
