@@ -2,7 +2,7 @@
     <x-slot name="header">
         <form method="GET" action="{{ route('playlist.index') }}" class="flex">
             <input type="text" name="search" value="{{ old('search', $query ?? '') }}" placeholder="Search ..."
-                   class="border rounded px-4 py-2">
+                class="border rounded px-4 py-2">
             <button type="submit" class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Search
             </button>
@@ -44,7 +44,7 @@
                     </div>
 
                     <!-- Playlists Table -->
-                    <div class="mt-6 inline-block min-w-full shadow-md rounded-md overflow-hidden">
+                    <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
@@ -78,8 +78,8 @@
                                                 <a href="{{ route('playlist.edit', $playlist->id) }}">
                                                     <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                                 </a>
-                                                <form action="{{ route('playlist.destroy', $playlist->id) }}" method="POST"
-                                                    class="inline">
+                                                <form action="{{ route('playlist.destroy', $playlist->id) }}"
+                                                    method="POST" class="inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit">
@@ -101,26 +101,26 @@
     <!-- JavaScript Section -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Show Add Playlist Modal on button click
-            $("#addPlaylistBtn").click(function () {
+            $("#addPlaylistBtn").click(function() {
                 $("#addPlaylistModal").removeClass('hidden');
             });
 
             // Hide the modal when the close button is clicked
-            $("#closeModal").click(function () {
+            $("#closeModal").click(function() {
                 $("#addPlaylistModal").addClass('hidden');
             });
 
             // Hide the modal when clicked outside of it
-            $(window).click(function (event) {
+            $(window).click(function(event) {
                 if (event.target == document.getElementById("addPlaylistModal")) {
                     $("#addPlaylistModal").addClass('hidden');
                 }
             });
 
             // AJAX request to update playlist title on input change
-            $('input[name="playlist_title"]').on('input', function () {
+            $('input[name="playlist_title"]').on('input', function() {
                 var playlistId = $(this).attr('id');
                 var newTitle = $(this).val();
                 updatePlaylistTitle(playlistId, newTitle);
@@ -135,10 +135,10 @@
                         title: newTitle,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (response) {
+                    success: function(response) {
                         console.log('Playlist title updated successfully');
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         console.log('Error updating playlist title');
                     }
                 });
