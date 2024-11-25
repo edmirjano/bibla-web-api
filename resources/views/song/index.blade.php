@@ -3,7 +3,7 @@
 
         <form method="GET" action="{{ route('song.index') }}" class="flex">
             <input type="text" name="search" value="{{ old('search', $query ?? '') }}" placeholder="Search songs..."
-                   class="border rounded px-4 py-2">
+                class="border rounded px-4 py-2">
             <button type="submit" class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Search
             </button>
@@ -48,9 +48,9 @@
                                             {{ $song->title }}
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
-                                            @if($song->authors->isNotEmpty())
+                                            @if ($song->authors->isNotEmpty())
                                                 <ul>
-                                                    @foreach($song->authors as $author)
+                                                    @foreach ($song->authors as $author)
                                                         <li>{{ $author->name }}</li>
                                                     @endforeach
                                                 </ul>
@@ -64,21 +64,36 @@
 
                                                 <!-- Soft-deleted songs will have a restore button -->
                                                 @if ($song->trashed())
-                                                    <form action="{{ route('song.restore', $song->id) }}" method="POST">
+                                                    <form action="{{ route('song.restore', $song->id) }}"
+                                                        method="POST">
                                                         @csrf
-                                                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                        <button type="submit"
+                                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                                             Restore
                                                         </button>
                                                     </form>
                                                 @else
-                                                    <form action="{{ route('song.destroy', $song->id) }}" method="POST" id="deleteForm_{{ $song->id }}">
+                                                    <form action="{{ route('song.destroy', $song->id) }}" method="POST"
+                                                        id="deleteForm_{{ $song->id }}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" onclick="showDeleteModal({{ $song->id }})">
+                                                        <button type="button"
+                                                            onclick="showDeleteModal({{ $song->id }})">
                                                             <img src="{{ asset('icons/delete.svg') }}" alt="Delete">
                                                         </button>
                                                     </form>
                                                 @endif
+                                                <div class="align-left">
+                                                    <audio id="audioPlayer-{{ $song->id }}">
+                                                        <source src="{{ asset($song->mp3link) }}" type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                    <button id="playButton-{{ $song->id }}"
+                                                        onclick="togglePlayStop({{ $song->id }})"
+                                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-1 rounded">
+                                                        Play
+                                                    </button>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
@@ -94,7 +109,8 @@
         </div>
         <div id="deleteModal" class="modal hidden fixed inset-0 flex justify-center items-center z-50">
             <div class="modal-content p-6 w-1/3 bg-white rounded-lg shadow-xl relative">
-                <button onclick="hideModal('deleteModal')" class="absolute top-0 right-1 text-3xl text-gray-700 hover:text-gray-900">
+                <button onclick="hideModal('deleteModal')"
+                    class="absolute top-0 right-1 text-3xl text-gray-700 hover:text-gray-900">
                     &times;
                 </button>
                 <h3 class="text-xl font-semibold mb-4">Are you sure you want to delete this song?</h3>
@@ -102,12 +118,14 @@
                     <form id="deleteForm" action="" method="POST" class="w-full">
                         @csrf
                         @method('DELETE')
-                        <button onclick="document.getElementById('deleteForm').submit()" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
+                        <button onclick="document.getElementById('deleteForm').submit()"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
                             Yes, Delete
                         </button>
 
                     </form>
-                    <button onclick="hideModal('deleteModal')" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full">
+                    <button onclick="hideModal('deleteModal')"
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full">
                         Cancel
                     </button>
                 </div>
@@ -135,9 +153,10 @@
         // Submit the form to delete the song
         function deleteSong() {
             if (formToDelete) {
-                formToDelete.submit();  // Submit the form to delete the song
+                formToDelete.submit(); // Submit the form to delete the song
             }
         }
+
         function togglePlayStop(songId) {
             var audioPlayer = document.getElementById('audioPlayer-' + songId);
             var playButton = document.getElementById('playButton-' + songId);
@@ -160,18 +179,19 @@
         function hideModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
         }
+
         function confirmDelete(event) {
             return confirm('Are you sure you want to delete this song?');
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Show Add Category Modal on button click
-            $("#addCategoryBtn").click(function () {
+            $("#addCategoryBtn").click(function() {
                 $("#addCategoryModal").removeClass('hidden');
             });
 
             // Hide the modal when clicked outside of it
-            $(window).click(function (event) {
+            $(window).click(function(event) {
                 if (event.target == document.getElementById("addCategoryModal")) {
                     $("#addCategoryModal").addClass('hidden');
                 }
