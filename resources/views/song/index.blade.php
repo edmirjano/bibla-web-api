@@ -45,13 +45,22 @@
                                 @foreach ($songs as $song)
                                     <tr class="border-b border-table-gray">
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
+                                            <img src="{{ asset($song->cover) }}" alt="{{ $song->name }}"
+                                                class="w-10 h-10 mr-1 rounded-full inline-block"
+                                                onerror="this.onerror=null;this.src='{{ asset('icons/song.png') }}';">
                                             {{ $song->title }}
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             @if ($song->authors->isNotEmpty())
                                                 <ul>
                                                     @foreach ($song->authors as $author)
-                                                        <li>{{ $author->name }}</li>
+                                                        <li>
+                                                            <img src="{{ asset($author->cover) }}"
+                                                                alt="{{ $author->name }}"
+                                                                class="w-10 h-10 mr-1 mb-1 rounded-full inline-block"
+                                                                onerror="this.onerror=null;this.src='{{ asset('icons/profile_icon.png') }}';">
+                                                            {{ $author->name }}
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             @endif
@@ -73,8 +82,8 @@
                                                         </button>
                                                     </form>
                                                 @else
-                                                    <form action="{{ route('song.destroy', $song->id) }}" method="POST"
-                                                        id="deleteForm_{{ $song->id }}">
+                                                    <form action="{{ route('song.destroy', $song->id) }}"
+                                                        method="POST" id="deleteForm_{{ $song->id }}">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button"
