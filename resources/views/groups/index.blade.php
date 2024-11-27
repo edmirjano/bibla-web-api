@@ -17,7 +17,7 @@
                                 Group</a>
                         </div>
                     </div>
-                    <div class="mt-6">
+                    <div class="mt-6 w-full sm:overflow-x-visible overflow-x-auto">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
@@ -44,7 +44,8 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap flex justify-end">
                                             <div class="flex items-center space-x-3 align-middle">
-                                                <a href="{{ route('group.edit', $group->id) }}" class="text-yellow-600 hover:text-yellow-900">
+                                                <a href="{{ route('group.edit', $group->id) }}"
+                                                    class="text-yellow-600 hover:text-yellow-900">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="16"
                                                         height="16" fill="currentColor" class="bi bi-pencil"
                                                         viewBox="0 0 16 16">

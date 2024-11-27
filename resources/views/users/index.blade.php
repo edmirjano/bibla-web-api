@@ -19,7 +19,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 inline-block min-w-full shadow-md rounded-md overflow-hidden">
+                    <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">
                         <form action="{{ route('users.index') }}" method="GET">
                             <div class="flex items-center mb-4 justify-end">
                                 <input type="text" name="search" value="{{ request('search') }}"
