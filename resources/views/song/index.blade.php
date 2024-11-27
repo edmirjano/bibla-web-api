@@ -45,13 +45,22 @@
                                 @foreach ($songs as $song)
                                     <tr class="border-b border-table-gray">
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
+                                            <img src="{{ asset($song->cover) }}" alt="{{ $song->name }}"
+                                                class="w-10 h-10 mr-1 rounded-full inline-block"
+                                                onerror="this.onerror=null;this.src='{{ asset('icons/song.png') }}';">
                                             {{ $song->title }}
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             @if ($song->authors->isNotEmpty())
                                                 <ul>
                                                     @foreach ($song->authors as $author)
-                                                        <li>{{ $author->name }}</li>
+                                                        <li>
+                                                            <img src="{{ asset($author->cover) }}"
+                                                                alt="{{ $author->name }}"
+                                                                class="w-10 h-10 mr-1 mb-1 rounded-full inline-block"
+                                                                onerror="this.onerror=null;this.src='{{ asset('icons/profile_icon.png') }}';">
+                                                            {{ $author->name }}
+                                                        </li>
                                                     @endforeach
                                                 </ul>
                                             @endif
@@ -73,8 +82,8 @@
                                                         </button>
                                                     </form>
                                                 @else
-                                                    <form action="{{ route('song.destroy', $song->id) }}" method="POST"
-                                                        id="deleteForm_{{ $song->id }}">
+                                                    <form action="{{ route('song.destroy', $song->id) }}"
+                                                        method="POST" id="deleteForm_{{ $song->id }}">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button"
@@ -83,6 +92,17 @@
                                                         </button>
                                                     </form>
                                                 @endif
+                                                <div class="align-left">
+                                                    <audio id="audioPlayer-{{ $song->id }}">
+                                                        <source src="{{ asset($song->mp3link) }}" type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                    <button id="playButton-{{ $song->id }}"
+                                                        onclick="togglePlayStop({{ $song->id }})"
+                                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-1 rounded">
+                                                        Play
+                                                    </button>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>
