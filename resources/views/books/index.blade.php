@@ -16,7 +16,7 @@
                         </x-add-button>
 
                     </div>
-                    <div class="mt-6 inline-block min-w-full shadow-md rounded-md overflow-hidden">
+                    <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>

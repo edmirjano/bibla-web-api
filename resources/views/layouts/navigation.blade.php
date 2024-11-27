@@ -1,24 +1,26 @@
-<nav x-data="{ openBooks: false, openSongs: false }" class="bg-white border-r border-gray-100 h-screen fixed w-64">
+<nav id="sidebar" x-data="{ openBooks: false, openSongs: false }"
+    class="bg-button-white border-r border-gray-100 h-screen fixed transition-all duration-300 w-16">
     <!-- Primary Navigation Menu -->
     <div class="px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col h-full">
             <div class="flex flex-col">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center mt-5 mb-10">
+                <div class="shrink-0 flex items-center mt-5 mb-10 self-end" id="logo-text">
                     <a href="{{ route('dashboard') }}">
                         <img src="{{ asset('icons/bwa.png') }}" alt="Bibla.al Logo" class="h-12 w-auto">
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="space-y-8">
+                <div class="space-y-8" id="dashboard-text">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" iconPath="icons/dashboard.svg">
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
 
                 @role(['admin', 'teacher'])
-                    <div class="space-y-2">
+                    <!-- Books Section -->
+                    <div id="books-text">
                         <button @click="openBooks = !openBooks" class="flex items-center w-full">
                             <x-nav-link :active="request()->routeIs('book.index')" iconPath="icons/books.svg">
                                 {{ __('Study plans') }}
@@ -43,7 +45,8 @@
                         </div>
                     </div>
 
-                    <div class="space-y-2">
+                    <!-- Songs Section -->
+                    <div id="songs-text">
                         <button @click="openSongs = !openSongs" class="flex items-center w-full">
                             <x-nav-link :active="request()->routeIs('song.index')" iconPath="icons/songs.svg">
                                 {{ __('Songs') }}
@@ -67,8 +70,7 @@
                             </x-nav-link>
                         </div>
                     </div>
-
-                    <div class="space-y-8">
+                    <div class="space-y-8" id="users-text">
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" iconPath="icons/users.svg">
                             {{ __('Users') }}
                         </x-nav-link>
@@ -78,3 +80,33 @@
         </div>
     </div>
 </nav>
+
+<!-- Sidebar Toggle Button -->
+<button id="toggleSidebarBtn" class="absolute top-4 left-4 bg-gray-200 p-2 rounded-md">
+    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+    </svg>
+</button>
+
+<script>
+    // Function to toggle the sidebar
+    const sidebar = document.getElementById('sidebar');
+    const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+
+    const sidebarTexts = sidebar.querySelectorAll('div[id$="-text"]');
+    sidebarTexts.forEach(text => {
+        text.classList.add('hidden');
+    });
+
+    toggleSidebarBtn.addEventListener('click', () => {
+        const isOpen = sidebar.classList.contains('w-16');
+        sidebar.classList.toggle('w-64', isOpen);
+        sidebar.classList.toggle('w-16', !isOpen);
+
+        // Toggle visibility of text inside sidebar
+
+        sidebarTexts.forEach(text => {
+            text.classList.toggle('hidden', !isOpen);
+        });
+    });
+</script>
