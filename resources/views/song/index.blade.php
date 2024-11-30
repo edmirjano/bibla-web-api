@@ -19,9 +19,14 @@
                             Songs
                         </div>
 
-                        <x-add-button href="{{ route('song.create') }}" class="mt-6">
-                            {{ '+ ADD' }}
-                        </x-add-button>
+                        <div class="flex space-x-4 mt-6">
+                            <x-add-button href="{{ route('song.create') }}">
+                                {{ '+ ADD' }}
+                            </x-add-button>
+                            <x-button href="{{ route('song.reorder') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                                Reorder
+                            </x-button>
+                        </div>
                     </div>
                     <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">
                         <table class="min-w-full leading-normal">
