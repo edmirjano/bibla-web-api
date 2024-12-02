@@ -37,9 +37,7 @@ class AlbumController extends Controller
         ]);
         Album::create([
             'title' => $request->title,
-            'user_id' => auth()->user()->id,
-            "is_from_admin" => true
-
+            'user_id' => auth()->user()->id
         ]);
 
         return redirect()->route('album.index')->with('success', 'Album created successfully.');

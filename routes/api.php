@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AlbumController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PlaylistController;
 use App\Http\Controllers\Api\AuthorController;
@@ -20,8 +21,10 @@ Route::get('/songs', [SongController::class, 'getAllSongs']);
 Route::get('/songs/{song}', [SongController::class, 'getSong']);
 Route::post('/addSongViewer/{song}', [SongController::class, 'addViewer']);
 Route::get('/playlists', [PlaylistController::class, 'getPlaylists']);
+Route::get('/albums', [AlbumController::class, 'getAlbums']);
 Route::get('/authors', [AuthorController::class, 'getAuthors']);
 Route::get('/playlists/{playlist}', [PlaylistController::class, 'getPlaylist']);
+Route::get('/albums/{album}', [AlbumController::class, 'getPlaylist']);
 Route::get('/authors/{author}', [AuthorController::class, 'getAuthor']);
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -41,6 +44,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/updateSongs/{playlist}', [PlaylistController::class, 'updateSongs']);
     Route::post('/playlists/{playlist}/addSong', [PlaylistController::class, 'addSongToPlaylist']);
     Route::post('/playlists/{playlist}/removeSong', [PlaylistController::class, 'removeSongFromPlaylist']);
+
+    // Album-related routes
+    Route::get('/albums/{album}', [AlbumController::class, 'getAlbum']);
+    Route::post('/albums', [AlbumController::class, 'addNewAlbum']);
+
+
+    Route::put('/albumss/{album}', [AlbumController::class, 'updateAlbum']);
+    Route::delete('/albums/{album}', [AlbumController::class, 'deleteAlbum']);
+    Route::post('/updateSongs/{album}', [AlbumController::class, 'updateSongs']);
+    Route::post('/albums/{album}/addSong', [AlbumController::class, 'addSongToAlbum']);
+    Route::post('/albums/{album}/removeSong', [AlbumController::class, 'removeSongFromAlbum']);
 
 
     // Classrooms

@@ -68,6 +68,9 @@
                             <x-nav-link :href="route('playlist.index')" :active="request()->routeIs('playlist.index')" iconPath="icons/playlist.svg">
                                 {{ __('Playlist') }}
                             </x-nav-link>
+                            <x-nav-link :href="route('album.index')" :active="request()->routeIs('album.index')" iconPath="icons/album.svg">
+                                {{ __('Album') }}
+                            </x-nav-link>
                         </div>
                     </div>
                     <div class="space-y-8" id="users-text">
