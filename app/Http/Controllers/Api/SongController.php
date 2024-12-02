@@ -14,19 +14,47 @@ class SongController extends Controller
         try {
             $search = $request->query('search');
 
-            $songs = Song::with('author')
-                ->where(function ($query) use ($search) {
-                    $query->where('title', 'like', "%{$search}%")
-                        ->orWhere('lyrics', 'like', "%{$search}%")
-                        ->orWhereHas('author', function ($query) use ($search) {
-                            $query->where('name', 'like', "%{$search}%");
-                        });
-                })
-                ->get();
-            return response()->json([
-                'success' => true,
-                'data' => $songs
-            ], 200);
+            $songs = Song::with('authors')
+            ->where(function ($query) use ($search) {
+                $query->where('title', 'like', "%{$search}%")
+                    ->orWhere('lyrics', 'like', "%{$search}%")
+                    ->orWhereHas('authors', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+            })
+            ->get()
+            ->map(function ($song) {
+                return [
+                    'id' => $song->id,
+                    'title' => $song->title,
+                    'mp3link' => $song->mp3link,
+                    'cover' => $song->cover,
+                    'views' => $song->views,
+                    'favorites' => $song->favorites,
+                    'created_at' => $song->created_at,
+                    'updated_at' => $song->updated_at,
+                    'deleted_at' => $song->deleted_at,
+                    'yt_link' => $song->yt_link,
+                    'spotify_link' => $song->spotify_link,
+                    'lyrics' => $song->lyrics,
+                    'release_year' => $song->release_year,
+                    'author' => $song->authors->first() ? [
+                        'id' => $song->authors->first()->id,
+                        'name' => $song->authors->first()->name,
+                        'cover' => $song->authors->first()->cover,
+                        'created_at' => $song->authors->first()->created_at,
+                        'updated_at' => $song->authors->first()->updated_at,
+                        'bio' => $song->authors->first()->bio,
+                    ] : null,
+                ];
+            });
+        
+        return response()->json([
+            'success' => true,
+            'data' => $songs
+        ], 200);
+        
+        
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -42,7 +70,7 @@ class SongController extends Controller
         try {
             return response()->json([
                 'success' => true,
-                'data' => $song->load('author') // Load the associated author
+                'data' => $song->load('authors') // Load the associated author
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

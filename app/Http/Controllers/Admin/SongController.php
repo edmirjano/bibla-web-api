@@ -17,7 +17,7 @@ class SongController extends Controller
         $songs = Song::withTrashed()  // Include soft-deleted songs
         ->when($query, function ($queryBuilder) use ($query) {
             return $queryBuilder->where('title', 'like', "%{$query}%")
-                ->orWhereHas('author', function ($q) use ($query) {
+                ->orWhereHas('authors', function ($q) use ($query) {
                     $q->where('name', 'like', "%{$query}%");
                 });
         })->paginate(10);
@@ -111,7 +111,7 @@ class SongController extends Controller
             'playlists' => 'nullable|array',
             'playlists.*' => 'exists:playlists,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // max 10 MB
-            'mp3link' => 'required|mimes:mp3|max:10240', // max 10 MB
+            'mp3link' => 'nullable|mimes:mp3|max:10240', // max 10 MB
             'yt_link' => 'nullable|string|max:255',
             'spotify_link' => 'nullable|string|max:255',
             'lyrics' => 'nullable|string',
