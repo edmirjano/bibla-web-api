@@ -58,6 +58,7 @@
             </x-primary-button>
         </div>
     </form>
+    <a href="{{ route('google.redirect') }}" class="btn btn-primary"> Login with Google </a>
 
     {{-- @if (app()->environment('production'))
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>
