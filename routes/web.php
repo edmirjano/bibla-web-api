@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/author', AuthorController::class);
     Route::resource('/playlist', PlaylistController::class);
-    Route::resource('/album', PlaylistController::class);
+    Route::resource('/album', AlbumController::class);
 
     Route::get('playlists/{playlist}/songs', [PlaylistController::class, 'manageSongs'])->name('playlist.songs.manage');
     Route::put('playlists/{playlist}/songs', [PlaylistController::class, 'updateSongs'])->name('playlist.songs.update');

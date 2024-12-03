@@ -55,6 +55,20 @@
                         </div>
 
                         <div class="mt-4">
+                            <label for="album_id" class="block font-medium text-m text-gray-700">Album</label>
+                            <select id="album_id" name="album_id" class="block mt-1 w-full">
+                                @foreach ($albums as $album)
+                                    <option value="{{ $album->id }}" {{ isset($song) && $song->album_id == $album->id ? 'selected' : '' }}>
+                                        {{ $album->title }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <p class="text-xs">Press Control + Left Mouse Click to remove</p>
+                        </div>
+
+
+
+                        <div class="mt-4">
                             <label for="yt_link" :value="__('Youtube Link')"
                                 class="block font-medium text-m text-gray-700">Youtube Link</label>
                             <input id="yt_link" class="block mt-1 w-full" type="text" name="yt_link"

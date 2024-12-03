@@ -92,6 +92,11 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        @if ($errors->has('songs'))
+                            <div id="song-error" class="text-error-red text-sm m-2">
+                                {{ $errors->first('songs') }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -144,5 +149,15 @@
                 });
             }
         });
+        setTimeout(function () {
+            const errorElement = document.getElementById('song-error');
+            if (errorElement) {
+                errorElement.style.transition = 'opacity 0.5s ease-out';
+                errorElement.style.opacity = '0';
+                setTimeout(() => {
+                    errorElement.style.display = 'none';
+                }, 500);
+            }
+        }, 5000); // 5000 milliseconds = 5 seconds
     </script>
 </x-app-layout>

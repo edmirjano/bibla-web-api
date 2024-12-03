@@ -36,6 +36,20 @@
                             </select>
                         </div>
 
+                        <div class="mt-4">
+                            <label for="authors" :value="__('Author')" class="block font-medium text-m text-gray-700">Authors</label>
+                                <select id="authors" name="authors[]" class="block mt-1 w-full" multiple>
+                                    @foreach ($authors as $author)
+                                        <option value="{{ $author->id }}" 
+                                            {{ isset($album) && $album->authors->contains($author->id) ? 'selected' : '' }}>
+                                            {{ $author->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            <p class="text-xs">Press Control + Left Mouse Click to remove</p>
+                        </div>
+
+
                         <div class="flex items-center justify-end mt-4">
                             <button type="submit" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-500 active:bg-blue-700 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200 disabled:opacity-25 transition">
                                 {{ __('Update Album') }}
@@ -47,9 +61,11 @@
                     <div class="mt-6">
                         <h3 class="text-xl">Current Songs in Album:</h3>
                         <ul class="list-disc list-inside">
-                            @foreach($album->songs as $song)
-                                <li>{{ $song->title }}</li>
-                            @endforeach
+                            @if (isset($album))
+                                @foreach($album->songs as $song)
+                                    <li>{{ $song->title }}</li>
+                                @endforeach
+                            @endif    
                         </ul>
                     </div>
                 </div>

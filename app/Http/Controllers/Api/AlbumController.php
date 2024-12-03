@@ -23,8 +23,9 @@ class AlbumController extends Controller
             // Create the album
             $album = Album::create([
                 'title' => $request->title,
-                'user_id' => auth()->user()->id,
-                "is_from_admin" => false
+                'authors' => 'nullable|array',
+                'authors.*' => 'nullable|exists:authors,id',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
             ]);
 
             // Attach songs if they are provided
@@ -92,12 +93,24 @@ class AlbumController extends Controller
         try {
             $request->validate([
                 'title' => 'required|string|max:255',
+                'authors' => 'nullable|array',
+                'authors.*' => 'nullable|exists:authors,id',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
             ]);
 
+            if ($request->hasFile('cover')) {
+                $cover = $request->file('cover');
+                $coverName = time() . '.' . $cover->getClientOriginalExtension();
+                $coverPath = $cover->storeAs('public/songs/cover', $coverName);
+            } else {
+                $coverPath = null;
+            }
 
             $album->update([
                 'title' => $request->title,
+                'cover' => $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "",
             ]);
+            $album->authors()->attach($request['authors']);
 
             return response()->json([
                 'success' => true,
