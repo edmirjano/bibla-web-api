@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AlbumController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ClassRoomController;
@@ -54,9 +55,13 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/author', AuthorController::class);
     Route::resource('/playlist', PlaylistController::class);
+    Route::resource('/album', AlbumController::class);
 
     Route::get('playlists/{playlist}/songs', [PlaylistController::class, 'manageSongs'])->name('playlist.songs.manage');
     Route::put('playlists/{playlist}/songs', [PlaylistController::class, 'updateSongs'])->name('playlist.songs.update');
+
+    Route::get('albums/{album}/songs', [AlbumController::class, 'manageSongs'])->name('album.songs.manage');
+    Route::put('albums/{album}/songs', [AlbumController::class, 'updateSongs'])->name('album.songs.update');
 
     Route::resource('/users', UsersController::class)->except(['show']);
     // Route::post('/group',[BookController::class,'storeGroup'])->name('group.store');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Album\Album;
 use App\Models\Author\Author;
 use App\Models\PlayList\Playlist;
 use App\Models\Song\Song;
@@ -53,7 +54,8 @@ public function orderSave(Request $request)
         session(['previous_url' => url()->previous()]);
         $playlists = Playlist::all();
         $authors = Author::all();
-        return view('song.edit', compact('authors', 'playlists'));
+        $albums = Album::all();
+        return view('song.edit', compact('authors', 'playlists', 'albums'));
     }
 
     public function store(Request $request)
@@ -65,6 +67,7 @@ public function orderSave(Request $request)
                 'authors.*' => 'nullable|exists:authors,id',
                 'playlists' => 'nullable|array',
                 'playlists.*' => 'exists:playlists,id',
+                'album_id' => 'nullable|exists:albums,id',
                 'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
                 'mp3link' => 'required|mimes:mp3',
                 'yt_link' => 'nullable|string|max:255',
@@ -97,6 +100,7 @@ public function orderSave(Request $request)
         // Create a new Song instance
         $song = new Song();
         $song->title = $request->title;
+        $song->album_id = $request->album_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
         $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
         $song->yt_link = $request->yt_link;
@@ -117,7 +121,8 @@ public function orderSave(Request $request)
 
         $authors = Author::all();
         $playlists = Playlist::all();
-        return view('song.edit', compact('authors', 'playlists', 'song'));
+        $albums = Album::all();
+        return view('song.edit', compact('authors', 'playlists', 'song', 'albums'));
     }
 
     public function update(Request $request, Song $song)
@@ -129,6 +134,7 @@ public function orderSave(Request $request)
             'authors.*' => 'nullable|exists:authors,id',
             'playlists' => 'nullable|array',
             'playlists.*' => 'exists:playlists,id',
+            'album_id' => 'nullable|exists:albums,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // max 10 MB
             'mp3link' => 'required|mimes:mp3|max:10240', // max 10 MB
             'yt_link' => 'nullable|string|max:255',
@@ -152,6 +158,7 @@ public function orderSave(Request $request)
         }
 
         $song->title = $request->title;
+        $song->album_id = $request->album_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
         $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
         $song->yt_link = $request->yt_link;
