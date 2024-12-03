@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::post('classroom/{classroomId}/add-user/{userId}', [ClassRoomController::class, 'addUser'])->name('classroom.addUser');
     Route::resource('/song', SongController::class);
     Route::post('/song/{song}/restore', [SongController::class, 'restore'])->name('song.restore');
+    Route::get('/songs/reorder', [SongController::class, 'reorder'])->name('song.reorder');
+    Route::post('/songs/orderSave', [SongController::class, 'orderSave'])->name('song.saveOrder');
 
     Route::resource('/author', AuthorController::class);
     Route::resource('/playlist', PlaylistController::class);
@@ -64,5 +66,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('/users', UsersController::class)->except(['show']);
     // Route::post('/group',[BookController::class,'storeGroup'])->name('group.store');
 });
-
+Route::get('/google/redirect', [App\Http\Controllers\GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
+Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
 require __DIR__ . '/auth.php';
