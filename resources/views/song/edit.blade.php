@@ -141,7 +141,9 @@
 
     <script>
         $(document).ready(function() {
-            $('.js-example-basic-multiple').select2();
+            $('.js-example-basic-multiple').select2({
+                placeholder: 'Search here',
+            });
         });
         // Dropzone click simulation for Music and Cover file inputs
         const musicDropzone = document.getElementById('musicDropzone');
