@@ -23,9 +23,9 @@
                             <x-add-button href="{{ route('song.create') }}">
                                 {{ '+ ADD' }}
                             </x-add-button>
-                            <x-button href="{{ route('song.reorder') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
+                            <x-add-button href="{{ route('song.reorder') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
                                 Reorder
-                            </x-button>
+                            </x-add-button>
                         </div>
                     </div>
                     <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">

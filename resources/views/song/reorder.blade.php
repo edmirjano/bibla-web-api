@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -24,7 +23,10 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+
     <script>
+
+
         document.addEventListener('DOMContentLoaded', function () {
             var sortable = new Sortable(document.getElementById('sortable'), {
                 animation: 150,
@@ -33,6 +35,7 @@
 
             document.getElementById('saveOrder').addEventListener('click', function () {
                 var order = sortable.toArray();
+
                 fetch('{{ route('song.saveOrder') }}', {
                     method: 'POST',
                     headers: {
@@ -40,15 +43,11 @@
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     body: JSON.stringify({ order: order })
-                }).then(response => response.json())
-                  .then(data => {
-                      if (data.success) {
-                          alert('Order saved successfully!');
-                      } else {
-                          alert('Failed to save order.');
-                      }
-                  });
+                })
+                    .then(response => response.json())
             });
+
+
         });
     </script>
 </x-app-layout>
