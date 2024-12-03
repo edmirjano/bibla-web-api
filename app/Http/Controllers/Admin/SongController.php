@@ -20,12 +20,31 @@ class SongController extends Controller
                 ->orWhereHas('author', function ($q) use ($query) {
                     $q->where('name', 'like', "%{$query}%");
                 });
-        })->paginate(10);
+        })->orderBy('sort', 'asc')
+            ->paginate(10);
 
         return view('song.index', compact('songs', 'query'));
     }
 
+public function reorder(Request $request)
+{
+    $songs = Song::orderBy('sort', 'asc')->get();
+    return view('song.reorder', compact('songs'));
+}
+public function orderSave(Request $request)
+{
+    $order = $request->input('order'); // Assume 'order' is an array of IDs
+    // Validate the input
+    if (!is_array($order)) {
+        return response()->json(['error' => 'Invalid input format'], 400);
+    }
 
+    // Loop through the array and update the 'sort' column
+    foreach ($order as $key => $id) {
+        Song::where('id', $id)->update(['sort' => $key + 1]); // +1 to make it 1-based
+    }
+
+    return response()->json(['success' => true, 'message' => 'Sort order updated successfully']);}
     /**
      * Show the form for creating a new resource.
      */
