@@ -21,9 +21,8 @@
 
                         <!-- Author Selection -->
                         <div class="mt-4">
-                            <label for="authors" :value="__('Author')"
-                                class="block font-medium text-m text-gray-700">Authors</label>
-                            <select id="authors" name="authors[]" class="block mt-1 w-full" multiple>
+                            <label for="authors" class="block font-medium text-m text-gray-700">Authors</label>
+                            <select id="authors" name="authors[]" class="block mt-1 w-full js-example-basic-multiple " multiple>
                                 @foreach ($authors as $author)
                                     <option value="{{ $author->id }}"
                                         {{ isset($song) && $song->authors->contains($author->id) ? 'selected' : '' }}>
@@ -31,7 +30,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <p class="text-xs">Press Control + Left Mouse Click to remove</p>
                         </div>
 
                         <div class="mt-4">
@@ -41,9 +39,10 @@
                                 value="{{ $song->release_year ?? old('release_year') }}" />
                         </div>
 
+                        <!-- Playlist Selection -->
                         <div class="mt-4">
                             <label for="playlists" class="block font-medium text-m text-gray-700">Playlists</label>
-                            <select id="playlists" name="playlists[]" class="block mt-1 w-full" multiple>
+                            <select id="playlists" name="playlists[]" class="block mt-1 w-full js-example-basic-multiple" multiple>
                                 @foreach ($playlists as $playlist)
                                     <option value="{{ $playlist->id }}"
                                         {{ isset($song) && $song->playlists->contains($playlist->id) ? 'selected' : '' }}>
@@ -51,7 +50,6 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <p class="text-xs">Press Control + Left Mouse Click to remove</p>
                         </div>
 
                         <div class="mt-4">
@@ -137,9 +135,14 @@
                 </div>
             </div>
         </div>
+
     </div>
 
+
     <script>
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
         // Dropzone click simulation for Music and Cover file inputs
         const musicDropzone = document.getElementById('musicDropzone');
         const coverDropzone = document.getElementById('coverDropzone');
