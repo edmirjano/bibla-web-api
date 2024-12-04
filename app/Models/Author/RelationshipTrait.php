@@ -20,4 +20,8 @@ trait RelationshipTrait
     {
         return $this->belongstoMany(Song::class, 'author_song');
     }
+    public function albums(): BelongsToMany
+    {
+        return $this->belongstoMany(Song::class, 'album_author', 'author_id', 'album_id');
+    }
 }

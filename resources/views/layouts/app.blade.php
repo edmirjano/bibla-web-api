@@ -5,6 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
@@ -18,11 +23,21 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
+
 </head>
 
 <body class="font-sans antialiased">
     <!-- Sidebar -->
-    @include('layouts.navigation')
+    <button id="toggleSidebarButton" class="absolute top-4 left-4 bg-gray-200 p-2 rounded-md z-20">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+    </button>
+
+    <div id="sidebar"
+        class="fixed hidden h-full bg-white w-16 ml-14 -translate-x-full transition-transform duration-300 ">
+        @include('layouts.navigation')
+    </div>
 
     <!-- Main Content -->
     <div id="content" class="ml-16 flex-1 min-h-screen bg-gray-100 transition-all duration-300">
@@ -74,4 +89,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script>
+    document.getElementById('toggleSidebarButton').addEventListener('click', function () {
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+
+        if (sidebar.classList.contains('hidden')) {
+            sidebar.classList.remove('hidden');
+            content.classList.remove('ml-16');
+            content.classList.add('ml-64');
+        } else {
+            sidebar.classList.add('hidden');
+            content.classList.remove('ml-64');
+            content.classList.add('ml-16');
+        }
+    });
+</script>
+
 </html>

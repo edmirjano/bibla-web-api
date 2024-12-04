@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Album\Album;
 use App\Models\Author\Author;
 use App\Models\PlayList\Playlist;
 use App\Models\Song\Song;
@@ -20,12 +21,31 @@ class SongController extends Controller
                 ->orWhereHas('authors', function ($q) use ($query) {
                     $q->where('name', 'like', "%{$query}%");
                 });
-        })->paginate(10);
+        })->orderBy('sort', 'asc')
+            ->paginate(10);
 
         return view('song.index', compact('songs', 'query'));
     }
 
+public function reorder(Request $request)
+{
+    $songs = Song::orderBy('sort', 'asc')->get();
+    return view('song.reorder', compact('songs'));
+}
+public function orderSave(Request $request)
+{
+    $order = $request->input('order'); // Assume 'order' is an array of IDs
+    // Validate the input
+    if (!is_array($order)) {
+        return response()->json(['error' => 'Invalid input format'], 400);
+    }
 
+    // Loop through the array and update the 'sort' column
+    foreach ($order as $key => $id) {
+        Song::where('id', $id)->update(['sort' => $key + 1]); // +1 to make it 1-based
+    }
+
+    return response()->json(['success' => true, 'message' => 'Sort order updated successfully']);}
     /**
      * Show the form for creating a new resource.
      */
@@ -34,7 +54,8 @@ class SongController extends Controller
         session(['previous_url' => url()->previous()]);
         $playlists = Playlist::all();
         $authors = Author::all();
-        return view('song.edit', compact('authors', 'playlists'));
+        $albums = Album::all();
+        return view('song.edit', compact('authors', 'playlists', 'albums'));
     }
 
     public function store(Request $request)
@@ -46,6 +67,7 @@ class SongController extends Controller
                 'authors.*' => 'nullable|exists:authors,id',
                 'playlists' => 'nullable|array',
                 'playlists.*' => 'exists:playlists,id',
+                'album_id' => 'nullable|exists:albums,id',
                 'cover' => 'nullable|image|mimes:jpeg,png,jpg,webp',
                 'mp3link' => 'required|mimes:mp3',
                 'yt_link' => 'nullable|string|max:255',
@@ -78,6 +100,7 @@ class SongController extends Controller
         // Create a new Song instance
         $song = new Song();
         $song->title = $request->title;
+        $song->album_id = $request->album_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
         $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
         $song->yt_link = $request->yt_link;
@@ -98,7 +121,8 @@ class SongController extends Controller
 
         $authors = Author::all();
         $playlists = Playlist::all();
-        return view('song.edit', compact('authors', 'playlists', 'song'));
+        $albums = Album::all();
+        return view('song.edit', compact('authors', 'playlists', 'song', 'albums'));
     }
 
     public function update(Request $request, Song $song)
@@ -110,6 +134,7 @@ class SongController extends Controller
             'authors.*' => 'nullable|exists:authors,id',
             'playlists' => 'nullable|array',
             'playlists.*' => 'exists:playlists,id',
+            'album_id' => 'nullable|exists:albums,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:10240', // max 10 MB
             'mp3link' => 'nullable|mimes:mp3|max:10240', // max 10 MB
             'yt_link' => 'nullable|string|max:255',
@@ -133,6 +158,7 @@ class SongController extends Controller
         }
 
         $song->title = $request->title;
+        $song->album_id = $request->album_id;
         $song->cover = $coverPath ? asset('storage/songs/cover/' . basename($coverPath)) : "";
         $song->mp3link = $mp3linkPath ? asset("storage/songs/mp3/" . basename($mp3linkPath)) : "";
         $song->yt_link = $request->yt_link;

@@ -2,6 +2,7 @@
 
 namespace App\Models\Song;
 
+use App\Models\Album\Album;
 use App\Models\Author\Author;
 use App\Models\PlayList\Playlist;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,5 +21,9 @@ trait RelationshipTrait
     public function playlists(): BelongsToMany
     {
         return $this->belongsToMany(Playlist::class);
+    }
+    public function albums(): BelongsTo
+    {
+        return $this->belongsTo(Album::class);
     }
 }
