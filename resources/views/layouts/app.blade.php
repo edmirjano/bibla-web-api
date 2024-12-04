@@ -28,26 +28,27 @@
 
 <body class="font-sans antialiased">
     <!-- Sidebar -->
-    <button id="toggleSidebarButton" class="absolute top-4 left-4 bg-gray-200 p-2 rounded-md z-20">
-        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <button id="toggleSidebarButton" class="lg:hidden fixed top-4 left-4 z-50 pt-2 pr-4 bg-gray-200 rounded-md">
+        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
         </svg>
     </button>
 
     <div id="sidebar"
-        class="fixed hidden h-full bg-white w-16 ml-14 -translate-x-full transition-transform duration-300 ">
+        class="w-64 h-full bg-white fixed -translate-x-full lg:translate-x-0 transition-transform duration-300 overflow-y-auto">
         @include('layouts.navigation')
     </div>
 
     <!-- Main Content -->
-    <div id="content" class="ml-16 flex-1 min-h-screen bg-gray-100 transition-all duration-300">
+    <div id="content" class="mx-0 lg:ml-64 flex-1 min-h-screen bg-gray-100 transition-all duration-300">
         <!-- Page Heading -->
         @if (isset($header))
             <header class="bg-white shadow flex justify-between">
-                <div class="max-w-7xl py-4 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-7xl w-16 py-4 px-10 ml-2 ">
                     {{ $header }}
                 </div>
-                <div class="py-2.5 px-4">
+                <div class="py-2.5 pr-4">
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
@@ -90,19 +91,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <script>
-    document.getElementById('toggleSidebarButton').addEventListener('click', function () {
+    document.addEventListener('DOMContentLoaded', () => {
         const sidebar = document.getElementById('sidebar');
-        const content = document.getElementById('content');
+        const toggleButton = document.getElementById('toggleSidebarButton');
 
-        if (sidebar.classList.contains('hidden')) {
-            sidebar.classList.remove('hidden');
-            content.classList.remove('ml-16');
-            content.classList.add('ml-64');
-        } else {
-            sidebar.classList.add('hidden');
-            content.classList.remove('ml-64');
-            content.classList.add('ml-16');
-        }
+        toggleButton.addEventListener('click', () => {
+            sidebar.classList.toggle('-translate-x-full');
+        });
     });
 </script>
 
