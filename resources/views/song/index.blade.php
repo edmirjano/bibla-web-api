@@ -23,9 +23,7 @@
                             <x-add-button href="{{ route('song.create') }}">
                                 {{ '+ ADD' }}
                             </x-add-button>
-                            <x-add-button href="{{ route('song.reorder') }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded">
-                                Reorder
-                            </x-add-button>
+
                         </div>
                     </div>
                     <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">
@@ -51,7 +49,7 @@
                                     <tr class="border-b border-table-gray">
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             <img src="{{ asset($song->cover) }}" alt="{{ $song->name }}"
-                                                class="w-10 h-10 mr-1 rounded-full inline-block"
+                                                class="w-8 h-8 mr-1 rounded-full inline-block"
                                                 onerror="this.onerror=null;this.src='{{ asset('icons/song.png') }}';">
                                             {{ $song->title }}
                                         </td>
@@ -62,7 +60,7 @@
                                                         <li>
                                                             <img src="{{ asset($author->cover) }}"
                                                                 alt="{{ $author->name }}"
-                                                                class="w-10 h-10 mr-1 mb-1 rounded-full inline-block"
+                                                                class="w-8 h-8 mr-1 mb-1 rounded-full inline-block"
                                                                 onerror="this.onerror=null;this.src='{{ asset('icons/profile_icon.png') }}';">
                                                             {{ $author->name }}
                                                         </li>
