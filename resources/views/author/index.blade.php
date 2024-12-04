@@ -41,7 +41,7 @@
                                     <tr class="border-b border-table-gray">
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             <img src="{{ asset($author->cover) }}" alt="{{ $author->name }}"
-                                                class="w-10 h-10 mr-1 rounded-full inline-block"
+                                                class="w-12 h-12 mr-1 rounded-full inline-block"
                                                 onerror="this.onerror=null;this.src='{{ asset('icons/profile_icon.png') }}';">
                                             {{ $author->name }}
                                         </td>
