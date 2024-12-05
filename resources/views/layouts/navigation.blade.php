@@ -1,11 +1,11 @@
 <nav x-data="{ openBooks: false, openSongs: false }"
-    class="bg-button-white h-screen fixed transition-all duration-300 w-16">
+    class="bg-button-white h-screen fixed transition-all duration-300 w-64">
     <!-- Primary Navigation Menu -->
     <div class="px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col h-full">
             <div class="flex flex-col">
                 <!-- Logo -->
-                <div class="shrink-0 flex items-center mt-5 mb-10 self-end" id="logo-text">
+                <div class="shrink-0 flex items-center mt-5 mb-10 self-center" id="logo-text">
                     <a href="{{ route('dashboard') }}">
                         <img src="{{ asset('icons/bwa.png') }}" alt="Bibla.al Logo" class="h-12 w-auto">
                     </a>
@@ -22,7 +22,7 @@
                 @role(['admin', 'teacher'])
                 <!-- Books Section -->
                 <div id="books-text">
-                    <button @click="openBooks = !openBooks" class="flex items-center w-full">
+                    <button @click="openBooks = !openBooks" class="flex items-center">
                         <x-nav-link :active="request()->routeIs('book.index')" iconPath="icons/books.svg">
                             {{ __('Study plans') }}
                         </x-nav-link>
@@ -91,34 +91,37 @@
             </div>
         </div>
     </div>
+    <div class="py-2.5 pr-4 justify-items-end mt-96 relative">
+        <x-dropdown width="48">
+            <!-- Dropdown Trigger -->
+            <x-slot name="trigger">
+                <button
+                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                    <div>{{ Auth::user()->name }}</div>
+                    <div class="ms-1">
+                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a 1 1 0 111.414 1.414l-4 4a 1 1 0 01-1.414 0l-4-4a 1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </button>
+            </x-slot>
+
+            <!-- Dropdown Content -->
+            <x-slot name="content">
+                <x-dropdown-link :href="route('profile.edit')">
+                    {{ __('Profile') }}
+                </x-dropdown-link>
+                <form method="POST" action="{{ route('logout') }}" class="border-t-2 border-table-gray">
+                    @csrf
+                    <x-dropdown-link :href="route('logout')"
+                        onclick="event.preventDefault(); this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-dropdown-link>
+                </form>
+            </x-slot>
+        </x-dropdown>
+    </div>
+
 </nav>
-
-<!-- Sidebar Toggle Button -->
-<!-- <button id="toggleSidebarBtn" class="absolute top-4 left-4 bg-gray-200 p-2 rounded-md">
-    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-    </svg>
-</button> -->
-
-<script>
-    // Function to toggle the sidebar
-    // const sidebar = document.getElementById('sidebar');
-    // const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
-
-    // const sidebarTexts = sidebar.querySelectorAll('div[id$="-text"]');
-    // sidebarTexts.forEach(text => {
-    //     text.classList.add('hidden');
-    // });
-
-    // toggleSidebarBtn.addEventListener('click', () => {
-    //     const isOpen = sidebar.classList.contains('w-16');
-    //     sidebar.classList.toggle('w-64', isOpen);
-    //     sidebar.classList.toggle('w-16', !isOpen);
-
-    //     // Toggle visibility of text inside sidebar
-
-    //     sidebarTexts.forEach(text => {
-    //         text.classList.toggle('hidden', !isOpen);
-    //     });
-    // });
-</script>
