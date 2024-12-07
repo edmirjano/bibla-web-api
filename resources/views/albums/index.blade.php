@@ -8,7 +8,7 @@
             </button>
         </form>
     </x-slot>
-    <div class="h-screen min-h-screen p-4">
+    <div class="h-full min-h-screen p-4">
         <div class="mx-auto  h-full">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="sm:px-20 container mx-auto px-4 sm:px-8">
@@ -25,7 +25,7 @@
                     </div>
 
                     <div id="addAlbumModal" class="modal hidden fixed inset-0 flex justify-center items-center z-50">
-                        <div class="modal-content p-8 rounded-lg shadow-xl bg-modal-gray relative">
+                        <div class="modal-content p-8 rounded-lg shadow-xl bg-button-white relative">
                             <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
                             <form id="addAlbumForm" action="{{ route('album.store') }}" method="POST">
                                 @csrf
@@ -44,7 +44,7 @@
                     </div>
 
                     <!-- Albums Table -->
-                    <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">
+                    <div class="mt-6 inline-block w-full shadow-md sm:overflow-x-visible overflow-x-auto">
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
@@ -98,6 +98,9 @@
                             </div>
                         @endif
                     </div>
+                    <div class="pagination p-4 ">
+                        {{ $albums->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -106,26 +109,26 @@
     <!-- JavaScript Section -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Show Add Album Modal on button click
-            $("#addAlbumBtn").click(function () {
+            $("#addAlbumBtn").click(function() {
                 $("#addAlbumModal").removeClass('hidden');
             });
 
             // Hide the modal when the close button is clicked
-            $("#closeModal").click(function () {
+            $("#closeModal").click(function() {
                 $("#addAlbumModal").addClass('hidden');
             });
 
             // Hide the modal when clicked outside of it
-            $(window).click(function (event) {
+            $(window).click(function(event) {
                 if (event.target == document.getElementById("addAlbumModal")) {
                     $("#addAlbumModal").addClass('hidden');
                 }
             });
 
             // AJAX request to update album title on input change
-            $('input[name="album_title"]').on('input', function () {
+            $('input[name="album_title"]').on('input', function() {
                 var albumId = $(this).attr('id');
                 var newTitle = $(this).val();
                 updateAlbumTitle(albumId, newTitle);
@@ -140,16 +143,16 @@
                         title: newTitle,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (response) {
+                    success: function(response) {
                         console.log('Album title updated successfully');
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         console.log('Error updating album title');
                     }
                 });
             }
         });
-        setTimeout(function () {
+        setTimeout(function() {
             const errorElement = document.getElementById('song-error');
             if (errorElement) {
                 errorElement.style.transition = 'opacity 0.5s ease-out';

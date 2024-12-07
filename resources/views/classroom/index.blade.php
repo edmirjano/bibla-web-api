@@ -3,7 +3,7 @@
 
     </x-slot>
 
-    <div class="h-screen min-h-screen p-4">
+    <div class="h-full min-h-screen p-4">
         <div class="mx-auto  h-full">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="sm:px-20 container mx-auto px-4 sm:px-8">
@@ -19,7 +19,7 @@
                             </x-add-button>
                         </div>
                     </div>
-                    <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">
+                    <div class="mt-6 inline-block w-full shadow-md sm:overflow-x-visible overflow-x-auto">
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>

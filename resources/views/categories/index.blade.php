@@ -2,7 +2,7 @@
     <x-slot name="header">
 
     </x-slot>
-    <div class="h-screen min-h-screen p-4">
+    <div class="h-full min-h-screen p-4">
         <div class="mx-auto  h-full">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="sm:px-20 container mx-auto px-4 sm:px-8">
@@ -22,17 +22,18 @@
                             <form id="addCategoryForm" action="{{ route('category.store') }}" method="POST">
                                 @csrf
                                 <div class="mb-4">
-                                    <label for="category_name" class="block text-gray-700">Category Name:</label>
+                                    <label for="category_name" class="block text-gray-700 pb-2">Category Name:</label>
                                     <input type="text" id="name" name="name" required
                                         class="border rounded px-3 py-2 w-full">
                                 </div>
-                                <button type="submit" class="text-white font-bold py-2 px-4 rounded">Add
-                                    Category</button>
+                                <x-add-button id="addPlaylistBtn">
+                                    {{ 'Add Playlist' }}
+                                </x-add-button>
                             </form>
                         </div>
                     </div>
 
-                    <div class="mt-6 inline-block min-w-full shadow-md rounded-md overflow-hidden">
+                    <div class="mt-6 inline-block min-w-full shadow-md overflow-hidden">
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
@@ -59,7 +60,8 @@
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             <input type="text"
                                                 class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                                                name="category_name" id="{{ $category->id }}" value="{{ $category->name }}">
+                                                name="category_name" id="{{ $category->id }}"
+                                                value="{{ $category->name }}">
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             <form action="{{ route('category.destroy', $category->id) }}" method="POST"
@@ -83,26 +85,26 @@
     <!-- JavaScript Section -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Show Add Category Modal on button click
-            $("#addCategoryBtn").click(function () {
+            $("#addCategoryBtn").click(function() {
                 $("#addCategoryModal").removeClass('hidden');
             });
 
             // Hide the modal when the close button is clicked
-            $(".close").click(function () {
+            $(".close").click(function() {
                 $("#addCategoryModal").addClass('hidden');
             });
 
             // Hide the modal when clicked outside of it
-            $(window).click(function (event) {
+            $(window).click(function(event) {
                 if (event.target == document.getElementById("addCategoryModal")) {
                     $("#addCategoryModal").addClass('hidden');
                 }
             });
 
             // AJAX request to update category name on input change
-            $('input[name="category_name"]').on('input', function () {
+            $('input[name="category_name"]').on('input', function() {
                 var categoryId = $(this).attr('id');
                 var newName = $(this).val();
                 updateCategoryName(categoryId, newName);
@@ -117,10 +119,10 @@
                         name: newName,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (response) {
+                    success: function(response) {
                         console.log('Category name updated successfully');
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         console.log('Error updating category name');
                     }
                 });

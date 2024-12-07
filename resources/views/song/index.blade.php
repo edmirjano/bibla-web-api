@@ -10,9 +10,9 @@
         </form>
     </x-slot>
 
-    <div class="h-screen min-h-screen p-4">
-        <div class="mx-auto  h-full">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+    <div class="h-full min-h-screen p-4">
+        <div class="mx-auto h-full">
+            <div class="bg-button-white overflow-hidden sm:rounded-lg">
                 <div class="sm:px-20 container mx-auto px-4 sm:px-8">
                     <div class="flex justify-between">
                         <div class="mt-8 text-2xl font-semibold leading-tight">
@@ -34,7 +34,7 @@
 
                         </div>
                     </div>
-                    <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">
+                    <div class="mt-6 inline-block w-full shadow-md sm:overflow-x-visible overflow-x-auto">
                         <table class="min-w-full leading-normal">
                             <thead>
                                 <tr>
@@ -85,11 +85,11 @@
                                                     </audio>
                                                     <button id="playButton-{{ $song->id }}"
                                                             onclick="togglePlayStop({{ $song->id }})"
-                                                            class=" hover:bg-green-700 text-white font-bold ">
+                                                            class=" hover:bg-green-700 mt-1 text-white font-bold ">
                                                         <img src="{{ asset('icons/play.svg') }}" alt="Delete">
                                                     </button>
                                                 </div>
-                                                <a href="{{ route('song.edit', $song->id) }}" class="inline-block mt-1">
+                                                <a href="{{ route('song.edit', $song->id) }}" class="inline-block mt-2">
                                                     <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                                 </a>
 
@@ -105,10 +105,11 @@
                                                     </form>
                                                 @else
                                                     <form action="{{ route('song.destroy', $song->id) }}"
-                                                        method="POST" id="deleteForm_{{ $song->id }}">
+                                                        method="POST" id="deleteForm_{{ $song->id }}"
+                                                        class="self-end py-2">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button" class="mt-1"
+                                                        <button type="button"
                                                             onclick="showDeleteModal({{ $song->id }})">
                                                             <img src="{{ asset('icons/delete.svg') }}" alt="Delete">
                                                         </button>
