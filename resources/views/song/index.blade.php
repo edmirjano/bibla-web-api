@@ -68,10 +68,10 @@
                                                 </ul>
                                             @endif
                                         </td>
-                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
-                                            <div class="flex space-x-3 align-middle">
+                                        <td class="px-5 py-5 ml-2 bg-white text-sm whitespace-nowrap">
+                                            <div class="flex space-x-3 align-middle w-32">
                                                 <a href="{{ route('song.edit', $song->id) }}"
-                                                    class="inline-block self-center">
+                                                    class="inline-block self-center py-2">
                                                     <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                                 </a>
 
@@ -88,7 +88,7 @@
                                                 @else
                                                     <form action="{{ route('song.destroy', $song->id) }}"
                                                         method="POST" id="deleteForm_{{ $song->id }}"
-                                                        class="self-end">
+                                                        class="self-end py-2">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button"
@@ -97,7 +97,7 @@
                                                         </button>
                                                     </form>
                                                 @endif
-                                                <div class="align-left">
+                                                <div class="align-left py-2 ">
                                                     <audio id="audioPlayer-{{ $song->id }}">
                                                         <source src="{{ asset($song->mp3link) }}" type="audio/mpeg">
                                                         Your browser does not support the audio element.
