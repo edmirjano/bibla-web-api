@@ -52,6 +52,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/song/{song}/restore', [SongController::class, 'restore'])->name('song.restore');
     Route::get('/songs/reorder', [SongController::class, 'reorder'])->name('song.reorder');
     Route::post('/songs/orderSave', [SongController::class, 'orderSave'])->name('song.saveOrder');
+    Route::get('/songs/trash', [SongController::class, 'trash'])->name('song.trash');
+    Route::post('/songs/{id}/restore', [SongController::class, 'restore'])->name('song.restore');
+    Route::get('/playlists/trashed', [PlaylistController::class, 'trashed'])->name('playlist.trashed');
+    Route::post('/playlists/{id}/restore', [PlaylistController::class, 'restore'])->name('playlist.restore');
 
     Route::resource('/author', AuthorController::class);
     Route::resource('/playlist', PlaylistController::class);

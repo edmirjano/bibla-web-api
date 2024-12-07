@@ -18,14 +18,22 @@
                         </div>
 
                         <div class="mt-6">
-                            <x-add-button id="addPlaylistBtn">
-                                {{ '+ ADD' }}
-                            </x-add-button>
+                            <div class="mt-6">
+                                <x-add-button id="addPlaylistBtn">
+                                    {{ '+ ADD' }}
+                                </x-add-button>
+
+                                <x-add-button href="{{ route('playlist.trashed') }}">
+                                    <img src="{{ asset('icons/delete-white.svg') }}" class="w-[14px] mr-2" alt="Delete">
+                                    {{ ' TRASH' }}
+                                </x-add-button>
+                            </div>
+
                         </div>
                     </div>
 
                     <div id="addPlaylistModal" class="modal hidden fixed inset-0 flex justify-center items-center z-50">
-                        <div class="modal-content p-8 rounded-lg shadow-xl bg-button-white relative">
+                        <div class="modal-content p-8 rounded-lg shadow-xl bg-modal-gray relative">
                             <span id="closeModal" class="absolute top-4 right-4 cursor-pointer">&times;</span>
                             <form id="addPlaylistForm" action="{{ route('playlist.store') }}" method="POST">
                                 @csrf
@@ -74,8 +82,8 @@
                                                 class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3">
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
-                                            <div class="flex justify-around">
-                                                <a href="{{ route('playlist.edit', $playlist->id) }}">
+                                            <div class="flex ">
+                                                <a href="{{ route('playlist.edit', $playlist->id) }}" class="pr-2">
                                                     <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                                 </a>
                                                 <form action="{{ route('playlist.destroy', $playlist->id) }}"
