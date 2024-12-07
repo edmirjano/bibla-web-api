@@ -20,6 +20,8 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <script src="https://cdn.tiny.cloud/1/ofstsxhpj22lse1jt7au4ab2zeqy2ei019fyksbtehb9lm8u/tinymce/6/tinymce.min.js"
         referrerpolicy="origin"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
