@@ -2,7 +2,7 @@
     <x-slot name="header">
 
     </x-slot>
-    <div class="h-screen min-h-screen p-4">
+    <div class="h-full min-h-screen p-4">
         <div class="mx-auto  h-full">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg h-96">
                 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">

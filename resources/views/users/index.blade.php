@@ -19,7 +19,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">
+                    <div class="mt-6 inline-block w-full shadow-md sm:overflow-x-visible overflow-x-auto">
                         <form action="{{ route('users.index') }}" method="GET">
                             <div class="flex items-center mb-4 justify-end">
                                 <input type="text" name="search" value="{{ request('search') }}"
@@ -76,7 +76,7 @@
                         </table>
 
                         <!-- Pagination links -->
-                        <div class="mt-6">
+                        <div class="p-4">
                             {{ $users->appends(request()->query())->links() }}
                         </div>
                     </div>

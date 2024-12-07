@@ -15,7 +15,7 @@ class AlbumController extends Controller
         $query = $request->input('search');
         $albums = Album::when($query, function ($queryBuilder) use ($query) {
             return $queryBuilder->where('title', 'like', "%{$query}%");
-        })->get();
+        })->paginate(10);
 
         if ($request->wantsJson()) {
             return response()->json(['albums' => $albums]);

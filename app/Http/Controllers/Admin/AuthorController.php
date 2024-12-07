@@ -14,7 +14,7 @@ class AuthorController extends Controller
         $query = $request->input('search');
         $authors = Author::when($query, function ($queryBuilder) use ($query) {
             return $queryBuilder->where('name', 'like', "%{$query}%");
-        })->get();
+        })->paginate(10);
 
         return view('author.index', compact('authors', 'query'));
     }

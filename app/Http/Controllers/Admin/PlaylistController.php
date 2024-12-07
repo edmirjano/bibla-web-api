@@ -14,7 +14,7 @@ class PlaylistController extends Controller
         $query = $request->input('search');
         $playlists = Playlist::when($query, function ($queryBuilder) use ($query) {
             return $queryBuilder->where('title', 'like', "%{$query}%");
-        })->get();
+        })->paginate(10);
 
         if ($request->wantsJson()) {
             return response()->json(['playlists' => $playlists]);
