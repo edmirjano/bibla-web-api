@@ -23,6 +23,14 @@
                             <x-add-button href="{{ route('song.create') }}">
                                 {{ '+ ADD' }}
                             </x-add-button>
+                            <x-add-button href="{{ route('song.trash') }}">
+                                <img src="{{ asset('icons/delete-white.svg') }}" class="pr-2" alt="Delete">
+                                {{ ' TRASH' }}
+                            </x-add-button>
+                            <x-add-button href="{{ route('song.reorder') }}">
+                                <img src="{{ asset('icons/burger-white.svg') }}" class="pr-2" alt="Delete">
+                                {{ ' RE ORDER' }}
+                            </x-add-button>
 
                         </div>
                     </div>
@@ -68,9 +76,20 @@
                                                 </ul>
                                             @endif
                                         </td>
-                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
+                                        <td class=" bg-white text-sm whitespace-nowrap">
                                             <div class="flex space-x-3 align-middle">
-                                                <a href="{{ route('song.edit', $song->id) }}" class="inline-block">
+                                                <div class="align-left">
+                                                    <audio id="audioPlayer-{{ $song->id }}">
+                                                        <source src="{{ asset($song->mp3link) }}" type="audio/mpeg">
+                                                        Your browser does not support the audio element.
+                                                    </audio>
+                                                    <button id="playButton-{{ $song->id }}"
+                                                            onclick="togglePlayStop({{ $song->id }})"
+                                                            class=" hover:bg-green-700 text-white font-bold ">
+                                                        <img src="{{ asset('icons/play.svg') }}" alt="Delete">
+                                                    </button>
+                                                </div>
+                                                <a href="{{ route('song.edit', $song->id) }}" class="inline-block mt-1">
                                                     <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                                 </a>
 
@@ -89,23 +108,13 @@
                                                         method="POST" id="deleteForm_{{ $song->id }}">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="button"
+                                                        <button type="button" class="mt-1"
                                                             onclick="showDeleteModal({{ $song->id }})">
                                                             <img src="{{ asset('icons/delete.svg') }}" alt="Delete">
                                                         </button>
                                                     </form>
                                                 @endif
-                                                <div class="align-left">
-                                                    <audio id="audioPlayer-{{ $song->id }}">
-                                                        <source src="{{ asset($song->mp3link) }}" type="audio/mpeg">
-                                                        Your browser does not support the audio element.
-                                                    </audio>
-                                                    <button id="playButton-{{ $song->id }}"
-                                                        onclick="togglePlayStop({{ $song->id }})"
-                                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-1 rounded">
-                                                        Play
-                                                    </button>
-                                                </div>
+
                                             </div>
                                         </td>
                                     </tr>
@@ -126,18 +135,18 @@
                     &times;
                 </button>
                 <h3 class="text-xl font-semibold mb-4">Are you sure you want to delete this song?</h3>
-                <div class="flex justify-between">
-                    <form id="deleteForm" action="" method="POST" class="w-full">
+                <div class="flex justify-end">
+                    <form id="deleteForm" action="" method="POST" >
                         @csrf
                         @method('DELETE')
                         <button onclick="document.getElementById('deleteForm').submit()"
-                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full">
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 mr-2 rounded ">
                             Yes, Delete
                         </button>
 
                     </form>
                     <button onclick="hideModal('deleteModal')"
-                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-full">
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-2 rounded ">
                         Cancel
                     </button>
                 </div>

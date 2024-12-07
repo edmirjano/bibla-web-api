@@ -80,7 +80,26 @@ class PlaylistController extends Controller
         $playlist->delete();
         return redirect()->route('playlist.index')->with('success', 'Playlist deleted successfully.');
     }
+    public function trashed(Request $request)
+    {
+        $query = $request->input('search');
 
+        $playlists = Playlist::onlyTrashed()
+            ->when($query, function ($queryBuilder) use ($query) {
+                return $queryBuilder->where('title', 'like', "%{$query}%");
+            })
+            ->paginate(10);
+
+        return view('playlist.trashed', compact('playlists', 'query'));
+    }
+
+    public function restore($id)
+    {
+        $playlist = Playlist::onlyTrashed()->findOrFail($id);
+        $playlist->restore();
+
+        return redirect()->route('playlist.trashed')->with('success', 'Playlist restored successfully.');
+    }
 
 
 

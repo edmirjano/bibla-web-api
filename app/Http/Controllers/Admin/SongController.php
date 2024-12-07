@@ -15,8 +15,7 @@ class SongController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('search');
-        $songs = Song::withTrashed()  // Include soft-deleted songs
-        ->when($query, function ($queryBuilder) use ($query) {
+        $songs = Song::when($query, function ($queryBuilder) use ($query) {
             return $queryBuilder->where('title', 'like', "%{$query}%")
                 ->orWhereHas('authors', function ($q) use ($query) {
                     $q->where('name', 'like', "%{$query}%");
@@ -34,18 +33,14 @@ public function reorder(Request $request)
 }
 public function orderSave(Request $request)
 {
-    $order = $request->input('order'); // Assume 'order' is an array of IDs
-    // Validate the input
-    if (!is_array($order)) {
-        return response()->json(['error' => 'Invalid input format'], 400);
+    $order = $request->input('order', []);
+    foreach ($order as $index => $id) {
+
+        Song::where('id', $id)->update(['sort' => $index+1]);
     }
 
-    // Loop through the array and update the 'sort' column
-    foreach ($order as $key => $id) {
-        Song::where('id', $id)->update(['sort' => $key + 1]); // +1 to make it 1-based
-    }
-
-    return response()->json(['success' => true, 'message' => 'Sort order updated successfully']);}
+    return response()->json(['message' => 'Order updated successfully!']);
+}
     /**
      * Show the form for creating a new resource.
      */
@@ -174,11 +169,27 @@ public function orderSave(Request $request)
     }
     public function destroy(Song $song)
     {
-        $song->playlists()->detach();
-        $song->authors()->detach();
+
         $song->delete();
         return redirect()->route('song.index');
     }
+    public function trash(Request $request)
+    {
+        $query = $request->input('search');
+
+        $songs = Song::onlyTrashed()
+            ->when($query, function ($queryBuilder) use ($query) {
+                return $queryBuilder->where('title', 'like', "%{$query}%")
+                    ->orWhereHas('authors', function ($q) use ($query) {
+                        $q->where('name', 'like', "%{$query}%");
+                    });
+            })
+            ->orderBy('deleted_at', 'desc')
+            ->paginate(10);
+
+        return view('song.trash', compact('songs', 'query'));
+    }
+
     public function restore($id)
     {
         $song = Song::onlyTrashed()->findOrFail($id);
