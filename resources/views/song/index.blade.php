@@ -70,7 +70,8 @@
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             <div class="flex space-x-3 align-middle">
-                                                <a href="{{ route('song.edit', $song->id) }}" class="inline-block">
+                                                <a href="{{ route('song.edit', $song->id) }}"
+                                                    class="inline-block self-center">
                                                     <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                                 </a>
 
@@ -86,7 +87,8 @@
                                                     </form>
                                                 @else
                                                     <form action="{{ route('song.destroy', $song->id) }}"
-                                                        method="POST" id="deleteForm_{{ $song->id }}">
+                                                        method="POST" id="deleteForm_{{ $song->id }}"
+                                                        class="self-end">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="button"
