@@ -14,47 +14,61 @@ class SongController extends Controller
         try {
             $search = $request->query('search');
 
+            $page = request()->get('page', 1);
+            $perPage = request()->get('per_page', 200);
+
             $songs = Song::with('authors')
-            ->where(function ($query) use ($search) {
-                $query->where('title', 'like', "%{$search}%")
-                    ->orWhere('lyrics', 'like', "%{$search}%")
-                    ->orWhereHas('authors', function ($query) use ($search) {
-                        $query->where('name', 'like', "%{$search}%");
-                    });
-            })
-            ->get()
-            ->map(function ($song) {
-                return [
-                    'id' => $song->id,
-                    'title' => $song->title,
-                    'mp3link' => $song->mp3link,
-                    'cover' => $song->cover,
-                    'views' => $song->views,
-                    'favorites' => $song->favorites,
-                    'created_at' => $song->created_at,
-                    'updated_at' => $song->updated_at,
-                    'deleted_at' => $song->deleted_at,
-                    'yt_link' => $song->yt_link,
-                    'spotify_link' => $song->spotify_link,
-                    'lyrics' => $song->lyrics,
-                    'release_year' => $song->release_year,
-                    'author' => $song->authors->first() ? [
-                        'id' => $song->authors->first()->id,
-                        'name' => $song->authors->first()->name,
-                        'cover' => $song->authors->first()->cover,
-                        'created_at' => $song->authors->first()->created_at,
-                        'updated_at' => $song->authors->first()->updated_at,
-                        'bio' => $song->authors->first()->bio,
-                    ] : null,
-                ];
-            });
-        
-        return response()->json([
-            'success' => true,
-            'data' => $songs
-        ], 200);
-        
-        
+                ->where(function ($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('lyrics', 'like', "%{$search}%")
+                        ->orWhereHas('authors', function ($query) use ($search) {
+                            $query->where('name', 'like', "%{$search}%");
+                        });
+                })
+                ->orderBy('sort', 'asc')
+                ->paginate($perPage, ['*'], 'page', $page)
+                ->map(function ($song) {
+                    return [
+                        'id' => $song->id,
+                        'title' => $song->title,
+                        'mp3link' => $song->mp3link,
+                        'cover' => $song->cover,
+                        'views' => $song->views,
+                        'favorites' => $song->favorites,
+                        'created_at' => $song->created_at,
+                        'updated_at' => $song->updated_at,
+                        'deleted_at' => $song->deleted_at,
+                        'yt_link' => $song->yt_link,
+                        'spotify_link' => $song->spotify_link,
+                        'lyrics' => $song->lyrics,
+                        'release_year' => $song->release_year,
+                        'authors' => $song->authors->map(function ($author) {
+                            return [
+                                'id' => $author->id,
+                                'name' => $author->name,
+                                'cover' => $author->cover,
+                                'created_at' => $author->created_at,
+                                'updated_at' => $author->updated_at,
+                                'bio' => $author->bio,
+                            ];
+                        }),
+                        'author' => $song->authors->first(function ($author) {
+                            return [
+                                'id' => $author->id,
+                                'name' => $author->name,
+                                'cover' => $author->cover,
+                                'created_at' => $author->created_at,
+                                'updated_at' => $author->updated_at,
+                                'bio' => $author->bio,
+                            ];
+                        }),
+                    ];
+                });
+
+            return response()->json([
+                'success' => true,
+                'data' => $songs
+            ], 200);
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -137,5 +151,4 @@ class SongController extends Controller
             ], 500);
         }
     }
-
 }
