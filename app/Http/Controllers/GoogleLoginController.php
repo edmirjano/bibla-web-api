@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Http\Request;
 
 class GoogleLoginController extends Controller
 {
@@ -30,29 +33,40 @@ class GoogleLoginController extends Controller
 
         return redirect(RouteServiceProvider::HOME);
     }
-    public function handleGoogleApiCallback()
+    public function handleGoogleApiCallback(Request $request)
     {
+        Log::info("message",$request->all());
+        $idToken = $request->input('token');
+        Log::info('id',[$idToken]);
+        if (!$idToken) {
+            return response()->json(['error' => 'Token is required'], 400);
+        }
 
         try {
-            // Attempt to retrieve the Google user information
-            $googleUser = Socialite::driver('google')->stateless()->user();
-
-            // Validate required fields from Google
-            if (!$googleUser->getEmail()) {
-                return response()->json(['error' => 'Email not provided by Google.'], 400);
+            // Verify the token with Google
+            $response = Http::get('https://oauth2.googleapis.com/tokeninfo', [
+                'id_token' => $idToken,
+            ]);
+            Log::info('res',[$response]);
+            if ($response->failed()) {
+                return response()->json(['error' => 'Invalid ID token'], 400);
             }
 
-            if (!$googleUser->getId()) {
-                return response()->json(['error' => 'Google ID not provided.'], 400);
+            $googleUser = $response->json();
+            Log::info("google user",[$googleUser]);
+            // Validate required fields
+            if (!isset($googleUser['email']) || !isset($googleUser['sub'])) {
+                return response()->json(['error' => 'Invalid Google user data'], 400);
             }
 
             // Find or create the user
             $user = User::updateOrCreate(
-                ['email' => $googleUser->getEmail()],
+                ['email' => $googleUser['email']],
                 [
-                    'name' => $googleUser->getName(),
-                    'google_id' => $googleUser->getId(),
-                    'avatar' => $googleUser->getAvatar(),
+                    'name' => $googleUser['name'] ?? '',
+                    'google_id' => $googleUser['sub'],
+                    'avatar' => $googleUser['picture'] ?? '',
+                    'password' => Hash::make(rand(100000,999999))
                 ]
             );
 
@@ -60,10 +74,9 @@ class GoogleLoginController extends Controller
             $token = $user->createToken('authToken')->plainTextToken;
 
             return response()->json(['token' => $token, 'user' => $user]);
-
         } catch (\Exception $e) {
-            // General error handling
-            return response()->json(['error' => 'An error occurred while authenticating.'], 500);
+            Log::error("message",[$e]);
+            return response()->json(['error' => 'An error occurred while processing the token'], 500);
         }
     }
 
