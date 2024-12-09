@@ -26,6 +26,7 @@ Route::get('/authors', [AuthorController::class, 'getAuthors']);
 Route::get('/playlists/{playlist}', [PlaylistController::class, 'getPlaylist']);
 Route::get('/albums/{album}', [AlbumController::class, 'getPlaylist']);
 Route::get('/authors/{author}', [AuthorController::class, 'getAuthor']);
+Route::post('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleApiCallback'])->name('googleapi.callback');
 
 Route::middleware('auth:sanctum')->group(function () {
 

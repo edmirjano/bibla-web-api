@@ -52,7 +52,7 @@
         </div>
     </form>
     <a href="{{ route('google.redirect') }}"
-       class="flex items-center justify-center px-3 p-3 mt-8 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md transition duration-300">
+       class="flex items-center justify-center px-3 py-3 mt-8 text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md transition duration-300">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 48 48">
             <path fill="#EA4335" d="M24 9.5c3.67 0 6.99 1.36 9.61 3.59l7.19-7.19C36.1 2.5 30.4 0 24 0 14.62 0 6.4 5.62 2.61 13.88l8.57 6.69C13.22 14.68 18.19 9.5 24 9.5z"/>
             <path fill="#34A853" d="M46.3 24.5c0-1.34-.12-2.64-.34-3.91H24v7.39h12.6c-.54 2.91-2.13 5.4-4.5 7.04v5.79h7.29C43.35 36.62 46.3 30.94 46.3 24.5z"/>

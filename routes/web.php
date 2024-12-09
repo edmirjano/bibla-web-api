@@ -49,7 +49,7 @@ Route::middleware('auth')->group(function () {
         ->name('classroom.removeUser');
     Route::post('classroom/{classroomId}/add-user/{userId}', [ClassRoomController::class, 'addUser'])->name('classroom.addUser');
     Route::resource('/song', SongController::class);
-    Route::post('/song/{song}/restore', [SongController::class, 'restore'])->name('song.restore');
+    // Route::post('/song/{song}/restore', [SongController::class, 'restore'])->name('song.restore');
     Route::get('/songs/reorder', [SongController::class, 'reorder'])->name('song.reorder');
     Route::post('/songs/orderSave', [SongController::class, 'orderSave'])->name('song.saveOrder');
     Route::get('/songs/trash', [SongController::class, 'trash'])->name('song.trash');
@@ -72,6 +72,5 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/google/redirect', [App\Http\Controllers\GoogleLoginController::class, 'redirectToGoogle'])->name('google.redirect');
 Route::get('/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleCallback'])->name('google.callback');
-Route::get('api/google/callback', [App\Http\Controllers\GoogleLoginController::class, 'handleGoogleApiCallback'])->name('google.callback');
 
 require __DIR__ . '/auth.php';
