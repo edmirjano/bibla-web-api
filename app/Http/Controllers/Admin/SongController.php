@@ -15,6 +15,7 @@ class SongController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('search');
+
         $songs = Song::when($query, function ($queryBuilder) use ($query) {
             return $queryBuilder->where('title', 'like', "%{$query}%")
                 ->orWhereHas('authors', function ($q) use ($query) {
@@ -28,9 +29,25 @@ class SongController extends Controller
 
 public function reorder(Request $request)
 {
-    $songs = Song::orderBy('sort', 'asc')->get();
-    return view('song.reorder', compact('songs'));
+    $sortField = $request->input('sort_by', 'title');
+    $sortDirection = $request->input('order', 'asc');
+
+    $songs = Song::with('authors')
+        ->when($sortField && $sortDirection, function ($query) use ($sortField, $sortDirection) {
+            if ($sortField === 'author_name') {
+
+                $query->leftJoin('author_song', 'author_song.song_id', '=', 'songs.id')
+                      ->leftJoin('authors', 'authors.id', '=', 'author_song.author_id')
+                      ->select('songs.*')
+                      ->orderByRaw("CASE WHEN authors.name IS NULL THEN 1 ELSE 0 END, authors.name {$sortDirection}");
+            } else {
+                $query->orderBy($sortField, $sortDirection);
+            }
+        })
+        ->get();
+    return view('song.reorder', compact('songs', 'sortField', 'sortDirection'));
 }
+
 public function orderSave(Request $request)
 {
     $order = $request->input('order', []);
