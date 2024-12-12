@@ -57,7 +57,7 @@ class BookController extends Controller
         }
         $book = new Book();
         $book->name = $request->name;
-        $book->cover = $coverPath ? asset('/books/cover/' . basename($coverPath)) : null;;
+        $book->cover = $coverPath ? asset('storage/books/cover/' . basename($coverPath)) : null;;
         $book->slug = $request->slug;
         $book->description = $request->description;
         $book->detailed_info = $request->detailed_info;
@@ -99,7 +99,7 @@ class BookController extends Controller
             $cover = $request->file('cover');
             $coverName = time() . '.' . $cover->getClientOriginalExtension();
             $coverPath = $cover->storeAs('public/books/cover', $coverName);
-            $coverUrl = $coverPath ? asset('/songs/cover/' . basename($coverPath)) : null;
+            $coverUrl = $coverPath ? asset('storage/books/cover/' . basename($coverPath)) : null;
         } else {
             $coverUrl = $book->cover;
         }
