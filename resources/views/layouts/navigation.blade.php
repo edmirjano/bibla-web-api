@@ -33,14 +33,14 @@
                         </svg>
                     </button>
                     <div x-show="openBooks" class="pl-4 space-y-2">
+                        <x-nav-link :href="route('book.index')" :active="request()->routeIs('book.index')" iconPath="icons/books.svg">
+                            {{ __('Study plans') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('classroom.index')" :active="request()->routeIs('classroom.index')" iconPath="icons/classroom.svg">
                             {{ __('Group') }}
                         </x-nav-link>
                         <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')" iconPath="icons/category.svg">
                             {{ __('Category') }}
-                        </x-nav-link>
-                        <x-nav-link :href="route('book.index')" :active="request()->routeIs('book.index')" iconPath="icons/books.svg">
-                            {{ __('Study plans') }}
                         </x-nav-link>
                     </div>
                 </div>
