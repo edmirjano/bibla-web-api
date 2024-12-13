@@ -17,7 +17,7 @@
                 </x-nav-link>
             </div>
 
-            @role(['admin', 'teacher'])
+            @role(['admin', 'Full Administrator','Books Administrator'])
                 <!-- Books Section -->
                 <div id="books-text">
                     <button @click="openBooks = !openBooks" class="flex items-center">
@@ -44,8 +44,10 @@
                         </x-nav-link>
                     </div>
                 </div>
+          @endrole
+            @role(['admin', 'Full Administrator','Song Administrator'])
 
-                <!-- Songs Section -->
+            <!-- Songs Section -->
                 <div id="songs-text">
                     <button @click="openSongs = !openSongs" class="flex items-center w-full">
                         <x-nav-link :active="request()->routeIs('song.index', 'album.index', 'playlist.index', 'author.index')
@@ -74,7 +76,10 @@
                         </x-nav-link>
                     </div>
                 </div>
-                <div class="space-y-8" id="users-text">
+            @endrole
+            @role(['admin', 'Full Administrator'])
+
+            <div class="space-y-8" id="users-text">
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" iconPath="icons/users.svg">
                         {{ __('Users') }}
                     </x-nav-link>

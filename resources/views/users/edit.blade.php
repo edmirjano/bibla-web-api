@@ -42,6 +42,22 @@
                             @enderror
                         </div>
 
+                        <div class="mt-4">
+                            <label for="roles" class="uppercase tracking-wide text-black text-xs font-bold mb-2">{{ __('Assign Roles') }}</label>
+                            <select id="roles" name="roles[]" class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" multiple="multiple">
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}" {{ isset($user) && $user->roles->contains($role->id) ? 'selected' : '' }}>
+                                        {{ $role->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('roles')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+
+
                         <div class="flex items-center justify-end mt-4">
                             <button type="submit" class="ml-4 inline-flex items-center px-4 py-2 bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
                                 {{ isset($user->exists) ? __('Update') : __('Create') }}
@@ -52,4 +68,12 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $('#roles').select2({
+                placeholder: "Select roles",
+                allowClear: true,
+            });
+        });
+    </script>
 </x-app-layout>
