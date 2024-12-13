@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('recipient_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('classroom_id')->constrained()->onDelete('cascade');
-            $table->string('status')->default('pending'); // pending, accepted, declined, etc.
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

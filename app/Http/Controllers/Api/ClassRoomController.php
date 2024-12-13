@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\AssignUserClassroomService;
 use App\Http\Controllers\Controller;
 use App\Models\Classroom\Classroom;
 use App\Models\User\User;
@@ -17,7 +18,6 @@ class ClassRoomController extends Controller
         try {
             $classrooms = Classroom::with([
                 'book.groups.topics.sections.questions',
-                'book.groups.topics.sections.responses',
                 'book.groups.topics',
                 'book.groups',
                 'book.category'
@@ -75,8 +75,7 @@ class ClassRoomController extends Controller
     public function getClassroomsByUser(User $user): JsonResponse
     {
         try {
-            $classrooms = $user->classrooms;
-
+            $classrooms = $user->classrooms()->get();
             return response()->json([
                 'success' => true,
                 'data' => $classrooms
@@ -176,29 +175,14 @@ class ClassRoomController extends Controller
     /**
      * Add a user to the classroom via API.
      */
-    public function addUser(int $classroomId, int $userId): JsonResponse
+    public function addUser(Classroom $classroom,Request $request ,AssignUserClassroomService $classroomService): JsonResponse
     {
-        try {
-            $classroom = Classroom::findOrFail($classroomId);
-            $classroom->addUser($userId);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'User added to classroom successfully'
-            ], 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Classroom not found.',
-                'error' => $e->getMessage(),
-            ], 404);
-        } catch (Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'An error occurred while adding the user to the classroom.',
-                'error' => $e->getMessage(),
-            ], 500);
-        }
+        $request->validate([
+            'email'=>"required|email"
+        ]);
+
+        return  $classroomService->execute($classroom,$request->all());
     }
 
     /**

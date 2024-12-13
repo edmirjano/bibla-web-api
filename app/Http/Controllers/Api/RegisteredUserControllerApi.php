@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Classroom\Classroom;
+use App\Models\ClassRoomRequest\ClassroomEmailRequest;
 use App\Models\User\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -36,7 +38,20 @@ class RegisteredUserControllerApi extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
+            $classoomRequest=ClassroomEmailRequest::where('receiver_email',$request->email)->get();
 
+            if ($classoomRequest->isNotEmpty()) {
+                foreach ($classoomRequest as $classRoomReq) {
+                    // Find the classroom by ID
+                    $classroom = Classroom::find($classRoomReq->classroomId);
+
+                    if ($classroom) {
+                        $classroom->addUser($user->id);
+                    }
+                    $classRoomReq->delete();
+
+                }
+            }
             event(new Registered($user));
 
             Auth::login($user);

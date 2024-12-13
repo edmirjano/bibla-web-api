@@ -37,7 +37,7 @@
                             {{ __('Study plans') }}
                         </x-nav-link>
                         <x-nav-link :href="route('classroom.index')" :active="request()->routeIs('classroom.index')" iconPath="icons/classroom.svg">
-                            {{ __('Group') }}
+                            {{ __('Classrooms') }}
                         </x-nav-link>
                         <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')" iconPath="icons/category.svg">
                             {{ __('Category') }}
