@@ -56,16 +56,17 @@
                                     <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div>
-                                <label for="author"
-                                    class="uppercase tracking-wide text-black text-xs font-bold mb-2">Author</label>
-                                <input id="author"
-                                    class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                                    type="text" name="author" value="{{ $book->author ?? old('author') }}"
-                                    autofocus />
-                                @error('author')
-                                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                                @enderror
+                            <div class="mt-4">
+                                <label for="authors" class="block font-medium text-m text-gray-700">Authors</label>
+                                <select id="authors" name="authors[]"
+                                    class="block mt-1 w-full js-example-basic-multiple " multiple>
+                                    @foreach ($authors as $author)
+                                        <option value="{{ $author->id }}"
+                                            {{ isset($song) && $song->authors->contains($author->id) ? 'selected' : '' }}>
+                                            {{ $author->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
 
                             <div>

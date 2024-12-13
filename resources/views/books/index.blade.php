@@ -45,11 +45,26 @@
                                 @foreach ($books as $book)
                                     <tr class="border-b border-table-gray">
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
+                                            <img src="{{ asset($book->cover) }}" alt="{{ $book->name }}"
+                                                class="w-8 h-8 mr-1 rounded-full inline-block"
+                                                onerror="this.onerror=null;this.src='{{ asset('icons/song.png') }}';">
                                             {{ $book->name }}
                                         </td>
 
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
-                                            {{ $book->author }}
+                                            @if ($book->authors->isNotEmpty())
+                                                <ul>
+                                                    @foreach ($book->authors as $author)
+                                                        <li>
+                                                            <img src="{{ asset($author->cover) }}"
+                                                                alt="{{ $author->name }}"
+                                                                class="w-8 h-8 mr-1 mb-1 rounded-full inline-block"
+                                                                onerror="this.onerror=null;this.src='{{ asset('icons/profile_icon.png') }}';">
+                                                            {{ $author->name }}
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             {{ $book->category->name }}

@@ -2,6 +2,7 @@
 
 namespace App\Models\Author;
 
+use App\Models\Book\Book;
 use App\Models\Category\Category;
 use App\Models\Classroom\Classroom;
 use App\Models\Group\Group;
@@ -24,4 +25,9 @@ trait RelationshipTrait
     {
         return $this->belongstoMany(Song::class, 'album_author', 'author_id', 'album_id');
     }
+    public function books(): BelongsToMany
+    {
+        return $this->belongstoMany(Book::class, 'book_authors', 'author_id', 'book_id');
+    }
+
 }
