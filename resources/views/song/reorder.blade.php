@@ -18,16 +18,31 @@
                             Songs
                         </div>
                         <div class="flex space-x-4 mt-6">
-                            <x-add-button href="{{ route('song.create') }}">
-                                {{ '+ ADD' }}
+                            <x-add-button href="{{ route('song.create') }}" class="flex items-center" title="ADD">
+                                <div class="flex-shrink-0">
+                                    <img src="{{ asset('icons/add-white.svg') }}" class="lg:pr-2" alt="Add">
+                                </div>
+                                <span class="450px:hidden">
+                                    {{ ' ADD' }}
+                                </span>
                             </x-add-button>
-                            <x-add-button href="{{ route('song.index') }}">
-                                {{ 'Index' }}
+                            <x-add-button href="{{ route('song.index') }}" class="flex items-center " title="INDEX">
+                                <div class="flex-shrink-0 pr-1 sm:hidden">
+                                    <img src="{{ asset('icons/songs-white.svg') }}" class="lg:pr-2" alt="Index">
+                                </div>
+                                <span class="450px:hidden">
+                                    {{ ' Index' }}
+                                </span>
                             </x-add-button>
-                            <button id="saveOrder"
-                                class="ml-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                Save Order
-                            </button>
+                            <x-add-button id="saveOrder"
+                                class="flex items-center bg-green-500 hover:bg-green-700 font-bold" title="Save Order">
+                                <div class="flex-shrink-0 sm:hidden">
+                                    <img src="{{ asset('icons/save.svg') }}" class="lg:pr-2" alt="Index">
+                                </div>
+                                <span class="450px:hidden">
+                                    {{ ' Save Order' }}
+                                </span>
+                            </x-add-button>
                         </div>
                     </div>
                     <div class="mt-6 inline-block w-full shadow-md rounded-md sm:overflow-x-visible overflow-x-auto">

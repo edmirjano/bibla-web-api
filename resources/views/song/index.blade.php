@@ -20,16 +20,29 @@
                         </div>
 
                         <div class="flex space-x-4 mt-6">
-                            <x-add-button href="{{ route('song.create') }}">
-                                {{ '+ ADD' }}
+                            <x-add-button href="{{ route('song.create') }}" class="flex items-center" title="ADD">
+                                <div class="flex-shrink-0">
+                                    <img src="{{ asset('icons/add-white.svg') }}" class="lg:pr-2" alt="Add">
+                                </div>
+                                <span class="450px:hidden">
+                                    {{ ' ADD' }}
+                                </span>
                             </x-add-button>
-                            <x-add-button href="{{ route('song.trash') }}">
-                                <img src="{{ asset('icons/delete-white.svg') }}" class="pr-2" alt="Delete">
-                                {{ ' TRASH' }}
+                            <x-add-button href="{{ route('song.trash') }}" class="flex items-center" title="TRASH">
+                                <div class="flex-shrink-0">
+                                    <img src="{{ asset('icons/delete-white.svg') }}" class="lg:pr-2" alt="Delete">
+                                </div>
+                                <span class="450px:hidden">
+                                    {{ ' TRASH' }}
+                                </span>
                             </x-add-button>
-                            <x-add-button href="{{ route('song.reorder') }}">
-                                <img src="{{ asset('icons/burger-white.svg') }}" class="pr-2" alt="Delete">
-                                {{ ' RE ORDER' }}
+                            <x-add-button href="{{ route('song.reorder') }}" class="flex items-center" title="RE ORDER">
+                                <div class="flex-shrink-0">
+                                    <img src="{{ asset('icons/burger-white.svg') }}" class="lg:pr-2" alt="ReOrder">
+                                </div>
+                                <span class="450px:hidden">
+                                    {{ ' RE ORDER' }}
+                                </span>
                             </x-add-button>
 
                         </div>
@@ -84,12 +97,13 @@
                                                         Your browser does not support the audio element.
                                                     </audio>
                                                     <button id="playButton-{{ $song->id }}"
-                                                            onclick="togglePlayStop({{ $song->id }})"
-                                                            class=" hover:bg-green-700 mt-1 text-white font-bold ">
+                                                        onclick="togglePlayStop({{ $song->id }})"
+                                                        class=" hover:bg-green-700 mt-1 text-white font-bold ">
                                                         <img src="{{ asset('icons/play.svg') }}" alt="Delete">
                                                     </button>
                                                 </div>
-                                                <a href="{{ route('song.edit', $song->id) }}" class="inline-block mt-2">
+                                                <a href="{{ route('song.edit', $song->id) }}"
+                                                    class="inline-block mt-2">
                                                     <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
                                                 </a>
 
@@ -137,7 +151,7 @@
                 </button>
                 <h3 class="text-xl font-semibold mb-4">Are you sure you want to delete this song?</h3>
                 <div class="flex justify-end">
-                    <form id="deleteForm" action="" method="POST" >
+                    <form id="deleteForm" action="" method="POST">
                         @csrf
                         @method('DELETE')
                         <button onclick="document.getElementById('deleteForm').submit()"
