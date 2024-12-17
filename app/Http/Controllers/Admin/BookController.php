@@ -119,7 +119,7 @@ class BookController extends Controller
         $book->rating = $request->rating;
         $book->update();
 
-        $book->authors()->sync($request['authors']);
+        $book->authors()->attach($request['authors']);
         if (session('url')) {
             return redirect(session('url'));
         }

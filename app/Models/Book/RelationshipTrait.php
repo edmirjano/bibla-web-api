@@ -32,7 +32,7 @@ trait RelationshipTrait
     }
     public function authors()
     {
-        return $this->belongsToMany(Author::class, 'book_authors', 'author_id', 'book_id');
+        return $this->belongsToMany(Author::class, 'book_authors');
     }
 
 }
