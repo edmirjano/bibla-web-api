@@ -2,6 +2,7 @@
 
 namespace App\Models\Book;
 
+use App\Models\Author\Author;
 use App\Models\Category\Category;
 use App\Models\Classroom\Classroom;
 use App\Models\Group\Group;
@@ -29,4 +30,9 @@ trait RelationshipTrait
     {
         return $this->hasManyThrough(Topic::class, Group::class);
     }
+    public function authors()
+    {
+        return $this->belongsToMany(Author::class, 'book_authors');
+    }
+
 }

@@ -22,7 +22,8 @@
                         <!-- Author Selection -->
                         <div class="mt-4">
                             <label for="authors" class="block font-medium text-m text-gray-700">Authors</label>
-                            <select id="authors" name="authors[]" class="block mt-1 w-full js-example-basic-multiple " multiple>
+                            <select id="authors" name="authors[]" class="block mt-1 w-full js-example-basic-multiple "
+                                multiple>
                                 @foreach ($authors as $author)
                                     <option value="{{ $author->id }}"
                                         {{ isset($song) && $song->authors->contains($author->id) ? 'selected' : '' }}>
@@ -42,7 +43,8 @@
                         <!-- Playlist Selection -->
                         <div class="mt-4">
                             <label for="playlists" class="block font-medium text-m text-gray-700">Playlists</label>
-                            <select id="playlists" name="playlists[]" class="block mt-1 w-full js-example-basic-multiple" multiple>
+                            <select id="playlists" name="playlists[]"
+                                class="block mt-1 w-full js-example-basic-multiple" multiple>
                                 @foreach ($playlists as $playlist)
                                     <option value="{{ $playlist->id }}"
                                         {{ isset($song) && $song->playlists->contains($playlist->id) ? 'selected' : '' }}>
@@ -56,12 +58,12 @@
                             <label for="album_id" class="block font-medium text-m text-gray-700">Album</label>
                             <select id="album_id" name="album_id" class="block mt-1 w-full">
                                 @foreach ($albums as $album)
-                                    <option value="{{ $album->id }}" {{ isset($song) && $song->album_id == $album->id ? 'selected' : '' }}>
+                                    <option value="{{ $album->id }}"
+                                        {{ isset($song) && $song->album_id == $album->id ? 'selected' : '' }}>
                                         {{ $album->title }}
                                     </option>
                                 @endforeach
                             </select>
-                            <p class="text-xs">Press Control + Left Mouse Click to remove</p>
                         </div>
 
 

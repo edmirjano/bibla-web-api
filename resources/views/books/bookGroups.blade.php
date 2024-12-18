@@ -24,7 +24,7 @@
                                     <label for="category_name" class="block text-gray-700">Group Name:</label>
                                     <input type="text" id="name" name="name" required
                                         class="border rounded px-3 py-2 w-full">
-                                    <input type="hidden" id="book_id" name="book_id" value="{{$book->id}}"
+                                    <input type="hidden" id="book_id" name="book_id" value="{{ $book->id }}"
                                         class="border rounded px-3 py-2 w-full">
                                 </div>
                                 <button type="submit"
@@ -46,7 +46,10 @@
                                         class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                         Name
                                     </th>
-
+                                    <th
+                                        class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                        Description
+                                    </th>
                                     <th
                                         class="px-5 py-3 border-b-2 border-200-gray bg-light-gray text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
                                         Action
@@ -54,20 +57,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($groups as $group)
+                                @foreach ($groups as $group)
                                     <tr class="border-b border-table-gray">
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
                                             {{ $group->id }}
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
-                                            <input type="text" name="group_name" id="{{ $group->id }}"
-                                                value="{{ $group->name }}">
+                                            {{ $group->name }}
                                         </td>
                                         <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
-                                            <a href="{{route('topic.show', $group->id)}}"
-                                                class="text-blue-600 hover:underline">Show topic</a>
+                                            {{ $group->description }}
+                                        </td>
+                                        <td class="px-5 py-5 bg-white text-sm whitespace-nowrap">
+                                            <a href="{{ route('topic.show', $group->id) }}"
+                                                class="inline-block mt-2 mr-2" title="Show Topics">
+                                                <img src="{{ asset('icons/topic.svg') }}" alt="Edit">
+                                            </a>
+                                            <a href="{{ route('group.edit', $group->id) }}" class="inline-block mt-2">
+                                                <img src="{{ asset('icons/edit.svg') }}" alt="Edit">
+                                            </a>
                                             <form action="{{ route('group.destroy', $group->id) }}" method="POST"
-                                                class="inline m-2">
+                                                class="inline ml-1">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit">
@@ -87,25 +97,25 @@
     <!-- JavaScript Section -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Show Add Category Modal on button click
-            $("#addCategoryBtn").click(function () {
+            $("#addCategoryBtn").click(function() {
                 $("#addCategoryModal").removeClass('hidden');
             });
 
             // Hide the modal when the close button is clicked
-            $(".close").click(function () {
+            $(".close").click(function() {
                 $("#addCategoryModal").addClass('hidden');
             });
 
             // Hide the modal when clicked outside of it
-            $(window).click(function (event) {
+            $(window).click(function(event) {
                 if (event.target == document.getElementById("addCategoryModal")) {
                     $("#addCategoryModal").addClass('hidden');
                 }
             });
 
-            $('input[name="group_name"]').on('input', function () {
+            $('input[name="group_name"]').on('input', function() {
                 let group_id = $(this).attr('id');
                 let newName = $(this).val();
                 updateCategoryName(group_id, newName);
@@ -114,17 +124,18 @@
 
             function updateCategoryName(groupId, newName) {
                 $.ajax({
-                    url: '{{ route("group.update", ["group" => ":groupId"]) }}'.replace(':groupId', groupId),
+                    url: '{{ route('group.update', ['group' => ':groupId']) }}'.replace(':groupId',
+                        groupId),
                     type: 'PUT',
                     data: {
                         name: newName,
-                        book_id:{{$book->id}},
+                        book_id: {{ $book->id }},
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (response) {
+                    success: function(response) {
                         console.log('Category name updated successfully');
                     },
-                    error: function (xhr) {
+                    error: function(xhr) {
                         console.log('Error updating category name');
                     }
                 });

@@ -23,6 +23,9 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            screens: {
+                '450px': { 'max': '450px' },
+            },
         },
     },
 

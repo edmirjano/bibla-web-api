@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Author\Author;
 use App\Models\Book\Book;
 use App\Models\Category\Category;
 use App\Models\Group\Group;
@@ -31,9 +32,10 @@ class BookController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $authors = Author::all();
         $method = 'POST';
         $route = route('book.store');
-        return view('books.edit', compact('categories', 'method', 'route'));
+        return view('books.edit', compact('categories', 'method', 'route', 'authors'));
     }
 
     /**
@@ -43,6 +45,8 @@ class BookController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'authors' => 'nullable|array',
+            'authors.*' => 'nullable|exists:authors,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'category_id' => 'exists:categories,id',
             'rating' => 'numeric|max:255'
@@ -61,11 +65,12 @@ class BookController extends Controller
         $book->slug = $request->slug;
         $book->description = $request->description;
         $book->detailed_info = $request->detailed_info;
-        $book->author = $request->author;
         $book->category_id = $request->category_id;
         $book->rating = $request->rating;
 
         $book->save();
+
+        $book->authors()->sync($request['authors']);
         if (session('url')) {
             return redirect(session('url'));
         }
@@ -82,14 +87,16 @@ class BookController extends Controller
             ->find($book->id);
 
         $categories = Category::all();
-
-        return view('books.edit', compact('book', 'categories'));
+        $authors = Author::all();
+        return view('books.edit', compact('book', 'categories', 'authors'));
     }
 
     public function update(Request $request, Book $book)
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'authors' => 'nullable|array',
+            'authors.*' => 'nullable|exists:authors,id',
             'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'category_id' => 'exists:categories,id',
             'rating' => 'numeric|max:255'
@@ -108,10 +115,11 @@ class BookController extends Controller
         $book->slug = $request->slug;
         $book->description = $request->description;
         $book->detailed_info = $request->detailed_info;
-        $book->author = $request->author;
         $book->category_id = $request->category_id;
         $book->rating = $request->rating;
         $book->update();
+
+        $book->authors()->attach($request['authors']);
         if (session('url')) {
             return redirect(session('url'));
         }

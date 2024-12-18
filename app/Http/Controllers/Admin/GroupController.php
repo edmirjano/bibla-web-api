@@ -19,6 +19,7 @@ class GroupController extends Controller
     public function index()
     {
         $groups = Group::all();
+
         return view('groups.index', compact('groups'));
     }
 
@@ -57,12 +58,14 @@ class GroupController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'book_id' => 'exists:books,id'
+            'book_id' => 'exists:books,id',
+            'description' => 'nullable|string',
         ]);
         $bookId = $request->book_id;
         $newGroup = new Group();
         $newGroup->name = $request->name;
         $newGroup->book_id = $bookId;
+        $newGroup->description = $request->description;
         $newGroup->save();
         $groups = Group::where('book_id', $bookId)->get();
         $book = Book::find($bookId);
@@ -89,13 +92,14 @@ class GroupController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'book_id' => 'required',
+            'description' => 'nullable|string',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $group->update($request->only('name', 'book_id'));
-        return response()->json(['success' => true]);
+        $group->update($request->only('name', 'book_id', 'description'));
+        return view('books.bookGroups')->with('success', 'Group updated successfully.');
     }
 
     /**
